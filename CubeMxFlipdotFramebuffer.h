@@ -37,7 +37,8 @@ class CubeMxFlipdotFramebuffer : public IFlipdotFramebuffer
 		void shiftColumnRegister(bool in);
 		void shiftRowRegister(bool in);
 		void writeColumnByte(uint8_t data);
-		void writeColumn(uint8_t *data);
+		void writeColumnData(uint8_t *data);
+		void updateColumn(unsigned column);
 		void delayClock();
 		void delayFlipDots();
 
