@@ -137,9 +137,9 @@ void CubeMxFlipdotFramebuffer::shiftRowRegister(bool in)
 {
 	HAL_GPIO_WritePin(FD_ROW_DATA_GPIO_Port, FD_ROW_DATA_Pin, in ? GPIO_PIN_SET : GPIO_PIN_RESET);
 	delayClock();
-    HAL_GPIO_WritePin(FD_ROW_CLK_GPIO_Port, FD_ROW_CLK_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(FD_ROW_CLK_GPIO_Port, FD_ROW_CLK_Pin, GPIO_PIN_SET);
 	delayClock();
-    HAL_GPIO_WritePin(FD_ROW_CLK_GPIO_Port, FD_ROW_CLK_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(FD_ROW_CLK_GPIO_Port, FD_ROW_CLK_Pin, GPIO_PIN_RESET);
 }
 
 void CubeMxFlipdotFramebuffer::writeColumnByte(uint8_t data)
