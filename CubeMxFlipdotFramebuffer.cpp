@@ -33,14 +33,12 @@ void CubeMxFlipdotFramebuffer::update()
 {
 	while (hasDirtyColumns())
 	{
-		if (++_currentColumn >= COLUMNS)
-		{
+		if (++_currentColumn >= COLUMNS) {
 			flipCurrentColor();
 			_currentColumn = 0;
 		}
 
-		if (isColumnDirty(_currentColor, _currentColumn))
-		{
+		if (isColumnDirty(_currentColor, _currentColumn)) {
 			updateColumn(_currentColor, _currentColumn);
 			return; /* always update max one column per update() call */
 		}
@@ -65,11 +63,13 @@ void CubeMxFlipdotFramebuffer::flush()
 
 void CubeMxFlipdotFramebuffer::clear()
 {
-	for (unsigned i=0; i<sizeof(_buffer); i++) {
+	for (unsigned i=0; i<sizeof(_buffer); i++)
+	{
 		_buffer[i] = 0;
 	}
 
-	for (unsigned i=0; i<COLUMNS; i++) {
+	for (unsigned i=0; i<COLUMNS; i++)
+	{
 		setColumnDirty(i);
 	}
 }
@@ -144,14 +144,16 @@ void CubeMxFlipdotFramebuffer::shiftRowRegister(bool in)
 
 void CubeMxFlipdotFramebuffer::writeColumnByte(uint8_t data)
 {
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<8; i++)
+	{
 		shiftRowRegister(data & (1<<i));
 	}
 }
 
 void CubeMxFlipdotFramebuffer::writeColumnData(uint8_t* data)
 {
-	for (int i=0; i<BYTES_PER_COLUMN; i++) {
+	for (int i=0; i<BYTES_PER_COLUMN; i++)
+	{
 		writeColumnByte(data[i]);
 	}
 	strobe();
