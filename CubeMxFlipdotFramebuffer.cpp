@@ -11,18 +11,17 @@ void CubeMxFlipdotFramebuffer::init()
 	flush();
 }
 
-void CubeMxFlipdotFramebuffer::updateColumn(unsigned column)
+void CubeMxFlipdotFramebuffer::updateColumn(unsigned column, color_t color)
 {
 	selectColumn(column);
 
-	setOutputEnableBlack();
 	writeColumnData(&_buffer[column*BYTES_PER_COLUMN]);
+	if (color == COLOR_BLACK) {
+		setOutputEnableBlack();
+	} else {
+		setOutputEnableWhite();
+	}
 	delayFlipDots();
-
-	setOutputEnableWhite();
-	writeColumnData(&_buffer[column*BYTES_PER_COLUMN]);
-	delayFlipDots();
-
 	setOutputEnableNone();
 
 }
@@ -31,19 +30,34 @@ void CubeMxFlipdotFramebuffer::update()
 {
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
-		if (_dirty & (1<<i))
+		if (_dirty_white & (1<<i))
 		{
-			updateColumn(i);
-			break; /* always update max one column per update() call */
+			updateColumn(i, COLOR_BLACK);
+			return; /* always update max one column per update() call */
 		}
 	}
+
+	for (unsigned i=0; i<COLUMNS; i++)
+	{
+		if (_dirty_black & (1<<i))
+		{
+			updateColumn(i, COLOR_WHITE);
+			return; /* always update max one column per update() call */
+		}
+	}
+
 }
 
 void CubeMxFlipdotFramebuffer::flush()
 {
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
-		updateColumn(i);
+		updateColumn(i, COLOR_BLACK);
+	}
+
+	for (unsigned i=0; i<COLUMNS; i++)
+	{
+		updateColumn(i, COLOR_WHITE);
 	}
 }
 
@@ -54,7 +68,8 @@ void CubeMxFlipdotFramebuffer::clear()
 	}
 
 	for (unsigned i=0; i<COLUMNS; i++) {
-		_dirty |= (1<<i);
+		_dirty_black |= (1<<i);
+		_dirty_white |= (1<<i);
 	}
 }
 
@@ -72,7 +87,8 @@ void CubeMxFlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
 		_buffer[bytePos] &= ~bitMask;
 	}
 
-	_dirty |= (1<<column);
+	_dirty_black |= (1<<column);
+	_dirty_white |= (1<<column);
 }
 
 void CubeMxFlipdotFramebuffer::setOutputEnableBlack()
@@ -149,3 +165,4 @@ void CubeMxFlipdotFramebuffer::delayClock()
 void CubeMxFlipdotFramebuffer::delayFlipDots()
 {
 }
+

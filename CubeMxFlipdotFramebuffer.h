@@ -25,8 +25,14 @@ class CubeMxFlipdotFramebuffer : public IFlipdotFramebuffer
 		static const unsigned BITS_PER_COLUMN = ROWS_PER_PANEL * NUM_PANELS;
 		static const unsigned BYTES_PER_COLUMN = BITS_PER_COLUMN / 8;
 
+		typedef enum {
+			COLOR_WHITE,
+			COLOR_BLACK
+		} color_t;
+
 		uint8_t _buffer[COLUMNS * BYTES_PER_COLUMN];
-		uint32_t _dirty;
+		uint32_t _dirty_black;
+		uint32_t _dirty_white;
 
 		void setOutputEnableBlack();
 		void setOutputEnableWhite();
@@ -38,7 +44,7 @@ class CubeMxFlipdotFramebuffer : public IFlipdotFramebuffer
 		void shiftRowRegister(bool in);
 		void writeColumnByte(uint8_t data);
 		void writeColumnData(uint8_t *data);
-		void updateColumn(unsigned column);
+		void updateColumn(unsigned column, color_t color);
 		void delayClock();
 		void delayFlipDots();
 
