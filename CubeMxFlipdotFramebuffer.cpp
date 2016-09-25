@@ -30,18 +30,20 @@ void CubeMxFlipdotFramebuffer::update()
 {
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
-		if (_dirty_white & (1<<i))
+		if (_dirty_black & (1<<i))
 		{
 			updateColumn(i, COLOR_BLACK);
+			_dirty_black &= ~(1<<i);
 			return; /* always update max one column per update() call */
 		}
 	}
 
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
-		if (_dirty_black & (1<<i))
+		if (_dirty_white & (1<<i))
 		{
 			updateColumn(i, COLOR_WHITE);
+			_dirty_white &= ~(1<<i);
 			return; /* always update max one column per update() call */
 		}
 	}
@@ -54,11 +56,13 @@ void CubeMxFlipdotFramebuffer::flush()
 	{
 		updateColumn(i, COLOR_BLACK);
 	}
+	_dirty_black = 0;
 
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
 		updateColumn(i, COLOR_WHITE);
 	}
+	_dirty_white = 1;
 }
 
 void CubeMxFlipdotFramebuffer::clear()
