@@ -59,6 +59,10 @@ void CubeMxFlipdotFramebuffer::clear()
 	for (unsigned i=0; i<sizeof(_buffer); i++) {
 		_buffer[i] = 0;
 	}
+
+	for (unsigned i=0; i<COLUMNS; i++) {
+		_dirty |= (1<<i);
+	}
 }
 
 void CubeMxFlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
