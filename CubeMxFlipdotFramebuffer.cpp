@@ -164,20 +164,18 @@ void CubeMxFlipdotFramebuffer::setColumnDirty(unsigned column)
 
 void CubeMxFlipdotFramebuffer::setColumnClean(color_t color, unsigned column)
 {
-	if (color==COLOR_BLACK) {
-		_dirty &= ~(1<<column);
-	} else {
-		_dirty &= ~(1<<(COLUMNS+column));
+	if (color==COLOR_WHITE) {
+		column += COLUMNS;
 	}
+	_dirty &= ~(1<<column);
 }
 
 bool CubeMxFlipdotFramebuffer::isColumnDirty(color_t color, unsigned column)
 {
-	if (color==COLOR_BLACK) {
-		return _dirty & (1<<column);
-	} else {
-		return _dirty & (1<<(COLUMNS+column));
+	if (color==COLOR_WHITE) {
+		column += COLUMNS;
 	}
+	return _dirty & (1<<column);
 }
 
 bool CubeMxFlipdotFramebuffer::hasDirtyColumns()
