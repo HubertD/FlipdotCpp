@@ -2,6 +2,7 @@
 #include "stm32f0xx_hal.h"
 
 CubeMxFlipdotFramebuffer::CubeMxFlipdotFramebuffer()
+  : _dirty(0), _currentColumn(0), _currentColor(COLOR_BLACK)
 {
 }
 
@@ -11,58 +12,55 @@ void CubeMxFlipdotFramebuffer::init()
 	flush();
 }
 
-void CubeMxFlipdotFramebuffer::updateColumn(unsigned column, color_t color)
+void CubeMxFlipdotFramebuffer::updateColumn(color_t color, unsigned column)
 {
 	selectColumn(column);
-
 	writeColumnData(&_buffer[column*BYTES_PER_COLUMN]);
-	if (color == COLOR_BLACK) {
-		setOutputEnableBlack();
-	} else {
-		setOutputEnableWhite();
-	}
+
+	setOutputEnable(color);
 	delayFlipDots();
 	setOutputEnableNone();
 
+	setColumnClean(color, column);
+}
+
+void CubeMxFlipdotFramebuffer::flipCurrentColor()
+{
+	_currentColor = (_currentColor==COLOR_BLACK) ? COLOR_WHITE : COLOR_BLACK;
 }
 
 void CubeMxFlipdotFramebuffer::update()
 {
-	for (unsigned i=0; i<COLUMNS; i++)
+	while (hasDirtyColumns())
 	{
-		if (_dirty_black & (1<<i))
+		if (++_currentColumn >= COLUMNS)
 		{
-			updateColumn(i, COLOR_BLACK);
-			_dirty_black &= ~(1<<i);
-			return; /* always update max one column per update() call */
+			flipCurrentColor();
+			_currentColumn = 0;
 		}
-	}
 
-	for (unsigned i=0; i<COLUMNS; i++)
-	{
-		if (_dirty_white & (1<<i))
+		if (isColumnDirty(_currentColor, _currentColumn))
 		{
-			updateColumn(i, COLOR_WHITE);
-			_dirty_white &= ~(1<<i);
+			updateColumn(_currentColor, _currentColumn);
 			return; /* always update max one column per update() call */
 		}
 	}
 
 }
 
-void CubeMxFlipdotFramebuffer::flush()
+void CubeMxFlipdotFramebuffer::flushColor(color_t color)
 {
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
-		updateColumn(i, COLOR_BLACK);
+		updateColumn(color, i);
 	}
-	_dirty_black = 0;
+}
 
-	for (unsigned i=0; i<COLUMNS; i++)
-	{
-		updateColumn(i, COLOR_WHITE);
-	}
-	_dirty_white = 1;
+
+void CubeMxFlipdotFramebuffer::flush()
+{
+	flushColor(COLOR_BLACK);
+	flushColor(COLOR_WHITE);
 }
 
 void CubeMxFlipdotFramebuffer::clear()
@@ -72,8 +70,7 @@ void CubeMxFlipdotFramebuffer::clear()
 	}
 
 	for (unsigned i=0; i<COLUMNS; i++) {
-		_dirty_black |= (1<<i);
-		_dirty_white |= (1<<i);
+		setColumnDirty(i);
 	}
 }
 
@@ -91,26 +88,24 @@ void CubeMxFlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
 		_buffer[bytePos] &= ~bitMask;
 	}
 
-	_dirty_black |= (1<<column);
-	_dirty_white |= (1<<column);
+	setColumnDirty(column);
 }
 
-void CubeMxFlipdotFramebuffer::setOutputEnableBlack()
+void CubeMxFlipdotFramebuffer::setOutputEnable(color_t color)
 {
-	HAL_GPIO_WritePin(FD_COL_OE_GPIO_Port, FD_COL_OE_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(FD_ROW_OE_GPIO_Port, FD_ROW_OE_Pin, GPIO_PIN_SET);
-}
-
-void CubeMxFlipdotFramebuffer::setOutputEnableWhite()
-{
-	HAL_GPIO_WritePin(FD_ROW_OE_GPIO_Port, FD_ROW_OE_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(FD_COL_OE_GPIO_Port, FD_COL_OE_Pin, GPIO_PIN_SET);
+	if (color==COLOR_BLACK) {
+		HAL_GPIO_WritePin(FD_WHITE_OE_GPIO_Port, FD_WHITE_OE_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(FD_BLACK_OE_GPIO_Port, FD_BLACK_OE_Pin, GPIO_PIN_SET);
+	} else {
+		HAL_GPIO_WritePin(FD_BLACK_OE_GPIO_Port, FD_BLACK_OE_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(FD_WHITE_OE_GPIO_Port, FD_WHITE_OE_Pin, GPIO_PIN_SET);
+	}
 }
 
 void CubeMxFlipdotFramebuffer::setOutputEnableNone()
 {
-	HAL_GPIO_WritePin(FD_ROW_OE_GPIO_Port, FD_ROW_OE_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(FD_COL_OE_GPIO_Port, FD_COL_OE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(FD_WHITE_OE_GPIO_Port, FD_WHITE_OE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(FD_BLACK_OE_GPIO_Port, FD_BLACK_OE_Pin, GPIO_PIN_RESET);
 }
 
 void CubeMxFlipdotFramebuffer::strobe()
@@ -160,6 +155,34 @@ void CubeMxFlipdotFramebuffer::writeColumnData(uint8_t* data)
 		writeColumnByte(data[i]);
 	}
 	strobe();
+}
+
+void CubeMxFlipdotFramebuffer::setColumnDirty(unsigned column)
+{
+	_dirty |= (1<<column) | (1<<COLUMNS+column);
+}
+
+void CubeMxFlipdotFramebuffer::setColumnClean(color_t color, unsigned column)
+{
+	if (color==COLOR_BLACK) {
+		_dirty &= ~(1<<column);
+	} else {
+		_dirty &= ~(1<<(COLUMNS+column));
+	}
+}
+
+bool CubeMxFlipdotFramebuffer::isColumnDirty(color_t color, unsigned column)
+{
+	if (color==COLOR_BLACK) {
+		return _dirty & (1<<column);
+	} else {
+		return _dirty & (1<<(COLUMNS+column));
+	}
+}
+
+bool CubeMxFlipdotFramebuffer::hasDirtyColumns()
+{
+	return _dirty != 0;
 }
 
 void CubeMxFlipdotFramebuffer::delayClock()

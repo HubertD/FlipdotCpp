@@ -31,20 +31,27 @@ class CubeMxFlipdotFramebuffer : public IFlipdotFramebuffer
 		} color_t;
 
 		uint8_t _buffer[COLUMNS * BYTES_PER_COLUMN];
-		uint32_t _dirty_black;
-		uint32_t _dirty_white;
+		uint32_t _dirty;
+		uint32_t _currentColumn;
+		color_t _currentColor;
 
-		void setOutputEnableBlack();
-		void setOutputEnableWhite();
+		void setOutputEnable(color_t color);
 		void setOutputEnableNone();
 		void strobe();
+
+		void flipCurrentColor();
+		void setColumnDirty(unsigned column);
+		bool isColumnDirty(color_t color, unsigned column);
+		bool hasDirtyColumns();
+		void setColumnClean(color_t color, unsigned column);
 
 		void selectColumn(unsigned column);
 		void shiftColumnRegister(bool in);
 		void shiftRowRegister(bool in);
 		void writeColumnByte(uint8_t data);
 		void writeColumnData(uint8_t *data);
-		void updateColumn(unsigned column, color_t color);
+		void updateColumn(color_t color, unsigned column);
+		void flushColor(color_t color);
 		void delayClock();
 		void delayFlipDots();
 
