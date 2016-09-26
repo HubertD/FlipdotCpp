@@ -2,11 +2,11 @@
 
 #include "IFlipdotFramebuffer.h"
 
-class CubeMxFlipdotFramebuffer : public IFlipdotFramebuffer
+class FlipdotFramebuffer : public IFlipdotFramebuffer
 {
 
 	public:
-		CubeMxFlipdotFramebuffer();
+		FlipdotFramebuffer(IFlipdotDriver &driver);
 
 		void init() override;
 		void flush() override;
@@ -30,29 +30,23 @@ class CubeMxFlipdotFramebuffer : public IFlipdotFramebuffer
 			COLOR_BLACK
 		} color_t;
 
+		IFlipdotDriver &_driver;
+
 		uint8_t _buffer[COLUMNS * BYTES_PER_COLUMN];
 		uint32_t _dirty;
 		uint32_t _currentColumn;
 		color_t _currentColor;
 
-		void setOutputEnable(color_t color);
-		void setOutputEnableNone();
-		void strobe();
-
 		void flipCurrentColor();
-		void setColumnDirty(unsigned column);
-		bool isColumnDirty(color_t color, unsigned column);
-		bool hasDirtyColumns();
-		void setColumnClean(color_t color, unsigned column);
 
 		void selectColumn(unsigned column);
-		void shiftColumnRegister(bool in);
-		void shiftRowRegister(bool in);
 		void writeColumnByte(uint8_t data);
 		void writeColumnData(uint8_t *data);
 		void updateColumn(color_t color, unsigned column);
 		void flushColor(color_t color);
-		void delayClock();
-		void delayFlipDots();
 
+		bool isColumnDirty(color_t color, unsigned column);
+		bool hasDirtyColumns();
+		void setColumnDirty(unsigned column);
+		void setColumnClean(color_t color, unsigned column);
 };
