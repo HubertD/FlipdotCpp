@@ -15,29 +15,6 @@ void FlipdotFramebuffer::init()
 	flush();
 }
 
-void FlipdotFramebuffer::updateColumn(color_t color, unsigned column)
-{
-	uint16_t column_register = (1<<column);
-	_driver.writeRowData((uint8_t*)&column_register, 2);
-	_driver.writeColumnData(&_buffer[column*BYTES_PER_COLUMN], BYTES_PER_COLUMN);
-	_driver.strobe();
-
-	if (color==COLOR_BLACK) {
-		_driver.setOutputEnableBlack();
-	} else {
-		_driver.setOutputEnableWhite();
-	}
-	_driver.delayFlipDots();
-	_driver.setOutputEnableNone();
-
-	setColumnClean(color, column);
-}
-
-void FlipdotFramebuffer::flipCurrentColor()
-{
-	_currentColor = (_currentColor==COLOR_BLACK) ? COLOR_WHITE : COLOR_BLACK;
-}
-
 void FlipdotFramebuffer::update()
 {
 	while (hasDirtyColumns())
@@ -55,19 +32,18 @@ void FlipdotFramebuffer::update()
 
 }
 
+void FlipdotFramebuffer::flush()
+{
+	flushColor(COLOR_BLACK);
+	flushColor(COLOR_WHITE);
+}
+
 void FlipdotFramebuffer::flushColor(color_t color)
 {
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
 		updateColumn(color, i);
 	}
-}
-
-
-void FlipdotFramebuffer::flush()
-{
-	flushColor(COLOR_BLACK);
-	flushColor(COLOR_WHITE);
 }
 
 void FlipdotFramebuffer::clear()
@@ -98,6 +74,37 @@ void FlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
 	}
 
 	setColumnDirty(column);
+}
+
+void FlipdotFramebuffer::updateColumn(color_t color, unsigned column)
+{
+	uint16_t column_register = (1<<column);
+	_driver.writeRowData((uint8_t*)&column_register, 2);
+	_driver.writeColumnData(&_buffer[column*BYTES_PER_COLUMN], BYTES_PER_COLUMN);
+	_driver.strobe();
+
+	if (color==COLOR_BLACK) {
+		_driver.setOutputEnableBlack();
+	} else {
+		_driver.setOutputEnableWhite();
+	}
+	_driver.delayFlipDots();
+	_driver.setOutputEnableNone();
+
+	setColumnClean(color, column);
+}
+
+void FlipdotFramebuffer::flipCurrentColor()
+{
+	_currentColor = (_currentColor==COLOR_BLACK) ? COLOR_WHITE : COLOR_BLACK;
+}
+
+void FlipdotFramebuffer::flushColor(color_t color)
+{
+	for (unsigned i=0; i<COLUMNS; i++)
+	{
+		updateColumn(color, i);
+	}
 }
 
 void FlipdotFramebuffer::setColumnDirty(unsigned column)
