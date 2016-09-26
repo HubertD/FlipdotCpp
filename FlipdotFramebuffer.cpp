@@ -5,6 +5,10 @@ FlipdotFramebuffer::FlipdotFramebuffer(IFlipdotDriver &driver)
 {
 }
 
+FlipdotFramebuffer::~FlipdotFramebuffer()
+{
+}
+
 void FlipdotFramebuffer::init()
 {
 	clear();
@@ -13,8 +17,10 @@ void FlipdotFramebuffer::init()
 
 void FlipdotFramebuffer::updateColumn(color_t color, unsigned column)
 {
-	selectColumn(column);
-	writeColumnData(&_buffer[column*BYTES_PER_COLUMN]);
+	uint16_t column_register = (1<<column);
+	_driver.writeRowData((uint8_t*)&column_register, 2);
+	_driver.writeColumnData(&_buffer[column*BYTES_PER_COLUMN], BYTES_PER_COLUMN);
+	_driver.strobe();
 
 	if (color==COLOR_BLACK) {
 		_driver.setOutputEnableBlack();
@@ -92,32 +98,6 @@ void FlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
 	}
 
 	setColumnDirty(column);
-}
-
-void FlipdotFramebuffer::selectColumn(unsigned column)
-{
-	uint32_t sr = (1<<column);
-	for (unsigned i=0; i<COLUMNS; i++)
-	{
-		_driver.shiftColumnRegister(sr & (1<<i));
-	}
-}
-
-void FlipdotFramebuffer::writeColumnByte(uint8_t data)
-{
-	for (int i=0; i<8; i++)
-	{
-		_driver.shiftRowRegister(data & (1<<i));
-	}
-}
-
-void FlipdotFramebuffer::writeColumnData(uint8_t* data)
-{
-	for (int i=0; i<BYTES_PER_COLUMN; i++)
-	{
-		writeColumnByte(data[i]);
-	}
-	_driver.strobe();
 }
 
 void FlipdotFramebuffer::setColumnDirty(unsigned column)

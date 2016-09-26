@@ -4,7 +4,8 @@ class IFlipdotFramebuffer
 {
 
 	public:
-		IFlipdotFramebuffer();
+		IFlipdotFramebuffer() {};
+		virtual ~IFlipdotFramebuffer() {};
 
 		virtual void init() = 0;
 		virtual void flush() = 0;

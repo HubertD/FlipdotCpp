@@ -9,6 +9,28 @@ CubeMxFlipdotDriver::~CubeMxFlipdotDriver()
 {
 }
 
+void CubeMxFlipdotDriver::writeColumnData(uint8_t* data, unsigned length)
+{
+	for (int i=0; i<length; i++)
+	{
+		for (int j=0; j<8; j++)
+		{
+			shiftColumnRegister(data[i] & (1<<j));
+		}
+	}
+}
+
+void CubeMxFlipdotDriver::writeRowData(uint8_t* data, unsigned length)
+{
+	for (int i=0; i<length; i++)
+	{
+		for (int j=0; j<8; j++)
+		{
+			shiftRowRegister(data[i] & (1<<j));
+		}
+	}
+}
+
 void CubeMxFlipdotDriver::setOutputEnableBlack()
 {
 	HAL_GPIO_WritePin(FD_WHITE_OE_GPIO_Port, FD_WHITE_OE_Pin, GPIO_PIN_RESET);
@@ -51,7 +73,6 @@ void CubeMxFlipdotDriver::shiftRowRegister(bool in)
 	delayClock();
 	HAL_GPIO_WritePin(FD_ROW_CLK_GPIO_Port, FD_ROW_CLK_Pin, GPIO_PIN_RESET);
 }
-
 
 void CubeMxFlipdotDriver::delayClock()
 {

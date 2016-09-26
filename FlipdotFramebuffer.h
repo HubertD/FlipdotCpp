@@ -7,6 +7,7 @@ class FlipdotFramebuffer : public IFlipdotFramebuffer
 
 	public:
 		FlipdotFramebuffer(IFlipdotDriver &driver);
+		~FlipdotFramebuffer() override;
 
 		void init() override;
 		void flush() override;
@@ -39,9 +40,6 @@ class FlipdotFramebuffer : public IFlipdotFramebuffer
 
 		void flipCurrentColor();
 
-		void selectColumn(unsigned column);
-		void writeColumnByte(uint8_t data);
-		void writeColumnData(uint8_t *data);
 		void updateColumn(color_t color, unsigned column);
 		void flushColor(color_t color);
 

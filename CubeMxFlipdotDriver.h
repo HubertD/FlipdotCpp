@@ -6,14 +6,18 @@ class CubeMxFlipdotDriver : public IFlipdotDriver
 {
 	public:
 		CubeMxFlipdotDriver();
-		~CubeMxFlipdotDriver();
+		~CubeMxFlipdotDriver() override;
 		void setOutputEnableBlack() override;
 		void setOutputEnableWhite() override;
 		void setOutputEnableNone() override;
 		void strobe() override;
-		void shiftColumnRegister(bool in) override;
-		void shiftRowRegister(bool in) override;
-		void delayClock() override;
+		void writeColumnData(uint8_t* data, unsigned length) override;
+		void writeRowData(uint8_t* data, unsigned length) override;
 		void delayFlipDots() override;
+
+	private:
+		void shiftColumnRegister(bool in);
+		void shiftRowRegister(bool in);
+		void delayClock() override;
 
 };
