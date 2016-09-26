@@ -8,11 +8,6 @@ class FlipdotFramebuffer : public IFlipdotFramebuffer
 {
 
 	public:
-		typedef enum {
-			COLOR_WHITE,
-			COLOR_BLACK
-		} color_t;
-
 		FlipdotFramebuffer(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *buffer, unsigned bufferSize);
 		~FlipdotFramebuffer() override;
 
@@ -27,6 +22,11 @@ class FlipdotFramebuffer : public IFlipdotFramebuffer
 		static const unsigned COLUMNS = 16;
 		static const unsigned ROWS_PER_PANEL = 24;
 		static const unsigned ACTIVE_ROWS_PER_PANEL = 20;
+
+		typedef enum {
+			COLOR_WHITE,
+			COLOR_BLACK
+		} color_t;
 
 		IFlipdotDriver &_driver;
 		unsigned _numPanelsX;

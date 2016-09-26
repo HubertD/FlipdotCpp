@@ -5,7 +5,7 @@ FlipdotFramebuffer::FlipdotFramebuffer(IFlipdotDriver &driver, unsigned numPanel
 	_numPanelsX(numPanelsX),
 	_numPanelsY(numPanelsY),
 	_buffer(buffer),
-	_bufferSize(buffer),
+	_bufferSize(bufferSize),
 	_dirty(0),
 	_currentColumn(0),
 	_currentColor(COLOR_BLACK)
