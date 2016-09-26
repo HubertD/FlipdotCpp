@@ -18,6 +18,6 @@ class CubeMxFlipdotDriver : public IFlipdotDriver
 	private:
 		void shiftColumnRegister(bool in);
 		void shiftRowRegister(bool in);
-		void delayClock() override;
+		void delayClock();
 
 };

@@ -1,12 +1,19 @@
 #pragma once
 
+#include <stdint.h>
 #include "IFlipdotFramebuffer.h"
+#include "IFlipdotDriver.h"
 
 class FlipdotFramebuffer : public IFlipdotFramebuffer
 {
 
 	public:
-		FlipdotFramebuffer(IFlipdotDriver &driver);
+		typedef enum {
+			COLOR_WHITE,
+			COLOR_BLACK
+		} color_t;
+
+		FlipdotFramebuffer(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *buffer, unsigned bufferSize);
 		~FlipdotFramebuffer() override;
 
 		void init() override;
@@ -20,20 +27,14 @@ class FlipdotFramebuffer : public IFlipdotFramebuffer
 		static const unsigned COLUMNS = 16;
 		static const unsigned ROWS_PER_PANEL = 24;
 		static const unsigned ACTIVE_ROWS_PER_PANEL = 20;
-		static const unsigned NUM_PANELS_X = 2;
-		static const unsigned NUM_PANELS_Y = 2;
-		static const unsigned NUM_PANELS = (NUM_PANELS_X * NUM_PANELS_Y);
-		static const unsigned BITS_PER_COLUMN = ROWS_PER_PANEL * NUM_PANELS;
-		static const unsigned BYTES_PER_COLUMN = BITS_PER_COLUMN / 8;
-
-		typedef enum {
-			COLOR_WHITE,
-			COLOR_BLACK
-		} color_t;
 
 		IFlipdotDriver &_driver;
+		unsigned _numPanelsX;
+		unsigned _numPanelsY;
+		unsigned _bytesPerColumn;
+		uint8_t *_buffer;
+		unsigned _bufferSize;
 
-		uint8_t _buffer[COLUMNS * BYTES_PER_COLUMN];
 		uint32_t _dirty;
 		uint32_t _currentColumn;
 		color_t _currentColor;
@@ -47,4 +48,5 @@ class FlipdotFramebuffer : public IFlipdotFramebuffer
 		bool hasDirtyColumns();
 		void setColumnDirty(unsigned column);
 		void setColumnClean(color_t color, unsigned column);
+
 };
