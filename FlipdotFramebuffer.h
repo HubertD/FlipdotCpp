@@ -4,12 +4,11 @@
 #include "IFlipdotFramebuffer.h"
 #include "IFlipdotDriver.h"
 
-class FlipdotFramebuffer : public IFlipdotFramebuffer
+class FlipdotFramebufferBase : public IFlipdotFramebuffer
 {
 
 	public:
-		FlipdotFramebuffer(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *buffer, unsigned bufferSize);
-		~FlipdotFramebuffer() override;
+		~FlipdotFramebufferBase() override;
 
 		void init() override;
 		void flush() override;
@@ -17,6 +16,9 @@ class FlipdotFramebuffer : public IFlipdotFramebuffer
 
 		void clear() override;
 		void setPixel(unsigned x, unsigned y, bool value) override;
+
+	protected:
+		FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *buffer, unsigned bufferSize);
 
 	private:
 		static const unsigned COLUMNS = 16;
@@ -48,5 +50,19 @@ class FlipdotFramebuffer : public IFlipdotFramebuffer
 		bool hasDirtyColumns();
 		void setColumnDirty(unsigned column);
 		void setColumnClean(color_t color, unsigned column);
+
+};
+
+template <unsigned NUM_PANELS_X, unsigned NUM_PANELS_Y> class FlipdotFramebuffer : public FlipdotFramebufferBase
+{
+	private:
+		static const unsigned BYTES_PER_COLUMN = (ROWS_PER_PANEL * (NUM_PANELS_X * NUM_PANELS_Y)) / 8;
+		uint8_t _implBuffer[COLUMNS*BYTES_PER_COLUMN];
+
+	public:
+		FlipdotFramebuffer(IFlipdotDriver &driver)
+			: FlipdotFramebufferBase(driver, NUM_PANELS_X, NUM_PANELS_Y, _implBuffer, sizeof(_implBuffer))
+		{
+		}
 
 };

@@ -1,33 +1,33 @@
 #include "FlipdotFramebuffer.h"
 
-FlipdotFramebuffer::FlipdotFramebuffer(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *buffer, unsigned bufferSize)
+FlipdotFramebufferBase::FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *buffer, unsigned bufferSize)
   : _driver(driver),
 	_numPanelsX(numPanelsX),
 	_numPanelsY(numPanelsY),
+	_bytesPerColumn((ROWS_PER_PANEL * (numPanelsX * numPanelsY)) / 8),
 	_buffer(buffer),
 	_bufferSize(bufferSize),
 	_dirty(0),
 	_currentColumn(0),
 	_currentColor(COLOR_BLACK)
 {
-	_bytesPerColumn = (ROWS_PER_PANEL * (_numPanelsX * _numPanelsY)) / 8;
-	if (_bufferSize < _bytesPerColumn*COLUMNS) {
-		// screen buffer to small, should better not continue
-		while (1);
+	for (unsigned i=0; i<sizeof(_buffer); i++)
+	{
+		_buffer[i] = 0;
 	}
 }
 
-FlipdotFramebuffer::~FlipdotFramebuffer()
+FlipdotFramebufferBase::~FlipdotFramebufferBase()
 {
 }
 
-void FlipdotFramebuffer::init()
+void FlipdotFramebufferBase::init()
 {
 	clear();
 	flush();
 }
 
-void FlipdotFramebuffer::update()
+void FlipdotFramebufferBase::update()
 {
 	while (hasDirtyColumns())
 	{
@@ -44,13 +44,13 @@ void FlipdotFramebuffer::update()
 
 }
 
-void FlipdotFramebuffer::flush()
+void FlipdotFramebufferBase::flush()
 {
 	flushColor(COLOR_BLACK);
 	flushColor(COLOR_WHITE);
 }
 
-void FlipdotFramebuffer::flushColor(color_t color)
+void FlipdotFramebufferBase::flushColor(color_t color)
 {
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
@@ -58,7 +58,7 @@ void FlipdotFramebuffer::flushColor(color_t color)
 	}
 }
 
-void FlipdotFramebuffer::clear()
+void FlipdotFramebufferBase::clear()
 {
 	for (unsigned i=0; i<_bufferSize; i++)
 	{
@@ -71,7 +71,7 @@ void FlipdotFramebuffer::clear()
 	}
 }
 
-void FlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
+void FlipdotFramebufferBase::setPixel(unsigned x, unsigned y, bool value)
 {
 	unsigned column = x % COLUMNS;
 	unsigned panel = ((x/COLUMNS) * _numPanelsY) + (y / ACTIVE_ROWS_PER_PANEL);
@@ -88,7 +88,7 @@ void FlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
 	setColumnDirty(column);
 }
 
-void FlipdotFramebuffer::updateColumn(color_t color, unsigned column)
+void FlipdotFramebufferBase::updateColumn(color_t color, unsigned column)
 {
 	uint16_t column_register = (1<<column);
 	_driver.writeRowData((uint8_t*)&column_register, 2);
@@ -106,17 +106,17 @@ void FlipdotFramebuffer::updateColumn(color_t color, unsigned column)
 	setColumnClean(color, column);
 }
 
-void FlipdotFramebuffer::flipCurrentColor()
+void FlipdotFramebufferBase::flipCurrentColor()
 {
 	_currentColor = (_currentColor==COLOR_BLACK) ? COLOR_WHITE : COLOR_BLACK;
 }
 
-void FlipdotFramebuffer::setColumnDirty(unsigned column)
+void FlipdotFramebufferBase::setColumnDirty(unsigned column)
 {
 	_dirty |= ((1<<column) | (1<<(COLUMNS+column)));
 }
 
-void FlipdotFramebuffer::setColumnClean(color_t color, unsigned column)
+void FlipdotFramebufferBase::setColumnClean(color_t color, unsigned column)
 {
 	if (color==COLOR_WHITE) {
 		column += COLUMNS;
@@ -124,7 +124,7 @@ void FlipdotFramebuffer::setColumnClean(color_t color, unsigned column)
 	_dirty &= ~(1<<column);
 }
 
-bool FlipdotFramebuffer::isColumnDirty(color_t color, unsigned column)
+bool FlipdotFramebufferBase::isColumnDirty(color_t color, unsigned column)
 {
 	if (color==COLOR_WHITE) {
 		column += COLUMNS;
@@ -132,7 +132,7 @@ bool FlipdotFramebuffer::isColumnDirty(color_t color, unsigned column)
 	return _dirty & (1<<column);
 }
 
-bool FlipdotFramebuffer::hasDirtyColumns()
+bool FlipdotFramebufferBase::hasDirtyColumns()
 {
 	return _dirty != 0;
 }

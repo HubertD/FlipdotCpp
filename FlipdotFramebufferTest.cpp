@@ -5,9 +5,8 @@
 
 int main()
 {
-	uint8_t buffer[192];
 	VcdFlipdotDriver driver;
-	FlipdotFramebuffer framebuffer(driver, 2, 2, buffer, sizeof(buffer));
+	FlipdotFramebuffer<2,2> framebuffer(driver);
 	FlipdotGfx gfx(framebuffer);
 
 	framebuffer.init();
