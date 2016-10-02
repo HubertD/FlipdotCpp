@@ -6,7 +6,8 @@
 class FlipdotGfx : public IFlipdotGfx
 {
 	public:
-		FlipdotGfx(IFlipdotFramebuffer &fb);
+		FlipdotGfx(IFlipdotFramebuffer &framebuffer);
+		~FlipdotGfx() override;
 		void clear() override;
 		void setPixel(unsigned x, unsigned y, bool value) override;
 		void drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value) override;

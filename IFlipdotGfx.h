@@ -5,8 +5,8 @@
 class IFlipdotGfx
 {
 	public:
-		IFlipdotGfx();
-		virtual ~IFlipdotGfx();
+		IFlipdotGfx() {}
+		virtual ~IFlipdotGfx() {}
 
 		virtual void clear() = 0;
 		virtual void setPixel(unsigned x, unsigned y, bool value) = 0;

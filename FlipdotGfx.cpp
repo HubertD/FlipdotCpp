@@ -85,6 +85,10 @@ FlipdotGfx::FlipdotGfx(IFlipdotFramebuffer& fb)
 {
 }
 
+FlipdotGfx::~FlipdotGfx()
+{
+}
+
 void FlipdotGfx::clear()
 {
 	_fb.clear();

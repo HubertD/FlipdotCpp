@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IFlipdotDriver.h"
+#include <stdint.h>
 
 class CubeMxFlipdotDriver : public IFlipdotDriver
 {
@@ -16,8 +17,8 @@ class CubeMxFlipdotDriver : public IFlipdotDriver
 		void delayFlipDots() override;
 
 	private:
-		void shiftColumnRegister(bool in);
-		void shiftRowRegister(bool in);
-		void delayClock();
+		inline void shiftColumnRegister(bool in);
+		inline void shiftRowRegister(bool in);
+		inline void delayClock();
 
 };
