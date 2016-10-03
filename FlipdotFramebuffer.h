@@ -19,7 +19,7 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		void setPixel(unsigned x, unsigned y, bool value) override;
 
 	protected:
-		FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *buffer, unsigned bufferSize);
+		FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *onScreenBuffer, uint8_t *offScreenBuffer, unsigned bufferSize);
 
 	private:
 		static const unsigned COLUMNS = 16;
@@ -35,12 +35,11 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		unsigned _numPanelsX;
 		unsigned _numPanelsY;
 		unsigned _bytesPerColumn;
-		uint8_t *_buffer;
+		uint8_t *_offScreenBuffer;
+		uint8_t *_onScreenBuffer;
 		unsigned _bufferSize;
 
-		uint32_t _dirty;
 		uint32_t _currentColumn;
-		color_t _currentColor;
 
 		void flipCurrentColor();
 
@@ -48,10 +47,10 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		void updateColumn(color_t color, unsigned column);
 		void flushColor(color_t color);
 
-		bool isColumnDirty(color_t color, unsigned column);
-		bool hasDirtyColumns();
-		void setColumnDirty(unsigned column);
-		void setColumnClean(color_t color, unsigned column);
+		void copyColumnToOnScreenBuffer(color_t color, unsigned column);
+
+		bool mustUpdateBlack(unsigned column);
+		bool mustUpdateWhite(unsigned column);
 
 		unsigned getPhysicalX(unsigned x);
 		unsigned getPhysicalY_ignoringInactiveRows(unsigned x, unsigned y);
@@ -63,12 +62,21 @@ template <unsigned NUM_PANELS_X, unsigned NUM_PANELS_Y> class FlipdotFramebuffer
 {
 	private:
 		static const unsigned BYTES_PER_COLUMN = (ROWS_PER_PANEL * (NUM_PANELS_X * NUM_PANELS_Y)) / 8;
-		uint8_t _implBuffer[COLUMNS*BYTES_PER_COLUMN];
+		uint8_t _implOnScreenBuffer[COLUMNS*BYTES_PER_COLUMN];
+		uint8_t _implOffScreenBuffer[COLUMNS*BYTES_PER_COLUMN];
 
 	public:
 		FlipdotFramebuffer(IFlipdotDriver &driver)
-		  : FlipdotFramebufferBase(driver, NUM_PANELS_X, NUM_PANELS_Y, _implBuffer, sizeof(_implBuffer)),
-			_implBuffer{0}
+		  : FlipdotFramebufferBase(
+			    driver,
+				NUM_PANELS_X,
+				NUM_PANELS_Y,
+				_implOnScreenBuffer,
+				_implOffScreenBuffer,
+				sizeof(_implOnScreenBuffer)
+		    ),
+			_implOnScreenBuffer{0},
+			_implOffScreenBuffer{0}
 		{
 		}
 

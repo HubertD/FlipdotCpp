@@ -55,10 +55,10 @@ void SDLFlipdotDriver::redraw()
 		}
 
 		unsigned deltaT = now - _tLastUpdateColumn[i];
-		if (deltaT < 1000)
+		if (deltaT < 500)
 		{
-			drawOverlayRect(i, 0, 1, 40, 0xFF, 0, 0, 150-(deltaT/10));
-			drawOverlayRect(31-i, 0, 1, 40, 0xFF, 0, 0, 150-(deltaT/10));
+			drawOverlayRect(i, 0, 1, 40, 0xFF, 0, 0, 100-(deltaT/5));
+			drawOverlayRect(31-i, 0, 1, 40, 0xFF, 0, 0, 100-(deltaT/5));
 		}
 	}
 
