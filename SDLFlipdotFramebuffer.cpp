@@ -52,7 +52,7 @@ void SDLFlipdotFramebuffer::redraw()
 	{
 		for (unsigned x=0; x<NUM_PIXELS_X; x++)
 		{
-			SDL_Rect rect = {x*20, y*20, 20, 20};
+			SDL_Rect rect = {x*DOT_WIDTH, y*DOT_HEIGHT, DOT_WIDTH, DOT_HEIGHT};
 
 			if (_buffer[y][x]) {
 				SDL_SetRenderDrawColor(_renderer, 0x00, 0x00, 0x00, 0xFF);

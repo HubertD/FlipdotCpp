@@ -21,6 +21,9 @@ class SDLFlipdotFramebuffer : public IFlipdotFramebuffer
 	private:
 		static const unsigned NUM_PIXELS_X = 32;
 		static const unsigned NUM_PIXELS_Y = 40;
+		static const unsigned DOT_WIDTH = 20;
+		static const unsigned DOT_HEIGHT = 15;
+
 
 		SDL_Window* _window;
 		SDL_Renderer *_renderer;
