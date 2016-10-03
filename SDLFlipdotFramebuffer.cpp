@@ -1,4 +1,4 @@
-#include "SDLFlipdotFramebuffer.h"
+#include "../gfx/SDLFlipdotFramebuffer.h"
 
 SDLFlipdotFramebuffer::SDLFlipdotFramebuffer(SDL_Window* window)
   : _window(window), _renderer(nullptr)

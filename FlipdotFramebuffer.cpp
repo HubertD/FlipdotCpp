@@ -1,4 +1,4 @@
-#include "FlipdotFramebuffer.h"
+#include "../gfx/FlipdotFramebuffer.h"
 
 FlipdotFramebufferBase::FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *buffer, unsigned bufferSize)
   : _driver(driver),
@@ -11,10 +11,6 @@ FlipdotFramebufferBase::FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned 
 	_currentColumn(0),
 	_currentColor(COLOR_BLACK)
 {
-	for (unsigned i=0; i<sizeof(_buffer); i++)
-	{
-		_buffer[i] = 0;
-	}
 }
 
 FlipdotFramebufferBase::~FlipdotFramebufferBase()
@@ -60,38 +56,52 @@ void FlipdotFramebufferBase::flushColor(color_t color)
 
 void FlipdotFramebufferBase::clear()
 {
-	for (unsigned i=0; i<_bufferSize; i++)
+	for (unsigned y=0; y<_numPanelsY*ACTIVE_ROWS_PER_PANEL; y++)
 	{
-		_buffer[i] = 0;
-	}
-
-	for (unsigned i=0; i<COLUMNS; i++)
-	{
-		setColumnDirty(i);
+		for (unsigned x=0; x<_numPanelsX*COLUMNS; x++)
+		{
+			setPixel(x, y, false);
+		}
 	}
 }
 
 void FlipdotFramebufferBase::setPixel(unsigned x, unsigned y, bool value)
 {
-	unsigned column = x % COLUMNS;
-	unsigned panel = ((x/COLUMNS) * _numPanelsY) + (y / ACTIVE_ROWS_PER_PANEL);
-	unsigned row = (panel * ROWS_PER_PANEL) + (y % ACTIVE_ROWS_PER_PANEL);
-	unsigned bytePos = (column * _bytesPerColumn) + (row/8);
+	auto column = getPhysicalX(x);
+	auto row = getPhysicalY(x, y);
+
+	unsigned bytePos = (column * _bytesPerColumn) + 11 - (row / 8);
 	unsigned bitMask = 1<<(row % 8);
 
-	if (value) {
-		_buffer[bytePos] |= bitMask;
+	if (value)
+	{
+		if ((_buffer[bytePos] & bitMask) == 0)
+		{
+			_buffer[bytePos] |= bitMask;
+			setColumnDirty(column);
+		}
 	} else {
-		_buffer[bytePos] &= ~bitMask;
+		if ((_buffer[bytePos] & bitMask) != 0)
+		{
+			_buffer[bytePos] &= ~bitMask;
+			setColumnDirty(column);
+		}
 	}
 
-	setColumnDirty(column);
+}
+
+void FlipdotFramebufferBase::selectColumn(unsigned column)
+{
+	uint8_t row_data[] = {
+		((1<<column) >> 8) & 0xFF,
+		(1<<column) & 0xFF
+	};
+	_driver.writeRowData(row_data, sizeof(row_data));
 }
 
 void FlipdotFramebufferBase::updateColumn(color_t color, unsigned column)
 {
-	uint16_t column_register = (1<<column);
-	_driver.writeRowData((uint8_t*)&column_register, 2);
+	selectColumn(column);
 	_driver.writeColumnData(&_buffer[column*_bytesPerColumn], _bytesPerColumn);
 	_driver.strobe();
 
@@ -137,3 +147,65 @@ bool FlipdotFramebufferBase::hasDirtyColumns()
 	return _dirty != 0;
 }
 
+unsigned FlipdotFramebufferBase::getPhysicalX(unsigned x)
+{
+	/*
+	 *                                         /---\
+	 * 0, 1, 2, ..., 14, 15, | 15, 14, ..., 1, 0, | 0, 1, ....
+	 *                     \___/
+	 */
+
+	bool doFlip = ((x / COLUMNS) % 2) != 0;
+	unsigned logicalX = x % COLUMNS;
+	return doFlip ? (COLUMNS-1 - logicalX) : logicalX;
+}
+
+unsigned FlipdotFramebufferBase::getPhysicalY_ignoringInactiveRows(unsigned x, unsigned y)
+{
+	/*
+	 *          /------\
+	 * 0,    | 79,   | 80,
+	 * 1,    | 78,   | 81,
+	 * ...,  | ...,  | ...,
+	 * 38,   | 41,   | 118,
+	 * 39,   | 40,   | 119,
+	 *   \_____/
+	 */
+
+	const unsigned DOTS_PER_ROW = _numPanelsY * ACTIVE_ROWS_PER_PANEL;
+
+	unsigned panel_x = x / COLUMNS;
+
+	return ( (panel_x % 2) == 0)
+		   ? (panel_x * DOTS_PER_ROW) + y
+		   : (panel_x * DOTS_PER_ROW) + (DOTS_PER_ROW-1 - y);
+}
+
+
+unsigned FlipdotFramebufferBase::getPhysicalY(unsigned x, unsigned y)
+{
+	/*
+	 *          /------\
+	 * 0,    | [d3], | 80,
+	 * 1,    | [d2], | 81,
+	 * ...,  | [d1], | ...,
+	 * 19,   | [d0],
+	 * [d0], | 79,
+	 * [d1], | 78,
+	 * [d2], | ...,
+	 * [d3], |
+	 * 20,   |
+	 * 21,   |
+	 * ...,  | ...,  | ...,
+	 * 38,   | 45,   | 118,
+	 * 39,   | 44,   | 119,
+	 * [d0], | 43,
+	 * [d1], | 42,
+	 * [d2], | 41,
+	 * [d3]  | 40,
+	 *   \_____/
+	 */
+
+	unsigned py = getPhysicalY_ignoringInactiveRows(x, y);
+	return py + (4 * (py/ACTIVE_ROWS_PER_PANEL));
+}

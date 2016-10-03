@@ -1,7 +1,8 @@
 #pragma once
 
 #include <stdint.h>
-#include "IFlipdotGfx.h"
+
+#include "../gfx/IFlipdotGfx.h"
 
 class FlipdotGfx : public IFlipdotGfx
 {

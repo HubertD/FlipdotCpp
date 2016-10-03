@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IFlipdotFramebuffer.h"
 #include <SDL2/SDL.h>
+#include "../gfx/IFlipdotFramebuffer.h"
 
 /* TODO make timing more realistic (update column-wise, need time...) */
 

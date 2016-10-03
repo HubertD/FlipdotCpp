@@ -1,8 +1,9 @@
 #pragma once
 
 #include <stdint.h>
-#include "IFlipdotFramebuffer.h"
-#include "IFlipdotDriver.h"
+
+#include "../gfx/driver/IFlipdotDriver.h"
+#include "../gfx/IFlipdotFramebuffer.h"
 
 class FlipdotFramebufferBase : public IFlipdotFramebuffer
 {
@@ -43,6 +44,7 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 
 		void flipCurrentColor();
 
+		void selectColumn(unsigned column);
 		void updateColumn(color_t color, unsigned column);
 		void flushColor(color_t color);
 
@@ -50,6 +52,10 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		bool hasDirtyColumns();
 		void setColumnDirty(unsigned column);
 		void setColumnClean(color_t color, unsigned column);
+
+		unsigned getPhysicalX(unsigned x);
+		unsigned getPhysicalY_ignoringInactiveRows(unsigned x, unsigned y);
+		unsigned getPhysicalY(unsigned x, unsigned y);
 
 };
 
@@ -61,7 +67,8 @@ template <unsigned NUM_PANELS_X, unsigned NUM_PANELS_Y> class FlipdotFramebuffer
 
 	public:
 		FlipdotFramebuffer(IFlipdotDriver &driver)
-			: FlipdotFramebufferBase(driver, NUM_PANELS_X, NUM_PANELS_Y, _implBuffer, sizeof(_implBuffer))
+		  : FlipdotFramebufferBase(driver, NUM_PANELS_X, NUM_PANELS_Y, _implBuffer, sizeof(_implBuffer)),
+			_implBuffer{0}
 		{
 		}
 

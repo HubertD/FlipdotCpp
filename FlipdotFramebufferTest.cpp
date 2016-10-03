@@ -1,4 +1,4 @@
-#include "VcdFlipdotDriver.h"
+#include "driver/VCD/VcdFlipdotDriver.h"
 #include "FlipdotFramebuffer.h"
 #include "FlipdotGfx.h"
 #include <stdint.h>
