@@ -31,10 +31,10 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		static const unsigned ROWS_PER_PANEL = 24;
 		static const unsigned ACTIVE_ROWS_PER_PANEL = 20;
 
-		typedef enum {
-			COLOR_WHITE,
-			COLOR_BLACK
-		} color_t;
+		enum class Color {
+			WHITE,
+			BLACK
+		};
 
 		IFlipdotDriver &_driver;
 		unsigned _numPanelsX;
@@ -47,10 +47,10 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		uint32_t _currentColumn;
 
 		void selectColumn(unsigned column);
-		void updateColumn(color_t color, unsigned column);
-		void flushColor(color_t color);
+		void updateColumn(Color color, unsigned column);
+		void flushColor(Color color);
 
-		void copyColumnToOnScreenBuffer(color_t color, unsigned column);
+		void copyColumnToOnScreenBuffer(Color color, unsigned column);
 
 		bool mustUpdateBlack(unsigned column);
 		bool mustUpdateWhite(unsigned column);

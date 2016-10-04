@@ -31,12 +31,12 @@ void FlipdotFramebufferBase::update(unsigned ticks)
 
 		if (_currentColumn < COLUMNS) {
 			if (mustUpdateBlack(_currentColumn)) {
-				updateColumn(COLOR_BLACK, _currentColumn);
+				updateColumn(Color::BLACK, _currentColumn);
 				break; /* always update max one column per update() call */
 			}
 		} else {
 			if (mustUpdateWhite(_currentColumn-COLUMNS)) {
-				updateColumn(COLOR_WHITE, _currentColumn-COLUMNS);
+				updateColumn(Color::WHITE, _currentColumn-COLUMNS);
 				break; /* always update max one column per update() call */
 			}
 		}
@@ -47,11 +47,11 @@ void FlipdotFramebufferBase::update(unsigned ticks)
 
 void FlipdotFramebufferBase::flush()
 {
-	flushColor(COLOR_BLACK);
-	flushColor(COLOR_WHITE);
+	flushColor(Color::BLACK);
+	flushColor(Color::WHITE);
 }
 
-void FlipdotFramebufferBase::flushColor(color_t color)
+void FlipdotFramebufferBase::flushColor(Color color)
 {
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
@@ -105,13 +105,13 @@ void FlipdotFramebufferBase::selectColumn(unsigned column)
 	_driver.writeRowData(row_data, sizeof(row_data));
 }
 
-void FlipdotFramebufferBase::updateColumn(color_t color, unsigned column)
+void FlipdotFramebufferBase::updateColumn(Color color, unsigned column)
 {
 	selectColumn(column);
 	_driver.writeColumnData(&_offScreenBuffer[column*_bytesPerColumn], _bytesPerColumn);
 	_driver.strobe();
 
-	if (color==COLOR_BLACK) {
+	if (color==Color::BLACK) {
 		_driver.setOutputEnableBlack();
 	} else {
 		_driver.setOutputEnableWhite();
@@ -122,12 +122,12 @@ void FlipdotFramebufferBase::updateColumn(color_t color, unsigned column)
 	_driver.setOutputEnableNone();
 }
 
-void FlipdotFramebufferBase::copyColumnToOnScreenBuffer(color_t color, unsigned column)
+void FlipdotFramebufferBase::copyColumnToOnScreenBuffer(Color color, unsigned column)
 {
 	unsigned offset = column*_bytesPerColumn;
 	for (unsigned i=offset; i<offset+_bytesPerColumn; i++)
 	{
-		if (color==COLOR_BLACK)
+		if (color==Color::BLACK)
 		{
 			_onScreenBuffer[i] |= _offScreenBuffer[i];
 		} else {
