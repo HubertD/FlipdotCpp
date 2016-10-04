@@ -40,10 +40,10 @@ void VcdFlipdotDriver::delayFlipDots()
 	_time += 100000;
 }
 
-void VcdFlipdotDriver::setSignal(signal_t signal, bool value)
+void VcdFlipdotDriver::setSignal(Signal signal, bool value)
 {
 	_time += 1;
-	_signals[signal] = value;
+	_signals[(unsigned)signal] = value;
 	printSignals();
 }
 
@@ -52,13 +52,13 @@ void VcdFlipdotDriver::printSignals()
 	printf(
 		"#%d %dRD %dRC %dCD %dCC %dST %dBE %dWE\n",
 		_time,
-		_signals[signal_row_data] ? 1 : 0,
-		_signals[signal_row_clk] ? 1 : 0,
-		_signals[signal_col_data] ? 1 : 0,
-		_signals[signal_col_clk] ? 1 : 0,
-		_signals[signal_strobe] ? 1 : 0,
-		_signals[signal_black_oe] ? 1 : 0,
-		_signals[signal_white_oe] ? 1 : 0
+		_signals[(unsigned)Signal::ROW_DATA] ? 1 : 0,
+		_signals[(unsigned)Signal::ROW_CLK] ? 1 : 0,
+		_signals[(unsigned)Signal::COL_DATA] ? 1 : 0,
+		_signals[(unsigned)Signal::COL_CLK] ? 1 : 0,
+		_signals[(unsigned)Signal::STROBE] ? 1 : 0,
+		_signals[(unsigned)Signal::BLACK_OE] ? 1 : 0,
+		_signals[(unsigned)Signal::WHITE_OE] ? 1 : 0
 	);
 }
 
@@ -86,43 +86,43 @@ void VcdFlipdotDriver::writeRowData(uint8_t* data, unsigned length)
 
 void VcdFlipdotDriver::setOutputEnableBlack()
 {
-	setSignal(signal_white_oe, false);
-	setSignal(signal_black_oe, true);
+	setSignal(Signal::WHITE_OE, false);
+	setSignal(Signal::BLACK_OE, true);
 }
 
 void VcdFlipdotDriver::setOutputEnableWhite()
 {
-	setSignal(signal_black_oe, false);
-	setSignal(signal_white_oe, true);
+	setSignal(Signal::BLACK_OE, false);
+	setSignal(Signal::WHITE_OE, true);
 }
 
 void VcdFlipdotDriver::setOutputEnableNone()
 {
-	setSignal(signal_black_oe, false);
-	setSignal(signal_white_oe, false);
+	setSignal(Signal::BLACK_OE, false);
+	setSignal(Signal::WHITE_OE, false);
 }
 
 void VcdFlipdotDriver::strobe()
 {
-	setSignal(signal_strobe, true);
+	setSignal(Signal::STROBE, true);
 	delayClock();
-	setSignal(signal_strobe, false);
+	setSignal(Signal::STROBE, false);
 }
 
 void VcdFlipdotDriver::shiftColumnRegister(bool in)
 {
-	setSignal(signal_col_data, in);
+	setSignal(Signal::COL_DATA, in);
 	delayClock();
-	setSignal(signal_col_clk, true);
+	setSignal(Signal::COL_CLK, true);
 	delayClock();
-	setSignal(signal_col_clk, false);
+	setSignal(Signal::COL_CLK, false);
 }
 
 void VcdFlipdotDriver::shiftRowRegister(bool in)
 {
-	setSignal(signal_row_data, in);
+	setSignal(Signal::ROW_DATA, in);
 	delayClock();
-	setSignal(signal_row_clk, true);
+	setSignal(Signal::ROW_CLK, true);
 	delayClock();
-	setSignal(signal_row_clk, false);
+	setSignal(Signal::ROW_CLK, false);
 }

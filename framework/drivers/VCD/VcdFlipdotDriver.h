@@ -21,19 +21,19 @@ class VcdFlipdotDriver : public IFlipdotDriver
 	private:
 		unsigned _time;
 
-		typedef enum {
-			signal_row_data, signal_row_clk,
-			signal_col_data, signal_col_clk,
-			signal_strobe, signal_black_oe,
-			signal_white_oe, signal_COUNT
-		} signal_t;
+		enum class Signal {
+			ROW_DATA, ROW_CLK,
+			COL_DATA, COL_CLK,
+			STROBE, BLACK_OE,
+			WHITE_OE, _COUNT
+		};
 
-		bool _signals[signal_COUNT];
+		bool _signals[(unsigned)Signal::_COUNT];
 
 		void shiftColumnRegister(bool in);
 		void shiftRowRegister(bool in);
 		void delayClock();
 		void printSignals();
-		void setSignal(signal_t signal, bool value);
+		void setSignal(Signal signal, bool value);
 
 };
