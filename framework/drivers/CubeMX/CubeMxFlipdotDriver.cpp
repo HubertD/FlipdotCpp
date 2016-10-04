@@ -92,8 +92,3 @@ void CubeMxFlipdotDriver::delayClock()
 {
 	asm("nop");
 }
-
-void CubeMxFlipdotDriver::delayFlipDots()
-{
-	HAL_Delay(10);
-}

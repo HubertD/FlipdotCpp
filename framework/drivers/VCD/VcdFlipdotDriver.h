@@ -16,7 +16,6 @@ class VcdFlipdotDriver : public IFlipdotDriver
 		void strobe() override;
 		void writeColumnData(uint8_t* data, unsigned length) override;
 		void writeRowData(uint8_t* data, unsigned length) override;
-		void delayFlipDots() override;
 
 	private:
 		unsigned _time;

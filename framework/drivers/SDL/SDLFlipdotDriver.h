@@ -11,8 +11,6 @@ class SDLFlipdotDriver: public VirtualFlipdotDriver
 		virtual ~SDLFlipdotDriver();
 
 		void update(unsigned ticks) override;
-
-		void delayFlipDots() override;
 		void redraw();
 
 	protected:
@@ -21,7 +19,6 @@ class SDLFlipdotDriver: public VirtualFlipdotDriver
 	private:
 		static const int DOT_WIDTH = 20;
 		static const int DOT_HEIGHT = 15;
-		static const int DELAY_OE_MS = 15;
 
 		SDL_Window* _window;
 		SDL_Renderer *_renderer;

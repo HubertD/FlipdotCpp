@@ -30,6 +30,7 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		static const unsigned COLUMNS = 16;
 		static const unsigned ROWS_PER_PANEL = 24;
 		static const unsigned ACTIVE_ROWS_PER_PANEL = 20;
+		static const unsigned DOT_FLIP_TIME_MS = 15;
 
 		enum class Color {
 			WHITE,
@@ -44,7 +45,8 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		uint8_t *_onScreenBuffer;
 		unsigned _bufferSize;
 
-		uint32_t _currentColumn;
+		uint32_t _currentColumn = 0;
+		uint32_t _tWaitDotsFlip = 0;
 
 		void selectColumn(unsigned column);
 		void updateColumn(Color color, unsigned column);

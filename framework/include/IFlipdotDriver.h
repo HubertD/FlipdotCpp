@@ -16,5 +16,4 @@ class IFlipdotDriver
 		virtual void strobe() = 0;
 		virtual void writeColumnData(uint8_t* data, unsigned length) = 0;
 		virtual void writeRowData(uint8_t* data, unsigned length) = 0;
-		virtual void delayFlipDots() = 0;
 };

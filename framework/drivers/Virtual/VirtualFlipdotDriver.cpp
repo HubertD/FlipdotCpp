@@ -138,10 +138,6 @@ void VirtualFlipdotDriver::strobe()
 	}
 }
 
-void VirtualFlipdotDriver::delayFlipDots()
-{
-}
-
 void VirtualFlipdotDriver::onUpdateScreen()
 {
 }

@@ -23,7 +23,6 @@ class VirtualFlipdotDriver: public IFlipdotDriver
 		void setOutputEnableWhite() override;
 		void setOutputEnableNone() override;
 		void strobe() override;
-		void delayFlipDots() override;
 
 		unsigned getWidth();
 		unsigned getHeight();

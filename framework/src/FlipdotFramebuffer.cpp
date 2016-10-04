@@ -7,8 +7,7 @@ FlipdotFramebufferBase::FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned 
 	_bytesPerColumn((ROWS_PER_PANEL * (numPanelsX * numPanelsY)) / 8),
 	_offScreenBuffer(offScreenBuffer),
 	_onScreenBuffer(onScreenBuffer),
-	_bufferSize(bufferSize),
-	_currentColumn(0)
+	_bufferSize(bufferSize)
 {
 }
 
@@ -24,25 +23,37 @@ void FlipdotFramebufferBase::init()
 
 void FlipdotFramebufferBase::update(unsigned ticks)
 {
+	/* TODO refactor this method */
+
+	_driver.update(ticks);
+
+	if (ticks < _tWaitDotsFlip)
+	{
+		/* wait untils magnets have done their work */
+		return;
+	}
+
 	unsigned startColumn = _currentColumn;
 
-	do {
+	do
+	{
 		_currentColumn = (_currentColumn + 1) % (2*COLUMNS);
 
 		if (_currentColumn < COLUMNS) {
 			if (mustUpdateBlack(_currentColumn)) {
 				updateColumn(Color::BLACK, _currentColumn);
+				_tWaitDotsFlip = ticks + DOT_FLIP_TIME_MS;
 				break; /* always update max one column per update() call */
 			}
 		} else {
 			if (mustUpdateWhite(_currentColumn-COLUMNS)) {
 				updateColumn(Color::WHITE, _currentColumn-COLUMNS);
+				_tWaitDotsFlip = ticks + DOT_FLIP_TIME_MS;
 				break; /* always update max one column per update() call */
 			}
 		}
-	} while (_currentColumn != startColumn);
 
-	_driver.update(ticks);
+	} while (_currentColumn != startColumn);
 }
 
 void FlipdotFramebufferBase::flush()
@@ -118,7 +129,6 @@ void FlipdotFramebufferBase::updateColumn(Color color, unsigned column)
 	}
 	copyColumnToOnScreenBuffer(color, column);
 
-	_driver.delayFlipDots();
 	_driver.setOutputEnableNone();
 }
 

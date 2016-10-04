@@ -35,11 +35,6 @@ inline void VcdFlipdotDriver::delayClock()
 	_time += 10;
 }
 
-void VcdFlipdotDriver::delayFlipDots()
-{
-	_time += 100000;
-}
-
 void VcdFlipdotDriver::setSignal(Signal signal, bool value)
 {
 	_time += 1;
