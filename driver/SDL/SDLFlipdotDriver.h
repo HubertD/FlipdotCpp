@@ -10,6 +10,7 @@ class SDLFlipdotDriver: public VirtualFlipdotDriver
 		virtual ~SDLFlipdotDriver();
 		void delayFlipDots() override;
 		void redraw();
+		void update(unsigned ticks);
 
 	protected:
 		void onUpdateColumn(unsigned column) override;
@@ -21,7 +22,8 @@ class SDLFlipdotDriver: public VirtualFlipdotDriver
 
 		SDL_Window* _window;
 		SDL_Renderer *_renderer;
-		unsigned _tLastUpdateColumn[COLUMNS];
+		unsigned _tLastUpdateColumn[COLUMNS] = { 0 };
+		unsigned _tNextRedraw = 0;
 
 		void drawOverlayRect(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 };

@@ -17,6 +17,10 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 
 		void clear() override;
 		void setPixel(unsigned x, unsigned y, bool value) override;
+		bool getPixel(unsigned x, unsigned y) override;
+
+		unsigned getScreenWidth() override;
+		unsigned getScreenHeight() override;
 
 	protected:
 		FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *onScreenBuffer, uint8_t *offScreenBuffer, unsigned bufferSize);
@@ -40,8 +44,6 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		unsigned _bufferSize;
 
 		uint32_t _currentColumn;
-
-		void flipCurrentColor();
 
 		void selectColumn(unsigned column);
 		void updateColumn(color_t color, unsigned column);

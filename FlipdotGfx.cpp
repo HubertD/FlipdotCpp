@@ -99,6 +99,11 @@ void FlipdotGfx::setPixel(unsigned x, unsigned y, bool value)
 	_fb.setPixel(x, y, value);
 }
 
+bool FlipdotGfx::getPixel(unsigned x, unsigned y)
+{
+	return _fb.getPixel(x, y);
+}
+
 void FlipdotGfx::drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value)
 {
 	for (unsigned px=x; px<(x+dx); px++)
@@ -132,3 +137,12 @@ void FlipdotGfx::drawChar(unsigned x, unsigned y, char ch, bool value)
 	}
 }
 
+unsigned FlipdotGfx::getScreenWidth()
+{
+	return _fb.getScreenWidth();
+}
+
+unsigned FlipdotGfx::getScreenHeight()
+{
+	return _fb.getScreenHeight();
+}

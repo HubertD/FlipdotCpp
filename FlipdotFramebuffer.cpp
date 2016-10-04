@@ -85,6 +85,15 @@ void FlipdotFramebufferBase::setPixel(unsigned x, unsigned y, bool value)
 
 }
 
+bool FlipdotFramebufferBase::getPixel(unsigned x, unsigned y)
+{
+	auto column = getPhysicalX(x);
+	auto row = getPhysicalY(x, y);
+	unsigned bytePos = (column * _bytesPerColumn) + 11 - (row / 8);
+	unsigned bitMask = 1<<(row % 8);
+	return _offScreenBuffer[bytePos] & bitMask;
+}
+
 void FlipdotFramebufferBase::selectColumn(unsigned column)
 {
 	uint8_t row_data[] = {
@@ -221,3 +230,12 @@ unsigned FlipdotFramebufferBase::getPhysicalY(unsigned x, unsigned y)
 	return py + (4 * (py/ACTIVE_ROWS_PER_PANEL));
 }
 
+unsigned FlipdotFramebufferBase::getScreenWidth()
+{
+	return _numPanelsX * COLUMNS;
+}
+
+unsigned FlipdotFramebufferBase::getScreenHeight()
+{
+	return _numPanelsY * ACTIVE_ROWS_PER_PANEL;
+}

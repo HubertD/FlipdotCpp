@@ -2,8 +2,7 @@
 
 SDLFlipdotDriver::SDLFlipdotDriver(SDL_Window* window, unsigned numPanelsX, unsigned numPanelsY)
   : VirtualFlipdotDriver(numPanelsX, numPanelsY),
-	_window(window),
-	_tLastUpdateColumn{0}
+	_window(window)
 {
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
 }
@@ -16,6 +15,14 @@ void SDLFlipdotDriver::onUpdateColumn(unsigned column)
 {
 	_tLastUpdateColumn[column] = SDL_GetTicks();
 	redraw();
+}
+
+void SDLFlipdotDriver::update(unsigned ticks)
+{
+	if (ticks <= _tNextRedraw)
+	{
+		redraw();
+	}
 }
 
 void SDLFlipdotDriver::redraw()
@@ -63,6 +70,7 @@ void SDLFlipdotDriver::redraw()
 	}
 
 	SDL_RenderPresent(_renderer);
+	_tNextRedraw = now + 100;
 }
 
 void SDLFlipdotDriver::delayFlipDots()
