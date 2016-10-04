@@ -33,8 +33,7 @@ int main() {
 
 		unsigned now = SDL_GetTicks();
 		game->update(now);
-		framebuffer.update();
-		driver.update(now);
+		gfx.update(now);
 	}
 
 	SDL_DestroyWindow( window );

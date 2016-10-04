@@ -8,6 +8,9 @@ class CubeMxFlipdotDriver : public IFlipdotDriver
 	public:
 		CubeMxFlipdotDriver();
 		~CubeMxFlipdotDriver() override;
+
+		void update(unsigned ticks) override;
+
 		void setOutputEnableBlack() override;
 		void setOutputEnableWhite() override;
 		void setOutputEnableNone() override;

@@ -25,6 +25,11 @@ VcdFlipdotDriver::VcdFlipdotDriver()
 VcdFlipdotDriver::~VcdFlipdotDriver() {
 }
 
+void VcdFlipdotDriver::update(unsigned ticks)
+{
+	(void) ticks;
+}
+
 inline void VcdFlipdotDriver::delayClock()
 {
 	_time += 10;

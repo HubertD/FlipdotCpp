@@ -7,6 +7,9 @@ class IFlipdotDriver
 	public:
 		IFlipdotDriver() {};
 		virtual ~IFlipdotDriver() {};
+
+		virtual void update(unsigned ticks) = 0;
+
 		virtual void setOutputEnableBlack() = 0;
 		virtual void setOutputEnableWhite() = 0;
 		virtual void setOutputEnableNone() = 0;

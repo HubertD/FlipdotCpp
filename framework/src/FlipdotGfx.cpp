@@ -89,6 +89,11 @@ FlipdotGfx::~FlipdotGfx()
 {
 }
 
+void FlipdotGfx::update(unsigned ticks)
+{
+	_fb.update(ticks);
+}
+
 void FlipdotGfx::clear()
 {
 	_fb.clear();

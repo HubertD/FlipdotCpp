@@ -22,7 +22,7 @@ void FlipdotFramebufferBase::init()
 	flush();
 }
 
-void FlipdotFramebufferBase::update()
+void FlipdotFramebufferBase::update(unsigned ticks)
 {
 	unsigned startColumn = _currentColumn;
 
@@ -32,15 +32,17 @@ void FlipdotFramebufferBase::update()
 		if (_currentColumn < COLUMNS) {
 			if (mustUpdateBlack(_currentColumn)) {
 				updateColumn(COLOR_BLACK, _currentColumn);
-				return; /* always update max one column per update() call */
+				break; /* always update max one column per update() call */
 			}
 		} else {
 			if (mustUpdateWhite(_currentColumn-COLUMNS)) {
 				updateColumn(COLOR_WHITE, _currentColumn-COLUMNS);
-				return; /* always update max one column per update() call */
+				break; /* always update max one column per update() call */
 			}
 		}
 	} while (_currentColumn != startColumn);
+
+	_driver.update(ticks);
 }
 
 void FlipdotFramebufferBase::flush()

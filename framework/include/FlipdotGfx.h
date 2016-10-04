@@ -9,6 +9,9 @@ class FlipdotGfx : public IFlipdotGfx
 	public:
 		FlipdotGfx(IFlipdotFramebuffer &framebuffer);
 		~FlipdotGfx() override;
+
+		void update(unsigned ticks) override;
+
 		void clear() override;
 		void setPixel(unsigned x, unsigned y, bool value) override;
 		bool getPixel(unsigned x, unsigned y) override;

@@ -8,6 +8,8 @@ class VcdFlipdotDriver : public IFlipdotDriver
 	public:
 		VcdFlipdotDriver();
 		~VcdFlipdotDriver() override;
+		void update(unsigned ticks) override;
+
 		void setOutputEnableBlack() override;
 		void setOutputEnableWhite() override;
 		void setOutputEnableNone() override;

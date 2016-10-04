@@ -12,8 +12,9 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		~FlipdotFramebufferBase() override;
 
 		void init() override;
+		void update(unsigned ticks) override;
+
 		void flush() override;
-		void update() override;
 
 		void clear() override;
 		void setPixel(unsigned x, unsigned y, bool value) override;

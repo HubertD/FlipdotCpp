@@ -9,6 +9,11 @@ CubeMxFlipdotDriver::~CubeMxFlipdotDriver()
 {
 }
 
+void CubeMxFlipdotDriver::update(unsigned ticks)
+{
+	(void) ticks;
+}
+
 void CubeMxFlipdotDriver::writeColumnData(uint8_t* data, unsigned length)
 {
 	for (unsigned i=0; i<length; i++)

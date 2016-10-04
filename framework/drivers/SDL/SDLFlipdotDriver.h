@@ -9,9 +9,11 @@ class SDLFlipdotDriver: public VirtualFlipdotDriver
 	public:
 		SDLFlipdotDriver(SDL_Window* window, unsigned numPanelsX, unsigned numPanelsY);
 		virtual ~SDLFlipdotDriver();
+
+		void update(unsigned ticks) override;
+
 		void delayFlipDots() override;
 		void redraw();
-		void update(unsigned ticks);
 
 	protected:
 		void onUpdateColumn(unsigned column) override;

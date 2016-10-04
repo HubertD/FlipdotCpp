@@ -19,6 +19,7 @@ void SDLFlipdotDriver::onUpdateColumn(unsigned column)
 
 void SDLFlipdotDriver::update(unsigned ticks)
 {
+	VirtualFlipdotDriver::update(ticks);
 	if (ticks <= _tNextRedraw)
 	{
 		redraw();

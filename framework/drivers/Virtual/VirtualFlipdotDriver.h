@@ -11,6 +11,9 @@ class VirtualFlipdotDriver: public IFlipdotDriver
 
 		VirtualFlipdotDriver(unsigned numPanelsX, unsigned numPanelsY);
 		~VirtualFlipdotDriver();
+
+		void update(unsigned ticks) override;
+
 		bool getDotColor(unsigned x, unsigned y);
 
 		void writeColumnData(uint8_t* data, unsigned length) override;

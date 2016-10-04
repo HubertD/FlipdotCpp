@@ -8,6 +8,8 @@ class IFlipdotGfx
 		IFlipdotGfx() {}
 		virtual ~IFlipdotGfx() {}
 
+		virtual void update(unsigned ticks) = 0;
+
 		virtual void clear() = 0;
 		virtual void setPixel(unsigned x, unsigned y, bool value) = 0;
 		virtual bool getPixel(unsigned x, unsigned y) = 0;

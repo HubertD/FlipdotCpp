@@ -16,6 +16,11 @@ VirtualFlipdotDriver::~VirtualFlipdotDriver()
 	delete[] _panels;
 }
 
+void VirtualFlipdotDriver::update(unsigned ticks)
+{
+	(void) ticks;
+}
+
 unsigned VirtualFlipdotDriver::getPhysicalX(unsigned x)
 {
 	/*
@@ -28,7 +33,6 @@ unsigned VirtualFlipdotDriver::getPhysicalX(unsigned x)
 	unsigned logicalX = x % VirtualFlipdotPanel::COLUMNS;
 	return doFlip ? (VirtualFlipdotPanel::COLUMNS-1 - logicalX) : logicalX;
 }
-
 
 unsigned VirtualFlipdotDriver::getPhysicalY(unsigned x, unsigned y)
 {
