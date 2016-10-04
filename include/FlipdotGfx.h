@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-#include "../gfx/IFlipdotGfx.h"
+#include "IFlipdotGfx.h"
 
 class FlipdotGfx : public IFlipdotGfx
 {

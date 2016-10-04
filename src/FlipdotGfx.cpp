@@ -1,4 +1,4 @@
-#include "../gfx/FlipdotGfx.h"
+#include "FlipdotGfx.h"
 
 enum PixelFontCharacter {
 	PFC_A         =  0,

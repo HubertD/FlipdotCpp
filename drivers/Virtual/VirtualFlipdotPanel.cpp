@@ -1,4 +1,4 @@
-#include "../../../gfx/driver/Virtual/VirtualFlipdotPanel.h"
+#include "../../drivers/Virtual/VirtualFlipdotPanel.h"
 
 VirtualFlipdotPanel::VirtualFlipdotPanel()
   : _offScreenBuffer { false },

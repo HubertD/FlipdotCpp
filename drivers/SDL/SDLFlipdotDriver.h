@@ -1,7 +1,8 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include "../../../gfx/driver/Virtual/VirtualFlipdotDriver.h"
+
+#include "../../drivers/Virtual/VirtualFlipdotDriver.h"
 
 class SDLFlipdotDriver: public VirtualFlipdotDriver
 {

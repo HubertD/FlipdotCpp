@@ -1,4 +1,4 @@
-#include "../gfx/FlipdotFramebuffer.h"
+#include "FlipdotFramebuffer.h"
 
 FlipdotFramebufferBase::FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *onScreenBuffer, uint8_t *offScreenBuffer, unsigned bufferSize)
   : _driver(driver),
@@ -97,8 +97,8 @@ bool FlipdotFramebufferBase::getPixel(unsigned x, unsigned y)
 void FlipdotFramebufferBase::selectColumn(unsigned column)
 {
 	uint8_t row_data[] = {
-		((1<<column) >> 8) & 0xFF,
-		(1<<column) & 0xFF
+		(uint8_t)(((1<<column) >> 8) & 0xFF),
+		(uint8_t)((1<<column) & 0xFF)
 	};
 	_driver.writeRowData(row_data, sizeof(row_data));
 }

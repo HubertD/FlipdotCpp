@@ -1,4 +1,4 @@
-#include "../../../gfx/driver/VCD/VcdFlipdotDriver.h"
+#include "../../drivers/VCD/VcdFlipdotDriver.h"
 
 #include <stdio.h>
 

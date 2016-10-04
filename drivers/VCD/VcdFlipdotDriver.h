@@ -1,7 +1,7 @@
 #pragma once
 
+#include <IFlipdotDriver.h>
 #include <stdint.h>
-#include "../../../gfx/driver/IFlipdotDriver.h"
 
 class VcdFlipdotDriver : public IFlipdotDriver
 {

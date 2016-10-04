@@ -1,6 +1,6 @@
-#include "../../../gfx/driver/Virtual/VirtualFlipdotDriver.h"
+#include "../../drivers/Virtual/VirtualFlipdotDriver.h"
 
-#include "../../../gfx/driver/Virtual/VirtualFlipdotPanel.h"
+#include "../../drivers/Virtual/VirtualFlipdotPanel.h"
 
 VirtualFlipdotDriver::VirtualFlipdotDriver(unsigned numPanelsX, unsigned numPanelsY)
   : _numPanelsX(numPanelsX),

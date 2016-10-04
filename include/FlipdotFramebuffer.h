@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 
-#include "../gfx/driver/IFlipdotDriver.h"
-#include "../gfx/IFlipdotFramebuffer.h"
+#include "IFlipdotDriver.h"
+#include "IFlipdotFramebuffer.h"
 
 class FlipdotFramebufferBase : public IFlipdotFramebuffer
 {

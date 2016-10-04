@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../gfx/driver/IFlipdotDriver.h"
+#include <IFlipdotDriver.h>
 
 class VirtualFlipdotPanel;
 

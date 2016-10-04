@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../gfx/IFlipdotFramebuffer.h"
+#include "IFlipdotFramebuffer.h"
 
 class IFlipdotGfx
 {

@@ -1,4 +1,4 @@
-#include "../../../gfx/driver/SDL/SDLFlipdotDriver.h"
+#include "../../drivers/SDL/SDLFlipdotDriver.h"
 
 SDLFlipdotDriver::SDLFlipdotDriver(SDL_Window* window, unsigned numPanelsX, unsigned numPanelsY)
   : VirtualFlipdotDriver(numPanelsX, numPanelsY),
