@@ -1,0 +1,24 @@
+/*
+ * GameFactory.cpp
+ *
+ *  Created on: 04.10.2016
+ *      Author: hd
+ */
+
+#include "GameFactory.h"
+#include "Screensaver/Screensaver.h"
+#include "Life/GameOfLife.h"
+
+IGame* GameFactory::createGame(Game game, IFlipdotGfx &gfx)
+{
+	switch (game)
+	{
+		case Game::GAME_OF_LIFE:
+			return new GameOfLife(gfx);
+
+		case Game::SCREENSAVER:
+		default:
+			return new Screensaver(gfx);
+	}
+}
+
