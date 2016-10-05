@@ -182,9 +182,16 @@ bool FlipdotFramebufferBase::mustUpdateWhite(unsigned column)
 unsigned FlipdotFramebufferBase::getPhysicalX(unsigned x)
 {
 	/*
-	 *                                         /---\
-	 * 0, 1, 2, ..., 14, 15, | 15, 14, ..., 1, 0, | 0, 1, ....
-	 *                     \___/
+	 * logical:
+	 *
+	 *  0   1      14  15  | 16 17       30  31  | 32  33
+	 *____________________________________________________
+	 *
+	 *
+	 * physical:
+	 *                                        /----\
+	 * 15, 14, ..., 1,  0, |  0, 1, ..., 14, 15, | 15, 14, ....
+	 *                   \____/
 	 */
 
 	bool doFlip = ((x / COLUMNS) % 2) == 0;
