@@ -11,7 +11,7 @@ class Screensaver: public IGame
 		void update(unsigned ticks) override;
 
 	private:
-		static const unsigned STEP_INTERVAL = 25;
+		static const unsigned STEP_INTERVAL = 35;
 
 		IFlipdotGfx& _gfx;
 

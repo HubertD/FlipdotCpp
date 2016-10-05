@@ -11,7 +11,7 @@ class TestScreen: public IGame
 		void update(unsigned ticks) override;
 
 	private:
-		static const unsigned STEP_INTERVAL = 100;
+		static const unsigned STEP_INTERVAL = 250;
 
 		IFlipdotGfx& _gfx;
 

@@ -223,30 +223,18 @@ unsigned FlipdotFramebufferBase::getPhysicalY_ignoringInactiveRows(unsigned x, u
 
 unsigned FlipdotFramebufferBase::getPhysicalY(unsigned x, unsigned y)
 {
-	/*
-	 *          /------\
-	 * 0,    | [d3], | 80,
-	 * 1,    | [d2], | 81,
-	 * ...,  | [d1], | ...,
-	 * 19,   | [d0],
-	 * [d0], | 79,
-	 * [d1], | 78,
-	 * [d2], | ...,
-	 * [d3], |
-	 * 20,   |
-	 * 21,   |
-	 * ...,  | ...,  | ...,
-	 * 38,   | 45,   | 118,
-	 * 39,   | 44,   | 119,
-	 * [d0], | 43,
-	 * [d1], | 42,
-	 * [d2], | 41,
-	 * [d3]  | 40,
-	 *   \_____/
-	 */
+	static const uint8_t map[] = {20,21,22,23,8,9,10,11,12,13,14,15,0,1,2,3,4,5,6,7};
 
-	unsigned py = getPhysicalY_ignoringInactiveRows(x, y);
-	return py + (4 * (py/ACTIVE_ROWS_PER_PANEL));
+	if (x<16) {
+		if (y<20) { return 24 + map[y]; }
+		if (y<40) { return map[y-20]; }
+	} else if (x<40) {
+		y = 39 - y;
+		if (y<20) { return 24+24+24 + map[y]; }
+		if (y<40) { return 24+24    + map[y-20]; }
+	} else {
+		while(1);
+	}
 }
 
 unsigned FlipdotFramebufferBase::getScreenWidth()

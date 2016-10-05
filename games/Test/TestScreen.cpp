@@ -18,7 +18,7 @@ TestScreen::~TestScreen()
 
 void TestScreen::init(unsigned ticks)
 {
-	_tNextStep = ticks + 2000;
+	_tNextStep = ticks + 1000;
 }
 
 void TestScreen::update(unsigned ticks)
@@ -30,17 +30,21 @@ void TestScreen::update(unsigned ticks)
 	_tNextStep = ticks + STEP_INTERVAL;
 
 
-	if (++_pointX >= _gfx.getScreenWidth())
 	{
 		_pointX = 0;
-		if (++_pointY >= _gfx.getScreenHeight())
+		if (++_pointY >= 40)
 		{
 			_pointY = 0;
 		}
 	}
 
 	_gfx.clear();
-	_gfx.setPixel(_pointX, _pointY, true);
+
+	_gfx.setPixel(0, _pointY, true);
+	_gfx.setPixel(15, _pointY, true);
+	_gfx.setPixel(16, _pointY, true);
+	_gfx.setPixel(31, _pointY, true);
+//	_gfx.setPixel(16, _pointY, true);
 
 
 }
