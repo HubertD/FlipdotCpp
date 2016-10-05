@@ -9,6 +9,7 @@ class GameFactory
 	public:
 
 		enum class Game {
+			TESTSCREEN,
 			SCREENSAVER,
 			GAME_OF_LIFE,
 			_COUNT

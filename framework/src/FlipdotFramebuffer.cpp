@@ -27,6 +27,7 @@ void FlipdotFramebufferBase::update(unsigned ticks)
 
 	_driver.update(ticks);
 
+
 	if (ticks < _tWaitDotsFlip)
 	{
 		/* wait untils magnets have done their work */
@@ -35,6 +36,7 @@ void FlipdotFramebufferBase::update(unsigned ticks)
 
 	unsigned startColumn = _currentColumn;
 
+	_driver.setOutputEnableNone();
 	do
 	{
 		_currentColumn = (_currentColumn + 1) % (2*COLUMNS);
@@ -110,8 +112,8 @@ bool FlipdotFramebufferBase::getPixel(unsigned x, unsigned y)
 void FlipdotFramebufferBase::selectColumn(unsigned column)
 {
 	uint8_t row_data[] = {
+		(uint8_t)((1<<column) & 0xFF),
 		(uint8_t)(((1<<column) >> 8) & 0xFF),
-		(uint8_t)((1<<column) & 0xFF)
 	};
 	_driver.writeRowData(row_data, sizeof(row_data));
 }
@@ -128,8 +130,6 @@ void FlipdotFramebufferBase::updateColumn(Color color, unsigned column)
 		_driver.setOutputEnableWhite();
 	}
 	copyColumnToOnScreenBuffer(color, column);
-
-	_driver.setOutputEnableNone();
 }
 
 void FlipdotFramebufferBase::copyColumnToOnScreenBuffer(Color color, unsigned column)

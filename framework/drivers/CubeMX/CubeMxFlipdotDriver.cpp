@@ -38,54 +38,57 @@ void CubeMxFlipdotDriver::writeRowData(uint8_t* data, unsigned length)
 
 void CubeMxFlipdotDriver::setOutputEnableBlack()
 {
-	WHITE_OE_GPIO_Port->BRR = (uint32_t)WHITE_OE_Pin;
-	BLACK_OE_GPIO_Port->BSRR = (uint32_t)BLACK_OE_Pin;
+	HAL_GPIO_WritePin(BLACK_OE_GPIO_Port, BLACK_OE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(WHITE_OE_GPIO_Port, WHITE_OE_Pin, GPIO_PIN_SET);
 }
 
 void CubeMxFlipdotDriver::setOutputEnableWhite()
 {
-	BLACK_OE_GPIO_Port->BRR = (uint32_t)BLACK_OE_Pin;
-	WHITE_OE_GPIO_Port->BSRR = (uint32_t)WHITE_OE_Pin;
+	HAL_GPIO_WritePin(WHITE_OE_GPIO_Port, WHITE_OE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(BLACK_OE_GPIO_Port, BLACK_OE_Pin, GPIO_PIN_SET);
 }
 
 void CubeMxFlipdotDriver::setOutputEnableNone()
 {
-	BLACK_OE_GPIO_Port->BRR = (uint32_t)BLACK_OE_Pin;
-	WHITE_OE_GPIO_Port->BRR = (uint32_t)WHITE_OE_Pin;
+	HAL_GPIO_WritePin(BLACK_OE_GPIO_Port, BLACK_OE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(WHITE_OE_GPIO_Port, WHITE_OE_Pin, GPIO_PIN_RESET);
 }
 
 void CubeMxFlipdotDriver::strobe()
 {
-	STROBE_GPIO_Port->BSRR = (uint32_t)STROBE_Pin;
+	HAL_GPIO_WritePin(STROBE_GPIO_Port, STROBE_Pin, GPIO_PIN_SET);
 	delayClock();
-	STROBE_GPIO_Port->BRR = (uint32_t)STROBE_Pin;
+	HAL_GPIO_WritePin(STROBE_GPIO_Port, STROBE_Pin, GPIO_PIN_RESET);
+	delayClock();
+	HAL_GPIO_WritePin(STROBE_GPIO_Port, STROBE_Pin, GPIO_PIN_SET);
 }
 
 void CubeMxFlipdotDriver::shiftColumnRegister(bool in)
 {
-	if (in) {
-		COL_DATA_GPIO_Port->BSRR = (uint32_t)COL_DATA_Pin;
-	} else {
-		COL_DATA_GPIO_Port->BRR = (uint32_t)COL_DATA_Pin;
-	}
 
+	if (in) {
+		HAL_GPIO_WritePin(COL_DATA_GPIO_Port, COL_DATA_Pin, GPIO_PIN_SET);
+	} else {
+		HAL_GPIO_WritePin(COL_DATA_GPIO_Port, COL_DATA_Pin, GPIO_PIN_RESET);
+	}
 	delayClock();
-	COL_CLK_GPIO_Port->BSRR = (uint32_t)COL_CLK_Pin;
+	HAL_GPIO_WritePin(COL_CLK_GPIO_Port, COL_CLK_Pin, GPIO_PIN_SET);
 	delayClock();
-	COL_CLK_GPIO_Port->BRR = (uint32_t)COL_CLK_Pin;
+	HAL_GPIO_WritePin(COL_CLK_GPIO_Port, COL_CLK_Pin, GPIO_PIN_RESET);
 }
 
 void CubeMxFlipdotDriver::shiftRowRegister(bool in)
 {
 	if (in) {
-		ROW_DATA_GPIO_Port->BSRR = (uint32_t)ROW_DATA_Pin;
+		HAL_GPIO_WritePin(ROW_DATA_GPIO_Port, ROW_DATA_Pin, GPIO_PIN_SET);
 	} else {
-		ROW_DATA_GPIO_Port->BRR = (uint32_t)ROW_DATA_Pin;
+		HAL_GPIO_WritePin(ROW_DATA_GPIO_Port, ROW_DATA_Pin, GPIO_PIN_RESET);
 	}
+
 	delayClock();
-	ROW_CLK_GPIO_Port->BSRR = (uint32_t)ROW_CLK_Pin;
+	HAL_GPIO_WritePin(ROW_CLK_GPIO_Port, ROW_CLK_Pin, GPIO_PIN_SET);
 	delayClock();
-	ROW_CLK_GPIO_Port->BRR = (uint32_t)ROW_CLK_Pin;
+	HAL_GPIO_WritePin(ROW_CLK_GPIO_Port, ROW_CLK_Pin, GPIO_PIN_RESET);
 }
 
 void CubeMxFlipdotDriver::delayClock()

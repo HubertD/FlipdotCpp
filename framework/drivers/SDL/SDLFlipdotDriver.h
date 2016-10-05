@@ -18,7 +18,7 @@ class SDLFlipdotDriver: public VirtualFlipdotDriver
 
 	private:
 		static const int DOT_WIDTH = 20;
-		static const int DOT_HEIGHT = 15;
+		static const int DOT_HEIGHT = 20;
 
 		SDL_Window* _window;
 		SDL_Renderer *_renderer;

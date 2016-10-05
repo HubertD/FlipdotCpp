@@ -8,11 +8,15 @@
 #include "GameFactory.h"
 #include "Screensaver/Screensaver.h"
 #include "Life/GameOfLife.h"
+#include "Test/TestScreen.h"
 
 IGame* GameFactory::createGame(Game game, IFlipdotGfx &gfx)
 {
 	switch (game)
 	{
+		case Game::TESTSCREEN:
+			return new TestScreen(gfx);
+
 		case Game::GAME_OF_LIFE:
 			return new GameOfLife(gfx);
 
