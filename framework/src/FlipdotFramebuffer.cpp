@@ -187,7 +187,7 @@ unsigned FlipdotFramebufferBase::getPhysicalX(unsigned x)
 	 *                     \___/
 	 */
 
-	bool doFlip = ((x / COLUMNS) % 2) != 0;
+	bool doFlip = ((x / COLUMNS) % 2) == 0;
 	unsigned logicalX = x % COLUMNS;
 	return doFlip ? (COLUMNS-1 - logicalX) : logicalX;
 }
