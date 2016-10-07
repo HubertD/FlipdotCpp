@@ -33,10 +33,13 @@ uint8_t VirtualFlipdotPanel::getOutputColumnByte()
 
 void VirtualFlipdotPanel::strobe()
 {
+	static const uint8_t map[] = { 20,21,22,23, 8, 9,10,11,12,13, 14,15, 0, 1, 2, 3, 4, 5, 6, 7};
+
 	for (unsigned row=0; row<ACTIVE_ROWS; row++)
 	{
-		unsigned byte_num = row / 8;
-		uint8_t bit_mask = 1<<(row % 8);
+		unsigned mapped_row = map[row];
+		unsigned byte_num = mapped_row / 8;
+		uint8_t bit_mask = 1<<(mapped_row % 8);
 		bool value = (_columnShiftRegister[byte_num] & bit_mask) != 0;
 
 		setBufferBit(_offScreenBuffer, _selectedColumn, row, value);

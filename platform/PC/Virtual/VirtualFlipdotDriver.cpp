@@ -58,16 +58,23 @@ unsigned VirtualFlipdotDriver::getPhysicalY(unsigned x, unsigned y)
 
 bool VirtualFlipdotDriver::getDotColor(unsigned x, unsigned y)
 {
-	auto phys_x = getPhysicalX(x);
-	auto phys_y = getPhysicalY(x, y);
+	static uint8_t xmap[] = { 7, 6, 5, 4, 3, 2, 1, 0, 15, 14, 13, 12, 11, 10, 9, 8 };
 
-	unsigned panel_x = x / VirtualFlipdotPanel::COLUMNS;
-	unsigned panel_y = (phys_y / VirtualFlipdotPanel::ACTIVE_ROWS) % _numPanelsY;
+	unsigned panel_x = 0;
+	unsigned panel_y = 0;
+	unsigned panelNumber = 0;
 
-	return _panels[_numPanelsY*panel_x + panel_y].getDotColor(
-			phys_x % VirtualFlipdotPanel::COLUMNS,
-			phys_y % VirtualFlipdotPanel::ACTIVE_ROWS
-	);
+	if (x<16) {
+		panelNumber = (y<20) ? 1 : 0;
+		panel_x = xmap[x % 16];
+		panel_y = y;
+	} else {
+		panelNumber = (y<20) ? 2 : 3;
+		panel_x = 15-xmap[x % 16];
+		panel_y = 39-y;
+	}
+
+	return _panels[panelNumber].getDotColor(panel_x, panel_y % VirtualFlipdotPanel::ACTIVE_ROWS);
 }
 
 void VirtualFlipdotDriver::writeColumnData(uint8_t* data, unsigned length)
