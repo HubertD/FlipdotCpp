@@ -235,6 +235,7 @@ unsigned FlipdotFramebufferBase::getPhysicalY(unsigned x, unsigned y)
 	} else {
 		while(1);
 	}
+	return 0;
 }
 
 unsigned FlipdotFramebufferBase::getScreenWidth()
