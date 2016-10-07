@@ -58,7 +58,6 @@ class FlipdotFramebufferBase : public IFlipdotFramebuffer
 		bool mustUpdateWhite(unsigned column);
 
 		unsigned getPhysicalX(unsigned x);
-		unsigned getPhysicalY_ignoringInactiveRows(unsigned x, unsigned y);
 		unsigned getPhysicalY(unsigned x, unsigned y);
 
 };

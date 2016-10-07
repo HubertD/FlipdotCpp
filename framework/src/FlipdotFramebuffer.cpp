@@ -199,28 +199,6 @@ unsigned FlipdotFramebufferBase::getPhysicalX(unsigned x)
 	return doFlip ? (COLUMNS-1 - logicalX) : logicalX;
 }
 
-unsigned FlipdotFramebufferBase::getPhysicalY_ignoringInactiveRows(unsigned x, unsigned y)
-{
-	/*
-	 *          /------\
-	 * 0,    | 79,   | 80,
-	 * 1,    | 78,   | 81,
-	 * ...,  | ...,  | ...,
-	 * 38,   | 41,   | 118,
-	 * 39,   | 40,   | 119,
-	 *   \_____/
-	 */
-
-	const unsigned DOTS_PER_ROW = _numPanelsY * ACTIVE_ROWS_PER_PANEL;
-
-	unsigned panel_x = x / COLUMNS;
-
-	return ( (panel_x % 2) == 0)
-		   ? (panel_x * DOTS_PER_ROW) + y
-		   : (panel_x * DOTS_PER_ROW) + (DOTS_PER_ROW-1 - y);
-}
-
-
 unsigned FlipdotFramebufferBase::getPhysicalY(unsigned x, unsigned y)
 {
 	static const uint8_t map[] = {20,21,22,23,8,9,10,11,12,13,14,15,0,1,2,3,4,5,6,7};
