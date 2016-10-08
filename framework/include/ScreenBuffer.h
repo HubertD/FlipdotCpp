@@ -22,6 +22,9 @@ class ScreenBuffer
 			bool copySetPixels=true, bool copyClearedPixels=true
 		);
 
+		uint32_t getColumnPixels(unsigned x, unsigned startY, unsigned numPixels, int step=+1);
+
+
 	private:
 		static constexpr unsigned BYTES_PER_COLUMN = ((SCREEN_HEIGHT - 1) / 8) + 1;
 		uint8_t _data[SCREEN_WIDTH * BYTES_PER_COLUMN] = { 0 };

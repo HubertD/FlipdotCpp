@@ -37,3 +37,19 @@ inline void ScreenBuffer::copyPixelFrom(
 		setPixel(destX, destY, data);
 	}
 }
+
+uint32_t ScreenBuffer::getColumnPixels(unsigned x, unsigned startY, unsigned numPixels, int step)
+{
+	uint32_t result = 0;
+	int y = startY;
+	for (int i=0; i<numPixels; i++)
+	{
+		result <<= 1;
+		if (getPixel(x, y)) {
+			result |= 1;
+		}
+		y += step;
+	}
+	return result;
+}
+

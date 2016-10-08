@@ -21,7 +21,6 @@ class FlipdotPanel
 		unsigned _y = 0;
 		PanelOrientation _orientation = PanelOrientation::DEG_0;
 
-		uint8_t reverseByte(uint8_t b);
 		unsigned getRotatedColumn(unsigned column);
 		unsigned getScreenX(unsigned column);
 		bool columnNeedsUpdateHelper(FlipdotColor color, unsigned screenX, unsigned screenY, ScreenBuffer& onScreenBuffer, ScreenBuffer& offScreenBuffer);
