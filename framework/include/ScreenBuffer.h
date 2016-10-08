@@ -14,12 +14,34 @@ class ScreenBuffer
 		void or8Pixels(unsigned x, unsigned y, uint8_t value);
 		void and8Pixels(unsigned x, unsigned y, uint8_t value);
 
+		void copyFrom(
+			ScreenBuffer &source,
+			unsigned sourceX, unsigned sourceY,
+			unsigned destX, unsigned destY,
+			unsigned width, unsigned height,
+			bool copySetPixels=true, bool copyClearedPixels=true
+		);
+
 	private:
 		static constexpr unsigned BYTES_PER_COLUMN = ((SCREEN_HEIGHT - 1) / 8) + 1;
 		uint8_t _data[SCREEN_WIDTH * BYTES_PER_COLUMN] = { 0 };
 
 		static constexpr unsigned getBytePosition(unsigned x, unsigned y);
 
+		void copyColumnFrom(
+			ScreenBuffer &source,
+			unsigned sourceX, unsigned sourceY,
+			unsigned destX, unsigned destY,
+			unsigned height,
+			bool copySetPixels=true, bool copyClearedPixels=true
+		);
+
+		void copyPixelFrom(
+			ScreenBuffer &source,
+			unsigned sourceX, unsigned sourceY,
+			unsigned destX, unsigned destY,
+			bool copySetPixels=true, bool copyClearedPixels=true
+		);
 };
 
 inline constexpr unsigned ScreenBuffer::getBytePosition(unsigned x, unsigned y)
@@ -64,4 +86,3 @@ inline void ScreenBuffer::and8Pixels(unsigned x, unsigned y, uint8_t value)
 {
 	_data[getBytePosition(x, y)] &= value;
 }
-

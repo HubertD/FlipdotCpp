@@ -100,15 +100,6 @@ void FlipdotPanel::updateOnScreenBuffer(
 )
 {
 	unsigned screenX = getScreenX(column);
-	if (color==FlipdotColor::BLACK)
-	{
-		onScreenBuffer.or8Pixels(screenX, _y+0,  offScreenBuffer.get8Pixels(screenX, _y+0));
-		onScreenBuffer.or8Pixels(screenX, _y+8,  offScreenBuffer.get8Pixels(screenX, _y+8));
-		onScreenBuffer.or8Pixels(screenX, _y+16, offScreenBuffer.get8Pixels(screenX, _y+16));
-	} else {
-		onScreenBuffer.and8Pixels(screenX, _y+0,  offScreenBuffer.get8Pixels(screenX, _y+0));
-		onScreenBuffer.and8Pixels(screenX, _y+8,  offScreenBuffer.get8Pixels(screenX, _y+8));
-		onScreenBuffer.and8Pixels(screenX, _y+16, offScreenBuffer.get8Pixels(screenX, _y+16));
-	}
+	onScreenBuffer.copyFrom(offScreenBuffer, screenX, _y, screenX, _y, 1, ACTIVE_ROWS, (color==FlipdotColor::BLACK), (color==FlipdotColor::WHITE));
 }
 
