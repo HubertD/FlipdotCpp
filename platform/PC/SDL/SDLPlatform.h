@@ -3,15 +3,16 @@
 #include <IPlatform.h>
 
 #include <SDL2/SDL.h>
-#include "SDL/SDLFlipdotDriver.h"
+#include "SDLFlipdotDriver.h"
 
-class PCPlatform : IPlatform
+class SDLPlatform : IPlatform
 {
 	public:
-		PCPlatform();
+		SDLPlatform();
 
 		void init() override;
 		void done() override;
+		void update() override {};
 
 		IFlipdotDriver &getFlipdotDriver() override;
 		uint32_t getTicks() override;
@@ -22,4 +23,3 @@ class PCPlatform : IPlatform
 		SDL_Window *_window = nullptr;
 };
 
-typedef PCPlatform Platform;

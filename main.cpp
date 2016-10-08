@@ -23,10 +23,12 @@ int main(void)
 
 	while (!platform.doQuit())
 	{
+		platform.update();
 		unsigned now = platform.getTicks();
 		game->update(now);
 		gfx.update(now);
 	}
 
 	platform.done();
+	return 0;
 }

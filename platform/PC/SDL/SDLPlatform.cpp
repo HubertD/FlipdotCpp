@@ -1,33 +1,33 @@
-#include "Platform.h"
+#include "SDLPlatform.h"
 
-PCPlatform::PCPlatform()
+SDLPlatform::SDLPlatform()
 {
 }
 
-void PCPlatform::init()
+void SDLPlatform::init()
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	_window = SDL_CreateWindow("Flipdot", 100, 100, 640, 800, SDL_WINDOW_SHOWN);
 	_driver = new SDLFlipdotDriver(_window, 2, 2);
 }
 
-void PCPlatform::done()
+void SDLPlatform::done()
 {
 	SDL_DestroyWindow( _window );
 	SDL_Quit();
 }
 
-IFlipdotDriver& PCPlatform::getFlipdotDriver()
+IFlipdotDriver& SDLPlatform::getFlipdotDriver()
 {
 	return *_driver;
 }
 
-uint32_t PCPlatform::getTicks()
+uint32_t SDLPlatform::getTicks()
 {
 	return SDL_GetTicks();
 }
 
-bool PCPlatform::doQuit()
+bool SDLPlatform::doQuit()
 {
 	SDL_Event e;
 	while( SDL_PollEvent( &e ) != 0 )

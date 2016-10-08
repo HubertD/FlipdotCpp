@@ -11,6 +11,7 @@ class CubeMxPlatform : IPlatform
 
 		void init() override;
 		void done() override;
+		void update() override {};
 
 		IFlipdotDriver &getFlipdotDriver() override;
 		uint32_t getTicks() override;

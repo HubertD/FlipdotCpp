@@ -3,11 +3,13 @@
 #include <IFlipdotDriver.h>
 #include <stdint.h>
 
-class VcdFlipdotDriver : public IFlipdotDriver
+class VCDPlatform;
+
+class VCDFlipdotDriver : public IFlipdotDriver
 {
 	public:
-		VcdFlipdotDriver();
-		~VcdFlipdotDriver() override;
+		VCDFlipdotDriver(VCDPlatform &platforms);
+		~VCDFlipdotDriver() override;
 		void update(unsigned ticks) override;
 
 		void setOutputEnableBlack() override;
@@ -18,7 +20,7 @@ class VcdFlipdotDriver : public IFlipdotDriver
 		void writeRowData(uint8_t* data, unsigned length) override;
 
 	private:
-		unsigned _time;
+		VCDPlatform &_platform;
 
 		enum class Signal {
 			ROW_DATA, ROW_CLK,
@@ -27,12 +29,20 @@ class VcdFlipdotDriver : public IFlipdotDriver
 			WHITE_OE, _COUNT
 		};
 
-		bool _signals[(unsigned)Signal::_COUNT];
+		static constexpr unsigned SET_SIGNAL_DELAY_US = 1;
+		static constexpr unsigned CLOCK_DELAY_US = 10;
+
+		unsigned _signals = 0;
+		unsigned _lastSignals = -1;
 
 		void shiftColumnRegister(bool in);
 		void shiftRowRegister(bool in);
 		void delayClock();
+		void printHeader();
 		void printSignals();
+		void printSignalsIfChanged();
 		void setSignal(Signal signal, bool value);
+		bool getSignal(Signal signal);
+		int  getSignalInt(Signal signal);
 
 };

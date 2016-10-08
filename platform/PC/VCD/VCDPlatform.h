@@ -1,0 +1,31 @@
+#pragma once
+
+#include <IPlatform.h>
+
+#include "VCDFlipdotDriver.h"
+
+class VCDPlatform : IPlatform
+{
+	public:
+		VCDPlatform();
+
+		void init() override;
+		void done() override;
+		void update() override;
+
+		void incrementUTicks(int increment);
+		unsigned getUTicks();
+		void setQuitUTicks(int uticks);
+
+		IFlipdotDriver &getFlipdotDriver() override;
+		uint32_t getTicks() override;
+		bool doQuit() override;
+
+	private:
+		static constexpr unsigned UTICKS_PER_UPDATE = 10;
+
+		VCDFlipdotDriver _driver;
+		unsigned _uticks = 0;
+		int _uticksQuit = -1;
+};
+
