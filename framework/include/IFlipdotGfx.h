@@ -1,7 +1,5 @@
 #pragma once
 
-#include "IFlipdotFramebuffer.h"
-
 class IFlipdotGfx
 {
 	public:

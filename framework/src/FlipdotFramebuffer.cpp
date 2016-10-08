@@ -1,32 +1,21 @@
 #include "FlipdotFramebuffer.h"
 
-FlipdotFramebufferBase::FlipdotFramebufferBase(IFlipdotDriver &driver, unsigned numPanelsX, unsigned numPanelsY, uint8_t *onScreenBuffer, uint8_t *offScreenBuffer, unsigned bufferSize)
-  : _driver(driver),
-	_numPanelsX(numPanelsX),
-	_numPanelsY(numPanelsY),
-	_bytesPerColumn((ROWS_PER_PANEL * (numPanelsX * numPanelsY)) / 8),
-	_offScreenBuffer(offScreenBuffer),
-	_onScreenBuffer(onScreenBuffer),
-	_bufferSize(bufferSize)
+FlipdotFramebuffer::FlipdotFramebuffer(IFlipdotDriver &driver)
+  : _driver(driver)
 {
 }
 
-FlipdotFramebufferBase::~FlipdotFramebufferBase()
-{
-}
-
-void FlipdotFramebufferBase::init()
+void FlipdotFramebuffer::init()
 {
 	clear();
 	flush();
 }
 
-void FlipdotFramebufferBase::update(unsigned ticks)
+void FlipdotFramebuffer::update(unsigned ticks)
 {
 	/* TODO refactor this method */
 
 	_driver.update(ticks);
-
 
 	if (ticks < _tWaitDotsFlip)
 	{
@@ -39,17 +28,17 @@ void FlipdotFramebufferBase::update(unsigned ticks)
 	_driver.setOutputEnableNone();
 	do
 	{
-		_currentColumn = (_currentColumn + 1) % (2*COLUMNS);
+		_currentColumn = (_currentColumn + 1) % (2*FlipdotPanel::ACTIVE_COLUMNS);
 
-		if (_currentColumn < COLUMNS) {
-			if (mustUpdateBlack(_currentColumn)) {
+		if (_currentColumn < FlipdotPanel::ACTIVE_COLUMNS) {
+			if (_onScreenBuffer.otherHasSetBitsWeHaveNot(_offScreenBuffer, _currentColumn)) {
 				updateColumn(Color::BLACK, _currentColumn);
 				_tWaitDotsFlip = ticks + DOT_FLIP_TIME_MS;
 				break; /* always update max one column per update() call */
 			}
 		} else {
-			if (mustUpdateWhite(_currentColumn-COLUMNS)) {
-				updateColumn(Color::WHITE, _currentColumn-COLUMNS);
+			if (_offScreenBuffer.otherHasSetBitsWeHaveNot(_onScreenBuffer, _currentColumn)) {
+				updateColumn(Color::WHITE, _currentColumn-FlipdotPanel::ACTIVE_COLUMNS);
 				_tWaitDotsFlip = ticks + DOT_FLIP_TIME_MS;
 				break; /* always update max one column per update() call */
 			}
@@ -58,58 +47,42 @@ void FlipdotFramebufferBase::update(unsigned ticks)
 	} while (_currentColumn != startColumn);
 }
 
-void FlipdotFramebufferBase::flush()
+void FlipdotFramebuffer::flush()
 {
 	flushColor(Color::BLACK);
 	flushColor(Color::WHITE);
 }
 
-void FlipdotFramebufferBase::flushColor(Color color)
+void FlipdotFramebuffer::flushColor(Color color)
 {
-	for (unsigned i=0; i<COLUMNS; i++)
+	for (unsigned i=0; i<FlipdotPanel::ACTIVE_COLUMNS; i++)
 	{
 		updateColumn(color, i);
 	}
 }
 
-void FlipdotFramebufferBase::clear()
+void FlipdotFramebuffer::clear()
 {
-	for (unsigned y=0; y<_numPanelsY*ACTIVE_ROWS_PER_PANEL; y++)
+	for (unsigned y=0; y<SCREEN_HEIGHT; y++)
 	{
-		for (unsigned x=0; x<_numPanelsX*COLUMNS; x++)
+		for (unsigned x=0; x<SCREEN_WIDTH; x++)
 		{
 			setPixel(x, y, false);
 		}
 	}
 }
 
-void FlipdotFramebufferBase::setPixel(unsigned x, unsigned y, bool value)
+void FlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
 {
-	auto column = getPhysicalX(x);
-	auto row = getPhysicalY(x, y);
-
-	unsigned bytePos = (column * _bytesPerColumn) + 11 - (row / 8);
-	unsigned bitMask = 1<<(row % 8);
-
-	if (value)
-	{
-		_offScreenBuffer[bytePos] |= bitMask;
-	} else {
-		_offScreenBuffer[bytePos] &= ~bitMask;
-	}
-
+	_offScreenBuffer.setPixel(x, y, value);
 }
 
-bool FlipdotFramebufferBase::getPixel(unsigned x, unsigned y)
+bool FlipdotFramebuffer::getPixel(unsigned x, unsigned y)
 {
-	auto column = getPhysicalX(x);
-	auto row = getPhysicalY(x, y);
-	unsigned bytePos = (column * _bytesPerColumn) + 11 - (row / 8);
-	unsigned bitMask = 1<<(row % 8);
-	return _offScreenBuffer[bytePos] & bitMask;
+	return _offScreenBuffer.getPixel(x, y);
 }
 
-void FlipdotFramebufferBase::selectColumn(unsigned column)
+void FlipdotFramebuffer::selectColumn(unsigned column)
 {
 	uint8_t row_data[] = {
 		(uint8_t)((1<<column) & 0xFF),
@@ -118,110 +91,29 @@ void FlipdotFramebufferBase::selectColumn(unsigned column)
 	_driver.writeRowData(row_data, sizeof(row_data));
 }
 
-void FlipdotFramebufferBase::updateColumn(Color color, unsigned column)
+void FlipdotFramebuffer::updateColumn(Color color, unsigned column)
 {
 	selectColumn(column);
-	_driver.writeColumnData(&_offScreenBuffer[column*_bytesPerColumn], _bytesPerColumn);
+
+	uint8_t colbuf[3];
+	for (int i=NUM_PANELS-1; i>=0; i--)
+	{
+		_panels[i].fillColumnRegister(_offScreenBuffer, column, &colbuf[0]);
+		_driver.writeColumnData(colbuf, sizeof(colbuf));
+	}
 	_driver.strobe();
 
 	if (color==Color::BLACK) {
 		_driver.setOutputEnableBlack();
+		_onScreenBuffer.copyColumnFromOther(_offScreenBuffer, column, true, false);
 	} else {
 		_driver.setOutputEnableWhite();
-	}
-	copyColumnToOnScreenBuffer(color, column);
-}
-
-void FlipdotFramebufferBase::copyColumnToOnScreenBuffer(Color color, unsigned column)
-{
-	unsigned offset = column*_bytesPerColumn;
-	for (unsigned i=offset; i<offset+_bytesPerColumn; i++)
-	{
-		if (color==Color::BLACK)
-		{
-			_onScreenBuffer[i] |= _offScreenBuffer[i];
-		} else {
-			_onScreenBuffer[i] &= _offScreenBuffer[i];
-		}
+		_onScreenBuffer.copyColumnFromOther(_offScreenBuffer, column, false, true);
 	}
 
 }
 
-bool FlipdotFramebufferBase::mustUpdateBlack(unsigned column)
+void FlipdotFramebuffer::configurePanel(unsigned panelNumber, unsigned x, unsigned y, FlipdotPanel::Orientation orientation)
 {
-	unsigned offset = column*_bytesPerColumn;
-	for (unsigned i=0; i<_bytesPerColumn; i++)
-	{
-		uint8_t onScreen = _onScreenBuffer[offset+i];
-		uint8_t offScreen = _offScreenBuffer[offset+i];
-
-		if ( (onScreen & offScreen) != offScreen)
-		{ /* there are set bits in the offscreen buffer which are cleared onscreen */
-			return true;
-		}
-	}
-	return false;
-}
-
-bool FlipdotFramebufferBase::mustUpdateWhite(unsigned column)
-{
-	unsigned offset = column*_bytesPerColumn;
-	for (unsigned i=0; i<_bytesPerColumn; i++)
-	{
-		uint8_t onScreen = _onScreenBuffer[offset+i];
-		uint8_t offScreen = _offScreenBuffer[offset+i];
-
-		if ( (onScreen & offScreen) != onScreen)
-		{ /* there are cleared bits in the offscreen buffer which are set onscreen */
-			return true;
-		}
-	}
-	return false;
-}
-
-unsigned FlipdotFramebufferBase::getPhysicalX(unsigned x)
-{
-	/*
-	 * logical:
-	 *
-	 *  0   1      14  15  | 16 17       30  31  | 32  33
-	 *____________________________________________________
-	 *
-	 *
-	 * physical:
-	 *                                        /----\
-	 * 15, 14, ..., 1,  0, |  0, 1, ..., 14, 15, | 15, 14, ....
-	 *                   \____/
-	 */
-
-	bool doFlip = ((x / COLUMNS) % 2) == 0;
-	unsigned logicalX = x % COLUMNS;
-	return doFlip ? (COLUMNS-1 - logicalX) : logicalX;
-}
-
-unsigned FlipdotFramebufferBase::getPhysicalY(unsigned x, unsigned y)
-{
-	static const uint8_t map[] = {20,21,22,23,8,9,10,11,12,13,14,15,0,1,2,3,4,5,6,7};
-
-	if (x<16) {
-		if (y<20) { return 24 + map[y]; }
-		if (y<40) { return map[y-20]; }
-	} else if (x<40) {
-		y = 39 - y;
-		if (y<20) { return 24+24+24 + map[y]; }
-		if (y<40) { return 24+24    + map[y-20]; }
-	} else {
-		while(1);
-	}
-	return 0;
-}
-
-unsigned FlipdotFramebufferBase::getScreenWidth()
-{
-	return _numPanelsX * COLUMNS;
-}
-
-unsigned FlipdotFramebufferBase::getScreenHeight()
-{
-	return _numPanelsY * ACTIVE_ROWS_PER_PANEL;
+	_panels[panelNumber].configure(x, y, orientation);
 }

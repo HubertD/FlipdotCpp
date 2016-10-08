@@ -9,7 +9,12 @@ int main(void)
 	platform.init();
 
 	IFlipdotDriver& driver = platform.getFlipdotDriver();
-	FlipdotFramebuffer<2,2> framebuffer(driver);
+	FlipdotFramebuffer framebuffer(driver);
+	framebuffer.configurePanel(0,  0, 20, FlipdotPanel::Orientation::DEG_180);
+	framebuffer.configurePanel(1,  0,  0, FlipdotPanel::Orientation::DEG_180);
+	framebuffer.configurePanel(2, 16,  0, FlipdotPanel::Orientation::DEG_0);
+	framebuffer.configurePanel(3, 16, 20, FlipdotPanel::Orientation::DEG_0);
+
 	FlipdotGfx gfx(framebuffer);
 	framebuffer.init();
 

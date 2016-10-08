@@ -19,7 +19,7 @@ class PCPlatform : IPlatform
 
 	private:
 		SDLFlipdotDriver *_driver = nullptr;
-		SDL_Window *_window;
+		SDL_Window *_window = nullptr;
 };
 
 typedef PCPlatform Platform;

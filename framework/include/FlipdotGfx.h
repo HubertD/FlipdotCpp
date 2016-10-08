@@ -3,11 +3,12 @@
 #include <stdint.h>
 
 #include "IFlipdotGfx.h"
+#include "FlipdotFramebuffer.h"
 
 class FlipdotGfx : public IFlipdotGfx
 {
 	public:
-		FlipdotGfx(IFlipdotFramebuffer &framebuffer);
+		FlipdotGfx(FlipdotFramebuffer &framebuffer);
 		~FlipdotGfx() override;
 
 		void update(unsigned ticks) override;
@@ -22,7 +23,7 @@ class FlipdotGfx : public IFlipdotGfx
 		unsigned getScreenHeight() override;
 
 	private:
-		IFlipdotFramebuffer &_fb;
+		FlipdotFramebuffer &_fb;
 		uint16_t getCharData(char ch);
 
 };

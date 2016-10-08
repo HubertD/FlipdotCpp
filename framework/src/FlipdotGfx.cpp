@@ -80,7 +80,7 @@ static const uint16_t font[] = {
 	0x0000  // DUMMY
 };
 
-FlipdotGfx::FlipdotGfx(IFlipdotFramebuffer& fb)
+FlipdotGfx::FlipdotGfx(FlipdotFramebuffer& fb)
   : _fb(fb)
 {
 }
@@ -144,10 +144,10 @@ void FlipdotGfx::drawChar(unsigned x, unsigned y, char ch, bool value)
 
 unsigned FlipdotGfx::getScreenWidth()
 {
-	return _fb.getScreenWidth();
+	return SCREEN_WIDTH;
 }
 
 unsigned FlipdotGfx::getScreenHeight()
 {
-	return _fb.getScreenHeight();
+	return SCREEN_HEIGHT;
 }
