@@ -14,9 +14,6 @@ class ScreenBuffer
 		void or8Pixels(unsigned x, unsigned y, uint8_t value);
 		void and8Pixels(unsigned x, unsigned y, uint8_t value);
 
-		void copyColumnFromOther(ScreenBuffer &other, unsigned x, bool copySetBits, bool copyClearedBits);
-		bool otherHasSetBitsWeHaveNot(ScreenBuffer &other, unsigned x);
-
 	private:
 		static constexpr unsigned BYTES_PER_COLUMN = ((SCREEN_HEIGHT - 1) / 8) + 1;
 		uint8_t _data[SCREEN_WIDTH * BYTES_PER_COLUMN] = { 0 };
