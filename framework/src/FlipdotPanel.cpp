@@ -24,7 +24,7 @@ void FlipdotPanel::fillShiftRegister(ScreenBuffer &screen, unsigned column, uint
 			      ? screen.getColumnPixels(screenX, _y+19, 20, -1) << 4
 			      : screen.getColumnPixels(screenX, _y,    24, +1);
 
-	buf[0] = (data >> 0) & 0xFF;
+	buf[0] = (data >> 0) & 0xF0;
 	buf[1] = (data >> 8) & 0xFF;
 	buf[2] = (data >> 16) & 0xFF;
 }
