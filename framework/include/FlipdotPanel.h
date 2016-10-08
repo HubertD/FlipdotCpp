@@ -20,7 +20,7 @@ class FlipdotPanel
 	private:
 		unsigned _x = 0;
 		unsigned _y = 0;
-		PanelOrientation _orientation = PanelOrientation::DEG_0;
+		Orientation _orientation = Orientation::DEG_0;
 
 		unsigned getRotatedColumn(unsigned column);
 		unsigned getScreenX(unsigned column);

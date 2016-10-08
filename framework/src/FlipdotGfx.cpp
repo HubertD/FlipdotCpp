@@ -39,12 +39,15 @@ enum PixelFontCharacter {
 	PFC_7         = 33,
 	PFC_8         = 34,
 	PFC_9         = 35,
-	PFC_DUMMY     = 36
+	PFC_SPACE     = 36,
+	PFC_COLON     = 37,
+	PFC_EXCLAMATION = 38,
+	PFC_UNDERSCORE  = 39
 };
 
 static const uint16_t font[] = {
 	0x57DA, // A
-	0xD57C, // B
+	0xD75C, // B
 	0x7246, // C
 	0xD6DC, // D
 	0xF34E, // E
@@ -65,7 +68,7 @@ static const uint16_t font[] = {
 	0xE924, // T
 	0xB6D4, // U
 	0xB6A4, // V
-	0xB7F4, // W
+	0xB6FA, // W
 	0xB55A, // X
 	0xB524, // Y
 	0xE54E, // Z
@@ -79,7 +82,10 @@ static const uint16_t font[] = {
 	0xE528, // 7
 	0x5554, // 8
 	0x559C, // 9
-	0x0000  // DUMMY
+	0x0000, // SPACE
+	0x0820, // :
+	0x4904, // !
+	0x000E  // _
 };
 
 FlipdotGfx::FlipdotGfx(FlipdotFramebuffer& fb, IGamepad& gamepad)
@@ -124,21 +130,50 @@ void FlipdotGfx::drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool
 
 uint16_t FlipdotGfx::getCharData(char ch)
 {
-	return ((ch>='A') && (ch<='Z')) ? font[PFC_A+ch-'A']
-		 : ((ch>='a') && (ch<='z')) ? font[PFC_A+ch-'a']
-		 : ((ch>='0') && (ch<='9')) ? font[PFC_0+ch-'0']
-		 : font[PFC_DUMMY];
+	if ((ch>='A') && (ch<='Z')) { return font[PFC_A+ch-'A']; }
+	if ((ch>='a') && (ch<='z')) { return font[PFC_A+ch-'a']; }
+    if ((ch>='0') && (ch<='9')) { return font[PFC_0+ch-'0']; }
+
+    switch (ch)
+    {
+    	case '!':
+    		return font[PFC_EXCLAMATION];
+    	case ':':
+    		return font[PFC_COLON];
+    	case '_':
+    		return font[PFC_UNDERSCORE];
+    	default:
+    		return font[PFC_SPACE];
+    }
 }
 
-void FlipdotGfx::drawChar(unsigned x, unsigned y, char ch, bool value)
+void FlipdotGfx::drawChar(unsigned x, unsigned y, char ch, FlipdotColor color, Orientation orientation)
 {
 	uint16_t data = getCharData(ch);
+
+	bool foregroundValue = (color==FlipdotColor::BLACK);
 
 	for (unsigned dy=0; dy<5; dy++)
 	{
 		for (unsigned dx=0; dx<3; dx++)
 		{
-			setPixel(x+dx, y+dy, (data & 0x8000) ? value : !value);
+			bool value = (data & 0x8000) ? foregroundValue : !foregroundValue;
+
+			switch (orientation)
+			{
+				case Orientation::DEG_90:
+					setPixel(x+5-dy, y+dx-2, value);
+					break;
+
+				case Orientation::DEG_270: // FIXME
+					setPixel(x+dy, y+(3-dx)-2, value);
+					break;
+
+				case Orientation::DEG_0:
+					setPixel(x+dx, y+dy, value);
+					break;
+			}
+
 			data <<= 1;
 		}
 	}
@@ -157,4 +192,47 @@ unsigned FlipdotGfx::getScreenHeight()
 IGamepad& FlipdotGfx::getGamepad()
 {
 	return _gamepad;
+}
+
+void FlipdotGfx::drawText(unsigned x, unsigned y, char* text, FlipdotColor color, Orientation orientation)
+{
+	while (*text != 0)
+	{
+		x += getCharStepX(orientation);
+		y += getCharStepY(orientation);
+	    drawChar(x, y, *text, color, orientation);
+	    text++;
+	}
+}
+
+void FlipdotGfx::drawNumber(unsigned x, unsigned y, unsigned number, FlipdotColor color, Orientation orientation)
+{
+	do {
+		x -= getCharStepX(orientation);
+		y += getCharStepY(orientation);
+
+	    drawChar(x, y, '0'+(number % 10), color, orientation);
+
+	    number /= 10;
+	} while (number!=0);
+}
+
+int FlipdotGfx::getCharStepX(Orientation orientation)
+{
+	return (orientation==Orientation::DEG_0) ? 4 : 0;
+}
+
+int FlipdotGfx::getCharStepY(Orientation orientation)
+{
+	switch (orientation)
+	{
+		case Orientation::DEG_270:
+			return +4;
+
+		case Orientation::DEG_90:
+			return -4;
+
+		default:
+			return 0;
+	}
 }

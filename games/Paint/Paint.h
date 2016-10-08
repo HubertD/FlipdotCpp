@@ -15,7 +15,7 @@ class Paint : public IGame
 
 	private:
 		FlipdotGfx& _gfx;
-		int _cursorX = SCREEN_WIDTH / 2;
-		int _cursorY = SCREEN_HEIGHT / 2;
+		int _cursorX = 5;
+		int _cursorY = 5;
 
 };

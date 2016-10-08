@@ -8,10 +8,12 @@ enum class FlipdotColor
 	WHITE
 };
 
-enum class PanelOrientation
+enum class Orientation
 {
 	DEG_0,
-	DEG_180
+	DEG_90,
+	DEG_180,
+	DEG_270
 };
 
 class PanelConfig
@@ -19,7 +21,7 @@ class PanelConfig
 	public:
 		const unsigned x;
 		const unsigned y;
-		const PanelOrientation orientation;
+		const Orientation orientation;
 };
 
 enum class GamepadKey

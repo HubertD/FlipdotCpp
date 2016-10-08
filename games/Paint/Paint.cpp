@@ -49,6 +49,11 @@ void Paint::update(unsigned ticks)
 	if (_cursorY >= SCREEN_HEIGHT) { _cursorY = 0; }
 
 	_gfx.clear();
+	_gfx.drawNumber(SCREEN_WIDTH/2+4, SCREEN_HEIGHT/2-4, 42);
+	_gfx.drawNumber(25, 35, 123456, FlipdotColor::BLACK, Orientation::DEG_90);
+	_gfx.drawNumber(1,  5, 123456,  FlipdotColor::BLACK, Orientation::DEG_270);
+	_gfx.drawText(2, 32, "FNORD");
+
 	_gfx.setPixel(_cursorX, _cursorY, true);
 
 }

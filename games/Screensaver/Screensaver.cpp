@@ -41,8 +41,8 @@ void Screensaver::makeStep()
 void Screensaver::redraw()
 {
 	_gfx.clear();
-	_gfx.drawChar( 5, 18, 'X', true);
-	_gfx.drawChar(15, 18, 'O', true);
-	_gfx.drawChar(25, 18, 'R', true);
+	_gfx.drawChar( 5, 18, 'X');
+	_gfx.drawChar(15, 18, 'O');
+	_gfx.drawChar(25, 18, 'R');
 	_gfx.setPixel(_ballX, _ballY, true);
 }

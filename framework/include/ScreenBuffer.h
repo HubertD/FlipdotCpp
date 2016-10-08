@@ -66,8 +66,12 @@ inline uint8_t ScreenBuffer::get8Pixels(unsigned x, unsigned y)
 
 inline void ScreenBuffer::setPixel(unsigned x, unsigned y, bool value)
 {
+	if (x>=SCREEN_WIDTH) { return; }
+	if (y>=SCREEN_HEIGHT) { return; }
+
 	unsigned bitmask = 1 << (y % 8);
 	unsigned bytePos = getBytePosition(x, y);
+
 	if (value) {
 		_data[bytePos] |= bitmask;
 	} else {

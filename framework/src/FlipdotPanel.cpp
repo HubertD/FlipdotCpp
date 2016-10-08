@@ -9,7 +9,7 @@ void FlipdotPanel::configure(const PanelConfig &config)
 
 inline unsigned FlipdotPanel::getRotatedColumn(unsigned column)
 {
-	return (_orientation == PanelOrientation::DEG_0) ? column : (ACTIVE_COLUMNS-1) - column;
+	return (_orientation == Orientation::DEG_0) ? column : (ACTIVE_COLUMNS-1) - column;
 }
 
 inline unsigned FlipdotPanel::getScreenX(unsigned column)
@@ -20,7 +20,7 @@ inline unsigned FlipdotPanel::getScreenX(unsigned column)
 void FlipdotPanel::fillShiftRegister(ScreenBuffer &screen, unsigned column, uint8_t *buf)
 {
 	unsigned screenX = getScreenX(column);
-	unsigned data = (_orientation==PanelOrientation::DEG_180)
+	unsigned data = (_orientation==Orientation::DEG_180)
 			      ? screen.getColumnPixels(screenX, _y+19, 20, -1) << 4
 			      : screen.getColumnPixels(screenX, _y,    24, +1);
 
