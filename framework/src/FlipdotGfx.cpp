@@ -1,6 +1,7 @@
 #include "FlipdotGfx.h"
 
 #include "FlipdotFramebuffer.h"
+#include "FlipdotBitmap.h"
 
 enum PixelFontCharacter {
 	PFC_A         =  0,
@@ -235,4 +236,9 @@ int FlipdotGfx::getCharStepY(Orientation orientation)
 		default:
 			return 0;
 	}
+}
+
+void FlipdotGfx::drawBitmap(int x, int y, const FlipdotBitmap& bitmap, bool doInvert)
+{
+	bitmap.draw(*this, x, y, doInvert);
 }

@@ -4,6 +4,7 @@
 #include <FlipdotTypes.h>
 
 class FlipdotFramebuffer;
+class FlipdotBitmap;
 class IGamepad;
 
 class FlipdotGfx
@@ -21,6 +22,7 @@ class FlipdotGfx
 		void drawChar(unsigned x, unsigned y, char ch, FlipdotColor color=FlipdotColor::BLACK, Orientation orientation = Orientation::DEG_0);
 		void drawText(unsigned x, unsigned y, char *text, FlipdotColor color=FlipdotColor::BLACK, Orientation orientation = Orientation::DEG_0);
 		void drawNumber(unsigned x, unsigned y, unsigned number, FlipdotColor color=FlipdotColor::BLACK, Orientation orientation = Orientation::DEG_0);
+		void drawBitmap(int x, int y, const FlipdotBitmap &bitmap, bool doInvert=false);
 
 		unsigned getScreenWidth();
 		unsigned getScreenHeight();
