@@ -2,7 +2,7 @@
 
 #include "IGame.h"
 
-class IFlipdotGfx;
+class FlipdotGfx;
 
 class GameFactory
 {
@@ -15,7 +15,7 @@ class GameFactory
 			_COUNT
 		};
 
-		static IGame *createGame(Game game, IFlipdotGfx &gfx);
+		static IGame *createGame(Game game, FlipdotGfx &gfx);
 
 	private:
 		GameFactory() {};

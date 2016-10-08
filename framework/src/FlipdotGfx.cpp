@@ -1,5 +1,7 @@
 #include "FlipdotGfx.h"
 
+#include "FlipdotFramebuffer.h"
+
 enum PixelFontCharacter {
 	PFC_A         =  0,
 	PFC_B         =  1,

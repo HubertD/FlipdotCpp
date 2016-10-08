@@ -1,7 +1,9 @@
 #include "TestScreen.h"
-#include <FlipdotConfig.h>
 
-TestScreen::TestScreen(IFlipdotGfx& gfx)
+#include <FlipdotConfig.h>
+#include <FlipdotGfx.h>
+
+TestScreen::TestScreen(FlipdotGfx& gfx)
   : _gfx(gfx)
 {
 }

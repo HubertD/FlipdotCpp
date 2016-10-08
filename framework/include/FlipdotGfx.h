@@ -2,25 +2,24 @@
 
 #include <stdint.h>
 
-#include "IFlipdotGfx.h"
-#include "FlipdotFramebuffer.h"
+class FlipdotFramebuffer;
 
-class FlipdotGfx : public IFlipdotGfx
+class FlipdotGfx
 {
 	public:
 		FlipdotGfx(FlipdotFramebuffer &framebuffer);
-		~FlipdotGfx() override;
+		~FlipdotGfx();
 
-		void update(unsigned ticks) override;
+		void update(unsigned ticks);
 
-		void clear() override;
-		void setPixel(unsigned x, unsigned y, bool value) override;
-		bool getPixel(unsigned x, unsigned y) override;
-		void drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value) override;
-		void drawChar(unsigned x, unsigned y, char ch, bool invert) override;
+		void clear();
+		void setPixel(unsigned x, unsigned y, bool value);
+		bool getPixel(unsigned x, unsigned y);
+		void drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value);
+		void drawChar(unsigned x, unsigned y, char ch, bool invert);
 
-		unsigned getScreenWidth() override;
-		unsigned getScreenHeight() override;
+		unsigned getScreenWidth();
+		unsigned getScreenHeight();
 
 	private:
 		FlipdotFramebuffer &_fb;

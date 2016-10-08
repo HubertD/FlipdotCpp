@@ -1,6 +1,8 @@
 #include "GameOfLife.h"
 
-GameOfLife::GameOfLife(IFlipdotGfx& gfx)
+#include <FlipdotGfx.h>
+
+GameOfLife::GameOfLife(FlipdotGfx& gfx)
   : _gfx(gfx)
 {
 }

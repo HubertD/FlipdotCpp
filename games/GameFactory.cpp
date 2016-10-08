@@ -10,7 +10,7 @@
 #include "Life/GameOfLife.h"
 #include "Test/TestScreen.h"
 
-IGame* GameFactory::createGame(Game game, IFlipdotGfx &gfx)
+IGame* GameFactory::createGame(Game game, FlipdotGfx &gfx)
 {
 	switch (game)
 	{

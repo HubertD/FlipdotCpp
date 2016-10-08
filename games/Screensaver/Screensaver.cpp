@@ -1,6 +1,8 @@
 #include "Screensaver.h"
 
-Screensaver::Screensaver(IFlipdotGfx& gfx)
+#include <FlipdotGfx.h>
+
+Screensaver::Screensaver(FlipdotGfx& gfx)
   : _gfx(gfx)
 {
 }

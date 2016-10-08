@@ -1,7 +1,5 @@
 #pragma once
 
-#include "IFlipdotGfx.h"
-
 class IGame
 {
 	public:
