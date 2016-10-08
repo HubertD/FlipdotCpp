@@ -1,17 +1,15 @@
-#include <Platform.h>
+#include <CubeMxPlatform.h>
+
+#include "stm32f0xx_hal.h"
 
 void Error_Handler(void);
 static void MX_GPIO_Init(void);
 static void SystemClock_Config(void);
 
+
 CubeMxPlatform::CubeMxPlatform()
 	: _framebuffer(_driver)
 {
-}
-
-IFlipdotDriver& CubeMxPlatform::getFlipdotDriver()
-{
-	return _driver;
 }
 
 void CubeMxPlatform::init()
@@ -35,6 +33,13 @@ bool CubeMxPlatform::doQuit()
 void CubeMxPlatform::done()
 {
 }
+
+FlipdotFramebuffer& CubeMxPlatform::getFramebuffer()
+{
+	return _framebuffer;
+}
+
+
 
 /** System Clock Configuration
 */
@@ -126,6 +131,5 @@ void Error_Handler(void)
 void assert_failed(uint8_t* file, uint32_t line)
 {
 }
-
-
 #endif
+

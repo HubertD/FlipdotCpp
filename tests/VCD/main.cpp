@@ -8,8 +8,7 @@ int main(void)
 	platform.init();
 	platform.setQuitUTicks(500*1000);
 
-	IFlipdotDriver& driver = platform.getFlipdotDriver();
-	FlipdotFramebuffer framebuffer(driver);
+	FlipdotFramebuffer& framebuffer = platform.getFramebuffer();
 	FlipdotGfx gfx(framebuffer);
 	framebuffer.init();
 

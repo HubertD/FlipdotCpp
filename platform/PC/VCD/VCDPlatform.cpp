@@ -36,7 +36,7 @@ uint32_t VCDPlatform::getTicks()
 
 bool VCDPlatform::doQuit()
 {
-	return (_uticksQuit>0) && (_uticks>_uticksQuit);
+	return (_uticksQuit>0) && ((int)_uticks>_uticksQuit);
 }
 
 unsigned VCDPlatform::getUTicks()
