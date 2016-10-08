@@ -42,7 +42,7 @@ uint32_t ScreenBuffer::getColumnPixels(unsigned x, unsigned startY, unsigned num
 {
 	uint32_t result = 0;
 	int y = startY;
-	for (int i=0; i<numPixels; i++)
+	for (unsigned i=0; i<numPixels; i++)
 	{
 		result <<= 1;
 		if (getPixel(x, y)) {

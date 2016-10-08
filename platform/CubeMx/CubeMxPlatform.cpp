@@ -39,7 +39,10 @@ FlipdotFramebuffer& CubeMxPlatform::getFramebuffer()
 	return _framebuffer;
 }
 
-
+IGamepad& CubeMxPlatform::getGamepad()
+{
+	return _gamepad;
+}
 
 /** System Clock Configuration
 */

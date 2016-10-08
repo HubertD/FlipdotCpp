@@ -9,7 +9,7 @@ int main(void)
 	platform.setQuitUTicks(500*1000);
 
 	FlipdotFramebuffer& framebuffer = platform.getFramebuffer();
-	FlipdotGfx gfx(framebuffer);
+	FlipdotGfx gfx(framebuffer, platform.getGamepad());
 	framebuffer.init();
 
 	gfx.clear();

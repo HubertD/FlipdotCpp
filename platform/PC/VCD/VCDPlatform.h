@@ -2,6 +2,7 @@
 
 #include <IPlatform.h>
 #include <FlipdotFramebuffer.h>
+#include <VirtualGamepad.h>
 #include "VCDFlipdotDriver.h"
 
 class VCDPlatform : IPlatform
@@ -18,6 +19,8 @@ class VCDPlatform : IPlatform
 		void setQuitUTicks(int uticks);
 
 		FlipdotFramebuffer &getFramebuffer() override;
+		IGamepad& getGamepad() override;
+
 		uint32_t getTicks() override;
 		bool doQuit() override;
 
@@ -26,6 +29,7 @@ class VCDPlatform : IPlatform
 
 		VCDFlipdotDriver _driver;
 		FlipdotFramebuffer _framebuffer;
+		VirtualGamepad _gamepad;
 
 		unsigned _uticks = 0;
 		int _uticksQuit = -1;
