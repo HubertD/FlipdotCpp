@@ -110,7 +110,7 @@ void FlipdotFramebuffer::updateColumn(unsigned column, FlipdotColor color)
 	uint8_t colbuf[3];
 	for (int i=NUM_PANELS-1; i>=0; i--)
 	{
-		_panels[i].fillColumnRegister(_offScreenBuffer, column, &colbuf[0]);
+		_panels[i].fillShiftRegister(_offScreenBuffer, column, &colbuf[0]);
 		_driver.writeColumnData(colbuf, sizeof(colbuf));
 		_panels[i].updateOnScreenBuffer(column, color, _onScreenBuffer, _offScreenBuffer);
 	}

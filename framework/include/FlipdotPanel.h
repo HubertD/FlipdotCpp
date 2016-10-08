@@ -11,7 +11,8 @@ class FlipdotPanel
 		static constexpr unsigned ACTIVE_COLUMNS = 16;
 
 		void configure(const PanelConfig &config);
-		void fillColumnRegister(ScreenBuffer &screen, unsigned column, uint8_t *buf);
+
+		void fillShiftRegister(ScreenBuffer &screen, unsigned column, uint8_t *buf);
 
 		bool columnNeedsUpdate(unsigned column, FlipdotColor color, ScreenBuffer& onScreenBuffer, ScreenBuffer& offScreenBuffer);
 		void updateOnScreenBuffer(unsigned column, FlipdotColor color, ScreenBuffer& onScreenBuffer, ScreenBuffer& offScreenBuffer);
@@ -23,5 +24,4 @@ class FlipdotPanel
 
 		unsigned getRotatedColumn(unsigned column);
 		unsigned getScreenX(unsigned column);
-		bool columnNeedsUpdateHelper(FlipdotColor color, unsigned screenX, unsigned screenY, ScreenBuffer& onScreenBuffer, ScreenBuffer& offScreenBuffer);
 };

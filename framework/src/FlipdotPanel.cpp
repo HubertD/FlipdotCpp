@@ -17,7 +17,7 @@ inline unsigned FlipdotPanel::getScreenX(unsigned column)
 	return _x + getRotatedColumn(column);
 }
 
-void FlipdotPanel::fillColumnRegister(ScreenBuffer &screen, unsigned column, uint8_t *buf)
+void FlipdotPanel::fillShiftRegister(ScreenBuffer &screen, unsigned column, uint8_t *buf)
 {
 	unsigned screenX = getScreenX(column);
 	unsigned data = (_orientation==PanelOrientation::DEG_180)
@@ -38,28 +38,14 @@ bool FlipdotPanel::columnNeedsUpdate(
 {
 	unsigned screenX = getScreenX(column);
 
-	// FIXME screenbuffer y overflow at last panel, offset=16?
-	return columnNeedsUpdateHelper(color, screenX, _y,    onScreenBuffer, offScreenBuffer)
-		 | columnNeedsUpdateHelper(color, screenX, _y+8,  onScreenBuffer, offScreenBuffer)
-		 | columnNeedsUpdateHelper(color, screenX, _y+16, onScreenBuffer, offScreenBuffer);
-}
-
-bool FlipdotPanel::columnNeedsUpdateHelper(
-	FlipdotColor color,
-	unsigned screenX,
-	unsigned screenY,
-	ScreenBuffer& onScreenBuffer,
-	ScreenBuffer& offScreenBuffer
-)
-{
-	auto on  = onScreenBuffer.get8Pixels(screenX, screenY);
-	auto off = offScreenBuffer.get8Pixels(screenX, screenY);
+	unsigned onScreenData = onScreenBuffer.getColumnPixels(screenX, _y, 20);
+	unsigned offScreenData = offScreenBuffer.getColumnPixels(screenX, _y, 20);
 
 	if (color==FlipdotColor::BLACK)
 	{
-		return (on | off) != on;
+		return (onScreenData | offScreenData) != onScreenData;
 	} else {
-		return (on & off) != on;
+		return (onScreenData & offScreenData) != onScreenData;
 	}
 }
 
