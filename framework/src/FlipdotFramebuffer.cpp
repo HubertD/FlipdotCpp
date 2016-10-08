@@ -21,8 +21,6 @@ void FlipdotFramebuffer::configurePanels()
 
 void FlipdotFramebuffer::update(unsigned ticks)
 {
-	/* TODO refactor this method */
-
 	_driver.update(ticks);
 
 	if (ticks < _tWaitDotsFlip)
@@ -31,41 +29,47 @@ void FlipdotFramebuffer::update(unsigned ticks)
 		return;
 	}
 
-	unsigned startColumn = _currentColumn;
+	unsigned startCounter = _updateCounter;
 
 	_driver.setOutputEnableNone();
 	do
 	{
-		_currentColumn = (_currentColumn + 1) % (2*FlipdotPanel::ACTIVE_COLUMNS);
+		_updateCounter = (_updateCounter + 1) % (2*FlipdotPanel::ACTIVE_COLUMNS);
 
-		if (_currentColumn < FlipdotPanel::ACTIVE_COLUMNS) {
-			if (_onScreenBuffer.otherHasSetBitsWeHaveNot(_offScreenBuffer, _currentColumn)) {
-				updateColumn(Color::BLACK, _currentColumn);
-				_tWaitDotsFlip = ticks + DOT_FLIP_TIME_MS;
-				break; /* always update max one column per update() call */
-			}
-		} else {
-			if (_offScreenBuffer.otherHasSetBitsWeHaveNot(_onScreenBuffer, _currentColumn)) {
-				updateColumn(Color::WHITE, _currentColumn-FlipdotPanel::ACTIVE_COLUMNS);
-				_tWaitDotsFlip = ticks + DOT_FLIP_TIME_MS;
-				break; /* always update max one column per update() call */
-			}
+		FlipdotColor color = (_updateCounter < FlipdotPanel::ACTIVE_COLUMNS) ? FlipdotColor::BLACK : FlipdotColor::WHITE;
+		unsigned column = _updateCounter % FlipdotPanel::ACTIVE_COLUMNS;
+
+		if (columnNeedsUpdate(column, color))
+		{
+			updateColumn(column, color);
+			_tWaitDotsFlip = ticks + DOT_FLIP_TIME_MS;
+			break; /* always update max one column per update() call */
 		}
 
-	} while (_currentColumn != startColumn);
+	} while (_updateCounter != startCounter);
 }
 
 void FlipdotFramebuffer::flush()
 {
-	flushColor(Color::BLACK);
-	flushColor(Color::WHITE);
+	flushColor(FlipdotColor::BLACK);
+	flushColor(FlipdotColor::WHITE);
 }
 
-void FlipdotFramebuffer::flushColor(Color color)
+ScreenBuffer& FlipdotFramebuffer::getOnScreenBuffer()
+{
+	return _onScreenBuffer;
+}
+
+ScreenBuffer& FlipdotFramebuffer::getOffScreenBuffer()
+{
+	return _offScreenBuffer;
+}
+
+void FlipdotFramebuffer::flushColor(FlipdotColor color)
 {
 	for (unsigned i=0; i<FlipdotPanel::ACTIVE_COLUMNS; i++)
 	{
-		updateColumn(color, i);
+		updateColumn(i, color);
 	}
 }
 
@@ -99,7 +103,7 @@ void FlipdotFramebuffer::selectColumn(unsigned column)
 	_driver.writeRowData(row_data, sizeof(row_data));
 }
 
-void FlipdotFramebuffer::updateColumn(Color color, unsigned column)
+void FlipdotFramebuffer::updateColumn(unsigned column, FlipdotColor color)
 {
 	selectColumn(column);
 
@@ -108,16 +112,27 @@ void FlipdotFramebuffer::updateColumn(Color color, unsigned column)
 	{
 		_panels[i].fillColumnRegister(_offScreenBuffer, column, &colbuf[0]);
 		_driver.writeColumnData(colbuf, sizeof(colbuf));
+		_panels[i].updateOnScreenBuffer(column, color, _onScreenBuffer, _offScreenBuffer);
 	}
 	_driver.strobe();
 
-	if (color==Color::BLACK) {
+	if (color==FlipdotColor::BLACK)
+	{
 		_driver.setOutputEnableBlack();
-		_onScreenBuffer.copyColumnFromOther(_offScreenBuffer, column, true, false);
 	} else {
 		_driver.setOutputEnableWhite();
-		_onScreenBuffer.copyColumnFromOther(_offScreenBuffer, column, false, true);
 	}
 
 }
 
+bool FlipdotFramebuffer::columnNeedsUpdate(unsigned column, FlipdotColor color)
+{
+	for (auto panel: _panels)
+	{
+		if (panel.columnNeedsUpdate(column, color, _onScreenBuffer, _offScreenBuffer))
+		{
+			return true;
+		}
+	}
+	return false;
+}

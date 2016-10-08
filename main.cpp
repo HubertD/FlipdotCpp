@@ -14,7 +14,7 @@ int main(void)
 	FlipdotGfx gfx(framebuffer);
 	framebuffer.init();
 
-	IGame *game = GameFactory::createGame(GameFactory::Game::TESTSCREEN, gfx);
+	IGame *game = GameFactory::createGame(GameFactory::Game::SCREENSAVER, gfx);
 	game->init(0);
 
 	while (!platform.doQuit())

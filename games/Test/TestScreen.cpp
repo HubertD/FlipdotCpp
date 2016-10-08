@@ -1,11 +1,5 @@
-/*
- * TestScreen.cpp
- *
- *  Created on: 05.10.2016
- *      Author: hd
- */
-
 #include "TestScreen.h"
+#include <FlipdotConfig.h>
 
 TestScreen::TestScreen(IFlipdotGfx& gfx)
   : _gfx(gfx)
@@ -29,22 +23,18 @@ void TestScreen::update(unsigned ticks)
 	}
 	_tNextStep = ticks + STEP_INTERVAL;
 
-
+	if (++_pointX >= SCREEN_WIDTH)
 	{
 		_pointX = 0;
-		if (++_pointY >= 40)
-		{
-			_pointY = 0;
-		}
+	}
+
+	if (++_pointY >= SCREEN_HEIGHT)
+	{
+		_pointY = 0;
 	}
 
 	_gfx.clear();
-
-	_gfx.setPixel(0, _pointY, true);
-	_gfx.setPixel(15, _pointY, true);
-	_gfx.setPixel(16, _pointY, true);
-	_gfx.setPixel(31, _pointY, true);
-//	_gfx.setPixel(16, _pointY, true);
+	_gfx.setPixel(_pointX, _pointY, true);
 
 
 }

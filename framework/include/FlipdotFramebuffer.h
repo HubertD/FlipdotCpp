@@ -21,26 +21,25 @@ class FlipdotFramebuffer
 		void setPixel(unsigned x, unsigned y, bool value);
 		bool getPixel(unsigned x, unsigned y);
 
+		ScreenBuffer &getOnScreenBuffer();
+		ScreenBuffer &getOffScreenBuffer();
 
 	private:
 		static const unsigned DOT_FLIP_TIME_MS = 15;
-
-		enum class Color {
-			WHITE,
-			BLACK
-		};
 
 		IFlipdotDriver &_driver;
 		FlipdotPanel _panels[NUM_PANELS];
 		ScreenBuffer _offScreenBuffer;
 		ScreenBuffer _onScreenBuffer;
 
-		uint32_t _currentColumn = 0;
+		uint32_t _updateCounter = 0;
 		uint32_t _tWaitDotsFlip = 0;
 
 		void selectColumn(unsigned column);
-		void updateColumn(Color color, unsigned column);
-		void flushColor(Color color);
+		void updateColumn(unsigned column, FlipdotColor color);
+		void flushColor(FlipdotColor color);
+
+		bool columnNeedsUpdate(unsigned column, FlipdotColor color);
 
 };
 

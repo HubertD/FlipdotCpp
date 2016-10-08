@@ -1,5 +1,7 @@
 #include "SDLFlipdotDriver.h"
+#include <FlipdotConfig.h>
 #include <IPlatform.h>
+#include <FlipdotFramebuffer.h>
 
 SDLFlipdotDriver::SDLFlipdotDriver(IPlatform &platform, SDL_Window* window, unsigned numPanelsX, unsigned numPanelsY)
   : VirtualFlipdotDriver(numPanelsX, numPanelsY),
@@ -72,7 +74,9 @@ void SDLFlipdotDriver::redraw()
 		}
 	}
 
-	//drawDebugScreenBuffer(670, 10, _platform.)
+	drawDebugScreenBuffer(670,   0, _platform.getFramebuffer().getOnScreenBuffer(), _platform.getFramebuffer().getOffScreenBuffer());
+	drawDebugScreenBuffer(670, 410, _platform.getFramebuffer().getOnScreenBuffer(), _platform.getFramebuffer().getOffScreenBuffer());
+
 	SDL_RenderPresent(_renderer);
 	_tNextRedraw = now + REDRAW_INTERVAL_MS;
 }
@@ -86,5 +90,22 @@ void SDLFlipdotDriver::drawOverlayRect(int x, int y, int w, int h, uint8_t r, ui
 
 void SDLFlipdotDriver::drawDebugScreenBuffer(int x, int y, ScreenBuffer& buffer, ScreenBuffer& diffBuffer)
 {
-	// TODO draw
+	SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+	SDL_Rect rect = {0, 0, 10, 10};
+
+	for (int iy=0; iy<(int)SCREEN_HEIGHT; iy++)
+	{
+		for (int ix=0; ix<(int)SCREEN_WIDTH; ix++)
+		{
+			rect.x = x+ix*10;
+			rect.y = y+iy*10;
+
+			if (buffer.getPixel(ix, iy)) {
+				SDL_SetRenderDrawColor(_renderer,   0,   0,   0, 255);
+			} else {
+				SDL_SetRenderDrawColor(_renderer, 200, 200, 200, 255);
+			}
+			SDL_RenderFillRect(_renderer, &rect );
+		}
+	}
 }
