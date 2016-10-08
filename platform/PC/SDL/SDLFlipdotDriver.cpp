@@ -54,7 +54,7 @@ void SDLFlipdotDriver::redraw()
 	drawOverlayRect(16, 0, 16, 20, 0, 0xFF, 0, 0x20);
 	drawOverlayRect(0, 20, 16, 20, 0, 0, 0xFF, 0x20);
 	drawOverlayRect(16, 20, 16, 20, 0xFF, 0xFF, 0, 0x20);
-/*
+
 	for (unsigned i=0; i<COLUMNS; i++)
 	{
 		if (_tLastUpdateColumn[i]==0)
@@ -65,11 +65,11 @@ void SDLFlipdotDriver::redraw()
 		unsigned deltaT = now - _tLastUpdateColumn[i];
 		if (deltaT < 500)
 		{
-			drawOverlayRect(i, 0, 1, 40, 0xFF, 0, 0, 100-(deltaT/5));
-			drawOverlayRect(31-i, 0, 1, 40, 0xFF, 0, 0, 100-(deltaT/5));
+			drawOverlayRect(15-i, 0, 1, 40, 0xFF, 0, 0, 100-(deltaT/5));
+			drawOverlayRect(16+i, 0, 1, 40, 0xFF, 0, 0, 100-(deltaT/5));
 		}
 	}
-*/
+
 	SDL_RenderPresent(_renderer);
 	_tNextRedraw = now + 100;
 }
