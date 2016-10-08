@@ -9,6 +9,7 @@
 #include "Screensaver/Screensaver.h"
 #include "Life/GameOfLife.h"
 #include "Test/TestScreen.h"
+#include "Paint/Paint.h"
 
 IGame* GameFactory::createGame(Game game, FlipdotGfx &gfx)
 {
@@ -19,6 +20,9 @@ IGame* GameFactory::createGame(Game game, FlipdotGfx &gfx)
 
 		case Game::GAME_OF_LIFE:
 			return new GameOfLife(gfx);
+
+		case Game::PAINT:
+			return new Paint(gfx);
 
 		case Game::SCREENSAVER:
 		default:

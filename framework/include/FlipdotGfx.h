@@ -3,11 +3,12 @@
 #include <stdint.h>
 
 class FlipdotFramebuffer;
+class IGamepad;
 
 class FlipdotGfx
 {
 	public:
-		FlipdotGfx(FlipdotFramebuffer &framebuffer);
+		FlipdotGfx(FlipdotFramebuffer &framebuffer, IGamepad& gamepad);
 		~FlipdotGfx();
 
 		void update(unsigned ticks);
@@ -21,8 +22,11 @@ class FlipdotGfx
 		unsigned getScreenWidth();
 		unsigned getScreenHeight();
 
+		IGamepad& getGamepad();
+
 	private:
 		FlipdotFramebuffer &_fb;
+		IGamepad& _gamepad;
 		uint16_t getCharData(char ch);
 
 };

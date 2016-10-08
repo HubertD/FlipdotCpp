@@ -12,6 +12,7 @@ class GameFactory
 			TESTSCREEN,
 			SCREENSAVER,
 			GAME_OF_LIFE,
+			PAINT,
 			_COUNT
 		};
 

@@ -82,8 +82,8 @@ static const uint16_t font[] = {
 	0x0000  // DUMMY
 };
 
-FlipdotGfx::FlipdotGfx(FlipdotFramebuffer& fb)
-  : _fb(fb)
+FlipdotGfx::FlipdotGfx(FlipdotFramebuffer& fb, IGamepad& gamepad)
+  : _fb(fb), _gamepad(gamepad)
 {
 }
 
@@ -152,4 +152,9 @@ unsigned FlipdotGfx::getScreenWidth()
 unsigned FlipdotGfx::getScreenHeight()
 {
 	return SCREEN_HEIGHT;
+}
+
+IGamepad& FlipdotGfx::getGamepad()
+{
+	return _gamepad;
 }

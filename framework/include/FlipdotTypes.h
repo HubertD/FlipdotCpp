@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 enum class FlipdotColor
 {
 	BLACK,
@@ -19,3 +21,17 @@ class PanelConfig
 		const unsigned y;
 		const PanelOrientation orientation;
 };
+
+enum class GamepadKey
+{
+	KEY_UP,
+	KEY_DOWN,
+	KEY_LEFT,
+	KEY_RIGHT,
+	KEY_A,
+	KEY_B,
+	KEY_START,
+	KEY_SELECT,
+	KEY_NONE
+};
+

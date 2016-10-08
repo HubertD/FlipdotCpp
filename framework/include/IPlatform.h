@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 class FlipdotFramebuffer;
+class IGamepad;
 
 class IPlatform
 {
@@ -11,6 +12,8 @@ class IPlatform
 		virtual void update() = 0;
 
 		virtual FlipdotFramebuffer &getFramebuffer() = 0;
+		virtual IGamepad &getGamepad() = 0;
+
 		virtual uint32_t getTicks() = 0;
 		virtual bool doQuit() = 0;
 

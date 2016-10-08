@@ -10,11 +10,12 @@ int main(void)
 	platform.init();
 
 	FlipdotFramebuffer& framebuffer = platform.getFramebuffer();
-
-	FlipdotGfx gfx(framebuffer);
+	IGamepad& gamepad = platform.getGamepad();
+	FlipdotGfx gfx(framebuffer, gamepad);
 	framebuffer.init();
+	gamepad.init();
 
-	IGame *game = GameFactory::createGame(GameFactory::Game::SCREENSAVER, gfx);
+	IGame *game = GameFactory::createGame(GameFactory::Game::PAINT, gfx);
 	game->init(0);
 
 	while (!platform.doQuit())
