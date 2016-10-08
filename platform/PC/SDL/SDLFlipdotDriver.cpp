@@ -1,7 +1,9 @@
 #include "SDLFlipdotDriver.h"
+#include <IPlatform.h>
 
-SDLFlipdotDriver::SDLFlipdotDriver(SDL_Window* window, unsigned numPanelsX, unsigned numPanelsY)
+SDLFlipdotDriver::SDLFlipdotDriver(IPlatform &platform, SDL_Window* window, unsigned numPanelsX, unsigned numPanelsY)
   : VirtualFlipdotDriver(numPanelsX, numPanelsY),
+	_platform(platform),
 	_window(window)
 {
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
@@ -70,8 +72,9 @@ void SDLFlipdotDriver::redraw()
 		}
 	}
 
+	//drawDebugScreenBuffer(670, 10, _platform.)
 	SDL_RenderPresent(_renderer);
-	_tNextRedraw = now + 100;
+	_tNextRedraw = now + REDRAW_INTERVAL_MS;
 }
 
 void SDLFlipdotDriver::drawOverlayRect(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
@@ -79,4 +82,9 @@ void SDLFlipdotDriver::drawOverlayRect(int x, int y, int w, int h, uint8_t r, ui
 	SDL_SetRenderDrawColor(_renderer, r, g, b, a);
 	SDL_Rect rect = {x*DOT_WIDTH, y*DOT_HEIGHT, w*DOT_WIDTH, h*DOT_HEIGHT};
 	SDL_RenderFillRect(_renderer, &rect );
+}
+
+void SDLFlipdotDriver::drawDebugScreenBuffer(int x, int y, ScreenBuffer& buffer, ScreenBuffer& diffBuffer)
+{
+	// TODO draw
 }

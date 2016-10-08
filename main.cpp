@@ -1,3 +1,4 @@
+#include <FlipdotTypes.h>
 #include <FlipdotFramebuffer.h>
 #include <FlipdotGfx.h>
 #include <games/GameFactory.h>
@@ -8,17 +9,12 @@ int main(void)
 	Platform platform;
 	platform.init();
 
-	IFlipdotDriver& driver = platform.getFlipdotDriver();
-	FlipdotFramebuffer framebuffer(driver);
-	framebuffer.configurePanel(0,  0, 20, FlipdotPanel::Orientation::DEG_180);
-	framebuffer.configurePanel(1,  0,  0, FlipdotPanel::Orientation::DEG_180);
-	framebuffer.configurePanel(2, 16,  0, FlipdotPanel::Orientation::DEG_0);
-	framebuffer.configurePanel(3, 16, 20, FlipdotPanel::Orientation::DEG_0);
+	FlipdotFramebuffer& framebuffer = platform.getFramebuffer();
 
 	FlipdotGfx gfx(framebuffer);
 	framebuffer.init();
 
-	IGame *game = GameFactory::createGame(GameFactory::Game::SCREENSAVER, gfx);
+	IGame *game = GameFactory::createGame(GameFactory::Game::TESTSCREEN, gfx);
 	game->init(0);
 
 	while (!platform.doQuit())

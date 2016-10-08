@@ -1,7 +1,7 @@
 #pragma once
 
 #include <IPlatform.h>
-
+#include <FlipdotFramebuffer.h>
 #include "VCDFlipdotDriver.h"
 
 class VCDPlatform : IPlatform
@@ -17,7 +17,7 @@ class VCDPlatform : IPlatform
 		unsigned getUTicks();
 		void setQuitUTicks(int uticks);
 
-		IFlipdotDriver &getFlipdotDriver() override;
+		FlipdotFramebuffer &getFramebuffer() override;
 		uint32_t getTicks() override;
 		bool doQuit() override;
 
@@ -25,6 +25,8 @@ class VCDPlatform : IPlatform
 		static constexpr unsigned UTICKS_PER_UPDATE = 10;
 
 		VCDFlipdotDriver _driver;
+		FlipdotFramebuffer _framebuffer;
+
 		unsigned _uticks = 0;
 		int _uticksQuit = -1;
 };

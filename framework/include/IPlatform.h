@@ -1,5 +1,6 @@
 #include <stdint.h>
-#include "IFlipdotDriver.h"
+
+class FlipdotFramebuffer;
 
 class IPlatform
 {
@@ -9,7 +10,7 @@ class IPlatform
 		virtual void done() = 0;
 		virtual void update() = 0;
 
-		virtual IFlipdotDriver &getFlipdotDriver() = 0;
+		virtual FlipdotFramebuffer &getFramebuffer() = 0;
 		virtual uint32_t getTicks() = 0;
 		virtual bool doQuit() = 0;
 

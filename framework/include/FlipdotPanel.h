@@ -1,36 +1,31 @@
 #pragma once
 
+#include <FlipdotTypes.h>
 #include "ScreenBuffer.h"
 
 class FlipdotPanel
 {
 	public:
 
-		enum class Orientation
-		{
-			DEG_0,
-			DEG_180
-		};
-
 		static constexpr unsigned ACTIVE_ROWS = 20;
 		static constexpr unsigned ACTIVE_COLUMNS = 16;
 
-		void configure(unsigned x, unsigned y, Orientation orientation);
+		void configure(const PanelConfig &config);
 		static uint8_t reverseByte(uint8_t b);
 		void fillColumnRegister(ScreenBuffer &screen, unsigned column, uint8_t *buf);
 
 	private:
 		unsigned _x = 0;
 		unsigned _y = 0;
-		Orientation _orientation = Orientation::DEG_0;
+		PanelOrientation _orientation = PanelOrientation::DEG_0;
 
 };
 
-inline void FlipdotPanel::configure(unsigned x, unsigned y, Orientation orientation)
+inline void FlipdotPanel::configure(const PanelConfig &config)
 {
-	_x = x;
-	_y = y;
-	_orientation = orientation;
+	_x = config.x;
+	_y = config.y;
+	_orientation = config.orientation;
 }
 
 inline void FlipdotPanel::fillColumnRegister(ScreenBuffer &screen, unsigned column, uint8_t *buf)
@@ -41,7 +36,7 @@ inline void FlipdotPanel::fillColumnRegister(ScreenBuffer &screen, unsigned colu
 	switch (_orientation)
 	{
 
-		case Orientation::DEG_0:
+		case PanelOrientation::DEG_0:
 			x = _x + column;
 			data = (reverseByte(screen.get8Pixels(x, _y   )) << 24)
 			     | (reverseByte(screen.get8Pixels(x, _y+8 )) << 16)
@@ -53,7 +48,7 @@ inline void FlipdotPanel::fillColumnRegister(ScreenBuffer &screen, unsigned colu
 			buf[2] = (data >> 24) & 0xFF;
 			break;
 
-		case Orientation::DEG_180:
+		case PanelOrientation::DEG_180:
 			x = _x + (ACTIVE_COLUMNS-1) - column;
 			data = (screen.get8Pixels(x, _y)    << 4)
 			     | (screen.get8Pixels(x, _y+8)  << 12)

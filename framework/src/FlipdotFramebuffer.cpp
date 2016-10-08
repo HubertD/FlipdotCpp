@@ -7,8 +7,16 @@ FlipdotFramebuffer::FlipdotFramebuffer(IFlipdotDriver &driver)
 
 void FlipdotFramebuffer::init()
 {
+	configurePanels();
 	clear();
 	flush();
+}
+
+void FlipdotFramebuffer::configurePanels()
+{
+	for (unsigned i=0; i<NUM_PANELS; i++) {
+		_panels[i].configure(PANEL_CONFG[i]);
+	}
 }
 
 void FlipdotFramebuffer::update(unsigned ticks)
@@ -113,7 +121,3 @@ void FlipdotFramebuffer::updateColumn(Color color, unsigned column)
 
 }
 
-void FlipdotFramebuffer::configurePanel(unsigned panelNumber, unsigned x, unsigned y, FlipdotPanel::Orientation orientation)
-{
-	_panels[panelNumber].configure(x, y, orientation);
-}

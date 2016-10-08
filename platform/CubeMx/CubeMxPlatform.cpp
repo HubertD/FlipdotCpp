@@ -5,6 +5,7 @@ static void MX_GPIO_Init(void);
 static void SystemClock_Config(void);
 
 CubeMxPlatform::CubeMxPlatform()
+	: _framebuffer(_driver)
 {
 }
 

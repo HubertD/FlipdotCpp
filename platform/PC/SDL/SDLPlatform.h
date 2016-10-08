@@ -14,12 +14,13 @@ class SDLPlatform : IPlatform
 		void done() override;
 		void update() override {};
 
-		IFlipdotDriver &getFlipdotDriver() override;
+		FlipdotFramebuffer &getFramebuffer() override;
 		uint32_t getTicks() override;
 		bool doQuit() override;
 
 	private:
 		SDLFlipdotDriver *_driver = nullptr;
+		FlipdotFramebuffer *_framebuffer = nullptr;
 		SDL_Window *_window = nullptr;
 };
 

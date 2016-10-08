@@ -1,7 +1,8 @@
 #include "VCDPlatform.h"
 
 VCDPlatform::VCDPlatform()
-  : _driver(*this)
+  : _driver(*this),
+	_framebuffer(_driver)
 {
 }
 
@@ -23,9 +24,9 @@ void VCDPlatform::incrementUTicks(int increment)
 	_uticks += increment;
 }
 
-IFlipdotDriver& VCDPlatform::getFlipdotDriver()
+FlipdotFramebuffer& VCDPlatform::getFramebuffer()
 {
-	return _driver;
+	return _framebuffer;
 }
 
 uint32_t VCDPlatform::getTicks()

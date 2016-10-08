@@ -11,7 +11,7 @@ class FlipdotFramebuffer
 	public:
 		FlipdotFramebuffer(IFlipdotDriver &driver);
 
-		void configurePanel(unsigned panelNumber, unsigned x, unsigned y, FlipdotPanel::Orientation orientation);
+		void configurePanels();
 		void init();
 		void update(unsigned ticks);
 
