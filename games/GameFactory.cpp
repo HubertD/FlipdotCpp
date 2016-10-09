@@ -5,12 +5,13 @@
  *      Author: hd
  */
 
+#include <games/Tetris/TetrisGame.h>
 #include "GameFactory.h"
 #include "Screensaver/Screensaver.h"
 #include "Life/GameOfLife.h"
 #include "Test/TestScreen.h"
 #include "Paint/Paint.h"
-#include "Tetris/Tetris.h"
+#include "Tetris/TetrisGame.h"
 
 IGame* GameFactory::createGame(Game game, FlipdotGfx &gfx)
 {
@@ -26,7 +27,7 @@ IGame* GameFactory::createGame(Game game, FlipdotGfx &gfx)
 			return new Paint(gfx);
 
 		case Game::TETRIS:
-			return new Tetris(gfx);
+			return new TetrisGame(gfx);
 
 		case Game::SCREENSAVER:
 		default:

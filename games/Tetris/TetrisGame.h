@@ -8,13 +8,16 @@
 #include "Screens/IdleScreen.h"
 #include "Screens/SelectLevelScreen.h"
 
-class Tetris : public IGame
+class TetrisGame : public IGame
 {
 	public:
-		Tetris(FlipdotGfx& gfx);
-		virtual ~Tetris();
+		TetrisGame(FlipdotGfx& gfx);
+		~TetrisGame();
 		void init(unsigned ticks) override;
 		void update(unsigned ticks) override;
+
+	public:
+		FlipdotGfx& getGfx();
 
 	private:
 

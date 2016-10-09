@@ -1,23 +1,20 @@
-#include "Tetris.h"
+#include "TetrisGame.h"
 
-#include <assets/Bitmaps.h>
-#include <IGamepad.h>
-
-Tetris::Tetris(FlipdotGfx& gfx)
+TetrisGame::TetrisGame(FlipdotGfx& gfx)
   : _gfx(gfx), _gamepad(gfx.getGamepad()),
-	_logoScreen(gfx),
-	_idleScreen(gfx),
-	_selectLevelScreen(gfx),
+	_logoScreen(*this),
+	_idleScreen(*this),
+	_selectLevelScreen(*this),
 	_currentScreen(&_logoScreen),
 	_lastScreen(&_logoScreen)
 {
 }
 
-Tetris::~Tetris()
+TetrisGame::~TetrisGame()
 {
 }
 
-void Tetris::init(unsigned ticks)
+void TetrisGame::init(unsigned ticks)
 {
 	_currentState = TetrisState::LOGO;
 	_currentScreen = &_logoScreen;
@@ -25,7 +22,7 @@ void Tetris::init(unsigned ticks)
 }
 
 
-void Tetris::update(unsigned ticks)
+void TetrisGame::update(unsigned ticks)
 {
 	TetrisState nextState = _currentScreen->update(ticks);
 	if (nextState != _currentState)
@@ -39,7 +36,7 @@ void Tetris::update(unsigned ticks)
 	}
 }
 
-TetrisScreen& Tetris::getScreenForState(TetrisState state)
+TetrisScreen& TetrisGame::getScreenForState(TetrisState state)
 {
 	switch (state)
 	{
@@ -53,4 +50,9 @@ TetrisScreen& Tetris::getScreenForState(TetrisState state)
 		default:
 			return _logoScreen;
 	}
+}
+
+FlipdotGfx& TetrisGame::getGfx()
+{
+	return _gfx;
 }

@@ -5,11 +5,14 @@
 #include <FlipdotGfx.h>
 #include <IGamepad.h>
 
+class TetrisGame;
+
 class TetrisScreen
 {
 	protected:
-		FlipdotGfx &_gfx;
-		IGamepad &_gamepad;
+		TetrisGame& _game;
+		FlipdotGfx& _gfx;
+		IGamepad& _gamepad;
 
 		unsigned _now = 0;
 		unsigned _tEntered = 0;
@@ -26,39 +29,12 @@ class TetrisScreen
 		virtual void onLeave() {};
 
 	public:
-		TetrisScreen(FlipdotGfx& gfx)
-		  : _gfx(gfx), _gamepad(gfx.getGamepad())
-		{
-		}
+		TetrisScreen(TetrisGame &game);
 
-		virtual ~TetrisScreen()
-		{
-		}
+		virtual ~TetrisScreen();
 
-		void enter(unsigned ticks, TetrisState myState)
-		{
-			_nextState = myState;
-			_tEntered = ticks;
-			_now = ticks;
-			onEnter();
-		}
-
-		void leave(unsigned ticks)
-		{
-			_now = ticks;
-			onLeave();
-		}
-
-		TetrisState update(unsigned ticks)
-		{
-			_now = ticks;
-			onUpdate();
-			return _nextState;
-		}
-
-		unsigned timeSinceEntered()
-		{
-			return _now - _tEntered;
-		}
-
+		void enter(unsigned ticks, TetrisState myState);
+		void leave(unsigned ticks);
+		TetrisState update(unsigned ticks);
+		unsigned timeSinceEntered();
 };
