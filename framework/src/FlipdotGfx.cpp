@@ -195,22 +195,22 @@ IGamepad& FlipdotGfx::getGamepad()
 	return _gamepad;
 }
 
-void FlipdotGfx::drawText(unsigned x, unsigned y, char* text, FlipdotColor color, Orientation orientation)
+void FlipdotGfx::drawText(unsigned x, unsigned y, char* text, FlipdotColor color, Orientation orientation, int spacing)
 {
 	while (*text != 0)
 	{
-		x += getCharStepX(orientation);
-		y += getCharStepY(orientation);
 	    drawChar(x, y, *text, color, orientation);
 	    text++;
+		x += getCharStepX(orientation, spacing);
+		y += getCharStepY(orientation, spacing);
 	}
 }
 
-void FlipdotGfx::drawNumber(unsigned x, unsigned y, unsigned number, FlipdotColor color, Orientation orientation)
+void FlipdotGfx::drawNumber(unsigned x, unsigned y, unsigned number, FlipdotColor color, Orientation orientation, int spacing)
 {
 	do {
-		x -= getCharStepX(orientation);
-		y += getCharStepY(orientation);
+		x -= getCharStepX(orientation, spacing);
+		y += getCharStepY(orientation, spacing);
 
 	    drawChar(x, y, '0'+(number % 10), color, orientation);
 
@@ -218,20 +218,20 @@ void FlipdotGfx::drawNumber(unsigned x, unsigned y, unsigned number, FlipdotColo
 	} while (number!=0);
 }
 
-int FlipdotGfx::getCharStepX(Orientation orientation)
+int FlipdotGfx::getCharStepX(Orientation orientation, int spacing)
 {
-	return (orientation==Orientation::DEG_0) ? 4 : 0;
+	return (orientation==Orientation::DEG_0) ? 4+spacing : 0;
 }
 
-int FlipdotGfx::getCharStepY(Orientation orientation)
+int FlipdotGfx::getCharStepY(Orientation orientation, int spacing)
 {
 	switch (orientation)
 	{
 		case Orientation::DEG_270:
-			return +4;
+			return +(4 + spacing);
 
 		case Orientation::DEG_90:
-			return -4;
+			return -(4 + spacing);
 
 		default:
 			return 0;

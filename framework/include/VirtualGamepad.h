@@ -10,6 +10,7 @@ class VirtualGamepad : public IGamepad
 		void update(unsigned ticks) override;
 
 		bool isKeyPressed(GamepadKey key) override;
+		bool isAnyKeyPressed() override;
 		bool wasKeyPressed(GamepadKey key) override;
 		bool wasKeyReleased(GamepadKey key) override;
 		void resetEvents() override;

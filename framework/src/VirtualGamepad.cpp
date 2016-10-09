@@ -10,6 +10,11 @@ bool VirtualGamepad::isKeyPressed(GamepadKey key)
 	return keyStatus(key, _currentStatus);
 }
 
+bool VirtualGamepad::isAnyKeyPressed()
+{
+	return _currentStatus != 0;
+}
+
 bool VirtualGamepad::wasKeyPressed(GamepadKey key)
 {
 	return isKeyPressed(key) && !keyStatus(key, _lastStatus);

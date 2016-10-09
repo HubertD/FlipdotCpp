@@ -13,6 +13,7 @@ class GameFactory
 			SCREENSAVER,
 			GAME_OF_LIFE,
 			PAINT,
+			TETRIS,
 			_COUNT
 		};
 

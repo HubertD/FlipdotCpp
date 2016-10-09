@@ -15,7 +15,7 @@ int main(void)
 	framebuffer.init();
 	gamepad.init();
 
-	IGame *game = GameFactory::createGame(GameFactory::Game::PAINT, gfx);
+	IGame *game = GameFactory::createGame(GameFactory::Game::TETRIS, gfx);
 	game->init(0);
 
 	while (!platform.doQuit())

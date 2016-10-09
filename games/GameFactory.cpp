@@ -10,6 +10,7 @@
 #include "Life/GameOfLife.h"
 #include "Test/TestScreen.h"
 #include "Paint/Paint.h"
+#include "Tetris/Tetris.h"
 
 IGame* GameFactory::createGame(Game game, FlipdotGfx &gfx)
 {
@@ -23,6 +24,9 @@ IGame* GameFactory::createGame(Game game, FlipdotGfx &gfx)
 
 		case Game::PAINT:
 			return new Paint(gfx);
+
+		case Game::TETRIS:
+			return new Tetris(gfx);
 
 		case Game::SCREENSAVER:
 		default:
