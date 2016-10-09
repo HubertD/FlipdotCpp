@@ -74,7 +74,7 @@ void SDLFlipdotDriver::redraw()
 		}
 	}
 
-	drawDebugScreenBuffer(670,   0, _platform.getFramebuffer().getOnScreenBuffer(), _platform.getFramebuffer().getOffScreenBuffer());
+	drawDebugScreenBuffer(670,   0, _platform.getFramebuffer().getOffScreenBuffer(), _platform.getFramebuffer().getOnScreenBuffer());
 	drawDebugScreenBuffer(670, 410, _platform.getFramebuffer().getOnScreenBuffer(), _platform.getFramebuffer().getOffScreenBuffer());
 
 	SDL_RenderPresent(_renderer);
