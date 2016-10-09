@@ -44,10 +44,10 @@ void Paint::update(unsigned ticks)
 	gamepad.resetEvents();
 
 	if (_cursorX < 0) { _cursorX = SCREEN_WIDTH-1; }
-	if (_cursorX >= SCREEN_WIDTH) { _cursorX = 0; }
+	if (_cursorX >= (int)SCREEN_WIDTH) { _cursorX = 0; }
 
 	if (_cursorY < 0) { _cursorY = SCREEN_HEIGHT-1; }
-	if (_cursorY >= SCREEN_HEIGHT) { _cursorY = 0; }
+	if (_cursorY >= (int)SCREEN_HEIGHT) { _cursorY = 0; }
 
 	_gfx.clear();
 	_gfx.drawNumber(SCREEN_WIDTH/2+4, SCREEN_HEIGHT/2-4, 42);
