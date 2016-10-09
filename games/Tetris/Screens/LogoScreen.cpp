@@ -5,9 +5,8 @@
 
 void LogoScreen::enter()
 {
-	auto& gfx = getGfx();
-	gfx.clear();
-	gfx.drawBitmap(0, 0, BytewerkLogo, true);
+	clearScreen();
+	drawBitmap(0, 0, BytewerkLogo, true);
 }
 
 void LogoScreen::update()

@@ -46,13 +46,11 @@ void SelectLevelScreen::update()
 
 void SelectLevelScreen::draw()
 {
-	auto& gfx = getGfx();
-
-	gfx.clear();
-	gfx.drawText(2, 1, (char*)"SELECT", FlipdotColor::BLACK, Orientation::DEG_0, 1);
-	gfx.drawText(2, 8, (char*)"LEVEL", FlipdotColor::BLACK, Orientation::DEG_0, 2);
-	gfx.drawChar(15, 17, '_');
-	gfx.drawChar(15, 15, '0' + getVariables().startLevel);
+	clearScreen();
+	drawText(2, 1, (char*)"SELECT", FlipdotColor::BLACK, Orientation::DEG_0, 1);
+	drawText(2, 8, (char*)"LEVEL", FlipdotColor::BLACK, Orientation::DEG_0, 2);
+	drawChar(15, 17, '_');
+	drawChar(15, 15, '0' + getVariables().startLevel);
 }
 
 void SelectLevelScreen::resetIdleTime()

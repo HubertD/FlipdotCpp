@@ -77,3 +77,41 @@ bool TetrisScreenBase::wasLeftOrDownPressed()
 	return getGamepad().wasKeyPressed(GamepadKey::KEY_LEFT)
 		   || getGamepad().wasKeyPressed(GamepadKey::KEY_DOWN);
 }
+
+void TetrisScreenBase::clearScreen()
+{
+	_game.getGfx().clear();
+}
+
+void TetrisScreenBase::setPixel(unsigned x, unsigned y, bool value)
+{
+	_game.getGfx().setPixel(x, y, value);
+}
+
+void TetrisScreenBase::drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value)
+{
+	_game.getGfx().drawRect(x, y, dx, dy, value);
+}
+
+void TetrisScreenBase::drawChar(unsigned x, unsigned y, char ch, FlipdotColor color, Orientation orientation)
+{
+	_game.getGfx().drawChar(x, y, ch, color, orientation);
+}
+
+void TetrisScreenBase::drawText(unsigned x, unsigned y, char* text,
+		FlipdotColor color, Orientation orientation, int spacing)
+{
+	_game.getGfx().drawText(x, y, text, color, orientation, spacing);
+}
+
+void TetrisScreenBase::drawNumber(unsigned x, unsigned y, unsigned number,
+		FlipdotColor color, Orientation orientation, int spacing)
+{
+	_game.getGfx().drawNumber(x, y, number, color, orientation, spacing);
+}
+
+void TetrisScreenBase::drawBitmap(int x, int y, const FlipdotBitmap& bitmap,
+		bool doInvert)
+{
+	_game.getGfx().drawBitmap(x, y, bitmap, doInvert);
+}
