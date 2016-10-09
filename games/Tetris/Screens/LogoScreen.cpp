@@ -5,24 +5,24 @@
 
 void LogoScreen::enter()
 {
-	auto& gfx = _game.gfx();
+	auto& gfx = getGfx();
 	gfx.clear();
 	gfx.drawBitmap(0, 0, BytewerkLogo, true);
 }
 
 void LogoScreen::update()
 {
-	auto& gamepad = _game.gamepad();
+	auto& gamepad = getGamepad();
 
 	if (gamepad.isAnyKeyPressed() && (timeSinceEntered() > T_LOGO_MIN))
 	{
-		_game.setNextScreen(_game.screens.SelectLevel);
+		setNextScreen(getScreens().SelectLevel);
 		return;
 	}
 
 	if (timeSinceEntered() > T_LOGO_IDLE)
 	{
-		_game.setNextScreen(_game.screens.Idle);
+		setNextScreen(getScreens().Idle);
 	}
 
 }

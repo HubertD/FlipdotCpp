@@ -2,10 +2,11 @@
 
 #include "../TetrisGame.h"
 #include <assets/Bitmaps.h>
+#include "../TetrisScreens.h"
 
 void IdleScreen::enter()
 {
-	auto& gfx = _game.gfx();
+	auto& gfx = getGfx();
 	gfx.clear();
 	gfx.drawText(2, 1, (char*)"TETRIS", FlipdotColor::BLACK, Orientation::DEG_0, 1);
 	gfx.drawBitmap(3, 12, StatsQrCode);
@@ -13,9 +14,9 @@ void IdleScreen::enter()
 
 void IdleScreen::update()
 {
-	if (_game.gamepad().isAnyKeyPressed())
+	if (getGamepad().isAnyKeyPressed())
 	{
-		_game.setNextScreen(_game.screens.SelectLevel);
+		setNextScreen(getScreens().SelectLevel);
 		return;
 	}
 }

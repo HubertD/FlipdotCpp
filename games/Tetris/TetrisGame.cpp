@@ -32,17 +32,17 @@ void TetrisGame::update(unsigned ticks)
 	_currentScreen->update();
 }
 
-FlipdotGfx& TetrisGame::gfx()
+FlipdotGfx& TetrisGame::getGfx()
 {
 	return _gfx;
 }
 
-IGamepad& TetrisGame::gamepad()
+IGamepad& TetrisGame::getGamepad()
 {
 	return _gfx.getGamepad();
 }
 
-void TetrisGame::setNextScreen(TetrisScreen& screen)
+void TetrisGame::setNextScreen(TetrisScreenBase& screen)
 {
 	_nextScreen = &screen;
 }

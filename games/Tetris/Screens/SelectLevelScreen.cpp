@@ -11,14 +11,17 @@ void SelectLevelScreen::update()
 {
 	if (timeSinceEntered() > 10000)
 	{
-		_game.setNextScreen(_game.screens.Logo);
+		setNextScreen(getScreens().Logo);
 		return;
 	}
+
+	auto& gamepad = getGamepad();
 }
 
 void SelectLevelScreen::draw()
 {
-	auto& gfx = _game.gfx();
+	auto& gfx = getGfx();
+
 	gfx.clear();
 	gfx.drawText(2, 1, (char*)"SELECT", FlipdotColor::BLACK, Orientation::DEG_0, 1);
 	gfx.drawText(2, 8, (char*)"LEVEL", FlipdotColor::BLACK, Orientation::DEG_0, 2);

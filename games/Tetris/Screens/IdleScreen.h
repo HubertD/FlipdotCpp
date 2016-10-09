@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../TetrisScreen.h"
+#include <games/Tetris/TetrisScreenBase.h>
 
-class IdleScreen : public TetrisScreen
+class IdleScreen : public TetrisScreenBase
 {
 	public:
-		using TetrisScreen::TetrisScreen;
+		using TetrisScreenBase::TetrisScreenBase;
 
 		void enter();
 		void update();
