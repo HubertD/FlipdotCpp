@@ -34,7 +34,7 @@ void SelectLevelScreen::update()
 
 	if (wasStartOrSelectPressed())
 	{
-		setNextScreen(getScreens().Logo);
+		setNextScreen(getScreens().GetReady);
 	}
 
 	if (isIdleTimeout())
