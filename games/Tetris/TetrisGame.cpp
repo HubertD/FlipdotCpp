@@ -1,12 +1,9 @@
 #include "TetrisGame.h"
 
 TetrisGame::TetrisGame(FlipdotGfx& gfx)
-  : _gfx(gfx), _gamepad(gfx.getGamepad()),
-	_logoScreen(*this),
-	_idleScreen(*this),
-	_selectLevelScreen(*this),
-	_currentScreen(&_logoScreen),
-	_lastScreen(&_logoScreen)
+  : _gfx(gfx),
+	_gamepad(gfx.getGamepad()),
+	screens(*this)
 {
 }
 
@@ -16,43 +13,41 @@ TetrisGame::~TetrisGame()
 
 void TetrisGame::init(unsigned ticks)
 {
-	_currentState = TetrisState::LOGO;
-	_currentScreen = &_logoScreen;
-	_currentScreen->enter(ticks, _currentState);
+	_now = ticks;
+	setNextScreen(screens.Logo);
 }
-
 
 void TetrisGame::update(unsigned ticks)
 {
-	TetrisState nextState = _currentScreen->update(ticks);
-	if (nextState != _currentState)
+	_now = ticks;
+	if (_nextScreen != _currentScreen)
 	{
-		_currentScreen->leave(ticks);
+		_currentScreen->leave();
 		_lastScreen = _currentScreen;
-		_lastState = _currentState;
-		_currentState = nextState;
-		_currentScreen = &getScreenForState(_currentState);
-		_currentScreen->enter(ticks, _currentState);
+		_currentScreen = _nextScreen;
+		_tLastScreenChange = ticks;
+		_currentScreen->enter();
 	}
+
+	_currentScreen->update();
 }
 
-TetrisScreen& TetrisGame::getScreenForState(TetrisState state)
-{
-	switch (state)
-	{
-		case TetrisState::IDLE:
-			return _idleScreen;
-
-		case TetrisState::SELECT_LEVEL:
-			return _selectLevelScreen;
-
-		case TetrisState::LOGO:
-		default:
-			return _logoScreen;
-	}
-}
-
-FlipdotGfx& TetrisGame::getGfx()
+FlipdotGfx& TetrisGame::gfx()
 {
 	return _gfx;
+}
+
+IGamepad& TetrisGame::gamepad()
+{
+	return _gfx.getGamepad();
+}
+
+void TetrisGame::setNextScreen(TetrisScreen& screen)
+{
+	_nextScreen = &screen;
+}
+
+unsigned TetrisGame::timeSinceLastScreenChange()
+{
+	return _now - _tLastScreenChange;
 }

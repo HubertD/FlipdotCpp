@@ -11,6 +11,8 @@ class FlipdotGfx
 {
 	public:
 		FlipdotGfx(FlipdotFramebuffer &framebuffer, IGamepad& gamepad);
+		FlipdotGfx( const FlipdotGfx& other ) = delete;
+		FlipdotGfx& operator=( const FlipdotGfx& ) = delete;
 		~FlipdotGfx();
 
 		void update(unsigned ticks);

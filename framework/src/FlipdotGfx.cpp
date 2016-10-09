@@ -171,6 +171,7 @@ void FlipdotGfx::drawChar(unsigned x, unsigned y, char ch, FlipdotColor color, O
 					break;
 
 				case Orientation::DEG_0:
+				default: // TODO DEG_180
 					setPixel(x+dx, y+dy, value);
 					break;
 			}

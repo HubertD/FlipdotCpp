@@ -16,24 +16,36 @@ class TetrisGame : public IGame
 		void init(unsigned ticks) override;
 		void update(unsigned ticks) override;
 
-	public:
-		FlipdotGfx& getGfx();
-
 	private:
-
-		TetrisState _lastState = TetrisState::LOGO;
-		TetrisState _currentState = TetrisState::LOGO;
-
 		FlipdotGfx& _gfx;
 		IGamepad& _gamepad;
 
-		LogoScreen _logoScreen;
-		IdleScreen _idleScreen;
-		SelectLevelScreen _selectLevelScreen;
+		TetrisScreen* _lastScreen = &screens.Null;
+		TetrisScreen* _currentScreen = &screens.Null;
+		TetrisScreen* _nextScreen = &screens.Logo;
 
-		TetrisScreen *_currentScreen;
-		TetrisScreen *_lastScreen;
+		unsigned _now = 0;
+		unsigned _tLastScreenChange = 0;
 
-		TetrisScreen& getScreenForState(TetrisState state);
+	public:
+		FlipdotGfx& gfx();
+		IGamepad& gamepad();
+
+		void setNextScreen(TetrisScreen& screen);
+		unsigned timeSinceLastScreenChange();
+
+		struct Screens {
+			TetrisScreen Null;
+			LogoScreen Logo;
+			IdleScreen Idle;
+			SelectLevelScreen SelectLevel;
+
+			Screens(TetrisGame& game)
+			  : Null(game), Logo(game), Idle(game), SelectLevel(game)
+			{
+			}
+		};
+
+		Screens screens;
 
 };
