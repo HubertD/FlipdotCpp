@@ -3,7 +3,8 @@
 TetrisGame::TetrisGame(FlipdotGfx& gfx)
   : _gfx(gfx),
 	_gamepad(gfx.getGamepad()),
-	screens(*this)
+	_screens(*this),
+	_variables()
 {
 }
 
@@ -14,7 +15,7 @@ TetrisGame::~TetrisGame()
 void TetrisGame::init(unsigned ticks)
 {
 	_now = ticks;
-	setNextScreen(screens.Logo);
+	setNextScreen(_screens.Logo);
 }
 
 void TetrisGame::update(unsigned ticks)
@@ -30,6 +31,7 @@ void TetrisGame::update(unsigned ticks)
 	}
 
 	_currentScreen->update();
+	_gamepad.resetEvents();
 }
 
 FlipdotGfx& TetrisGame::getGfx()
@@ -50,4 +52,19 @@ void TetrisGame::setNextScreen(TetrisScreenBase& screen)
 unsigned TetrisGame::timeSinceLastScreenChange()
 {
 	return _now - _tLastScreenChange;
+}
+
+unsigned TetrisGame::now()
+{
+	return _now;
+}
+
+TetrisScreens& TetrisGame::getScreens()
+{
+	return _screens;
+}
+
+TetrisVariables& TetrisGame::getVariables()
+{
+	return _variables;
 }

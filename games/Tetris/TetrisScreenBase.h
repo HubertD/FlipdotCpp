@@ -5,6 +5,7 @@
 
 class TetrisGame;
 class TetrisScreens;
+class TetrisVariables;
 class FlipdotGfx;
 class IGamepad;
 
@@ -12,11 +13,20 @@ class TetrisScreenBase
 {
 
 	protected:
+		unsigned now();
 		FlipdotGfx &getGfx();
 		IGamepad &getGamepad();
 		TetrisScreens &getScreens();
+		TetrisVariables &getVariables();
 		unsigned timeSinceEntered();
 		void setNextScreen(TetrisScreenBase& screen);
+
+		bool isAnyKeyPressed();
+		bool wasKeyPressed(GamepadKey key);
+		bool wasKeyReleased(GamepadKey key);
+		bool wasStartOrSelectPressed();
+		bool wasRightOrUpPressed();
+		bool wasLeftOrDownPressed();
 
 	public:
 		TetrisScreenBase(TetrisGame &game);

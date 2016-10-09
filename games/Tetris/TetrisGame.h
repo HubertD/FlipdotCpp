@@ -2,6 +2,7 @@
 
 #include <IGame.h>
 #include "TetrisScreens.h"
+#include "TetrisVariables.h"
 
 class TetrisGame : public IGame
 {
@@ -15,26 +16,25 @@ class TetrisGame : public IGame
 		FlipdotGfx& getGfx();
 		IGamepad& getGamepad();
 
+		TetrisScreens &getScreens();
+		TetrisVariables &getVariables();
 		void setNextScreen(TetrisScreenBase& screen);
+
+		unsigned now();
 		unsigned timeSinceLastScreenChange();
 
 	private:
 		FlipdotGfx& _gfx;
 		IGamepad& _gamepad;
+		TetrisScreens _screens;
+		TetrisVariables _variables;
 
-		TetrisScreenBase* _lastScreen = &screens.Null;
-		TetrisScreenBase* _currentScreen = &screens.Null;
-		TetrisScreenBase* _nextScreen = &screens.Logo;
+		TetrisScreenBase* _lastScreen = &_screens.Null;
+		TetrisScreenBase* _currentScreen = &_screens.Null;
+		TetrisScreenBase* _nextScreen = &_screens.Logo;
 
 		unsigned _now = 0;
 		unsigned _tLastScreenChange = 0;
-
-	public:
-		struct Variables
-		{
-			unsigned startLevel = 1;
-		};
-		TetrisScreens screens;
 
 
 };

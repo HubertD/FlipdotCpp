@@ -12,17 +12,14 @@ void LogoScreen::enter()
 
 void LogoScreen::update()
 {
-	auto& gamepad = getGamepad();
-
-	if (gamepad.isAnyKeyPressed() && (timeSinceEntered() > T_LOGO_MIN))
-	{
-		setNextScreen(getScreens().SelectLevel);
-		return;
-	}
-
 	if (timeSinceEntered() > T_LOGO_IDLE)
 	{
 		setNextScreen(getScreens().Idle);
+	}
+
+	if (isAnyKeyPressed() && (timeSinceEntered() > T_LOGO_MIN))
+	{
+		setNextScreen(getScreens().SelectLevel);
 	}
 
 }

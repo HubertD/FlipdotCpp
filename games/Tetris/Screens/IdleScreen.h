@@ -1,6 +1,6 @@
 #pragma once
 
-#include <games/Tetris/TetrisScreenBase.h>
+#include "../TetrisScreenBase.h"
 
 class IdleScreen : public TetrisScreenBase
 {

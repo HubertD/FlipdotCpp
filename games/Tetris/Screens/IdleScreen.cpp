@@ -1,8 +1,9 @@
 #include "IdleScreen.h"
 
 #include "../TetrisGame.h"
-#include <assets/Bitmaps.h>
 #include "../TetrisScreens.h"
+
+#include <assets/Bitmaps.h>
 
 void IdleScreen::enter()
 {
@@ -14,7 +15,7 @@ void IdleScreen::enter()
 
 void IdleScreen::update()
 {
-	if (getGamepad().isAnyKeyPressed())
+	if (isAnyKeyPressed())
 	{
 		setNextScreen(getScreens().SelectLevel);
 		return;
