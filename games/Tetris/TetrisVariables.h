@@ -3,5 +3,5 @@
 class TetrisVariables
 {
 	public:
-		int startLevel = 1;
+		int startLevel = 0;
 };

@@ -16,7 +16,7 @@ void SelectLevelScreen::update()
 	{
 		if (++vars.startLevel > MAX_LEVEL)
 		{
-			vars.startLevel = MAX_LEVEL;
+			vars.startLevel = MIN_LEVEL;
 		}
 		draw();
 		resetIdleTime();
@@ -26,7 +26,7 @@ void SelectLevelScreen::update()
 	{
 		if (--vars.startLevel < MIN_LEVEL)
 		{
-			vars.startLevel = MIN_LEVEL;
+			vars.startLevel = MAX_LEVEL;
 		}
 		draw();
 		resetIdleTime();
