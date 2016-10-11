@@ -1,0 +1,13 @@
+STM32:
+
+asm flags:
+-x assembler-with-cpp -DDEBUG -DUSE_FULL_ASSERT -DSTM32F051 -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=48000000 -DSTM32F051x8 -I"/home/hd/src/flipdot/flipdot-cpp/src" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx" -I"/home/hd/src/flipdot/flipdot-cpp/src/framework/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/cmsis" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/cmsis/device" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/stm32f0xx"
+
+cflags:
+-DDEBUG -DUSE_FULL_ASSERT -DSTM32F051 -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=48000000 -DSTM32F051x8 -I"/home/hd/src/flipdot/flipdot-cpp/src" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx" -I"/home/hd/src/flipdot/flipdot-cpp/src/framework/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/cmsis" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/cmsis/device" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/stm32f0xx" -std=gnu11
+
+cppflags:
+-DDEBUG -DUSE_FULL_ASSERT -DSTM32F051 -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=48000000 -DSTM32F051x8 -I"/home/hd/src/flipdot/flipdot-cpp/src" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx" -I"/home/hd/src/flipdot/flipdot-cpp/src/framework/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/cmsis" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/cmsis/device" -I"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/system/include/stm32f0xx" -std=gnu++11 -fabi-version=0 -fno-exceptions -fno-rtti -fno-use-cxa-atexit -fno-threadsafe-statics
+
+linker flags:
+-T mem.ld -T libs.ld -T sections.ld -nostartfiles -Xlinker --gc-sections -L"/home/hd/src/flipdot/flipdot-cpp/src/platform/CubeMx/ldscripts" -Wl,-Map,"flipdot-cpp.map" --specs=nano.specs
