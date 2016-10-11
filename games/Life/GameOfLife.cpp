@@ -14,9 +14,7 @@ GameOfLife::~GameOfLife()
 void GameOfLife::init(unsigned ticks)
 {
 	_tNextStep = ticks + 3000;
-	_gfx.drawChar( 5, 18, 'X');
-	_gfx.drawChar(15, 18, 'O');
-	_gfx.drawChar(25, 18, 'R');
+	_gfx.drawText(1, 18, (char*)"BYTEWERK");
 }
 
 void GameOfLife::update(unsigned ticks)
