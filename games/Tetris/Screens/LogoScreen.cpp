@@ -19,7 +19,7 @@ void LogoScreen::update()
 
 	if (isAnyKeyPressed() && (timeSinceEntered() > T_LOGO_MIN))
 	{
-		setNextScreen(getScreens().SelectLevel);
+		setNextScreen(getScreens().Main);
 	}
 
 }

@@ -5,7 +5,7 @@ void GetReadyScreen::update()
 {
 	if (timeSinceEntered() > TIMEOUT)
 	{
-		setNextScreen(getScreens().Logo);
+		setNextScreen(getScreens().Main);
 	}
 }
 

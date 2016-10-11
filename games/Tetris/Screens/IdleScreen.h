@@ -7,7 +7,7 @@ class IdleScreen : public TetrisScreenBase
 	public:
 		using TetrisScreenBase::TetrisScreenBase;
 
-		void enter();
-		void update();
+		void enter() override;
+		void update() override;
 
 };
