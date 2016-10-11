@@ -27,6 +27,7 @@ void SDLPlatform::update()
 	{
 		handleSDLEvent(e);
 	}
+	SDL_Delay(5);
 }
 
 void SDLPlatform::handleSDLEvent(SDL_Event& event)
