@@ -12,7 +12,7 @@ void SelectLevelScreen::update()
 {
 	auto& vars = getVariables();
 
-	if (wasRightOrUpPressed())
+	if (wasNextPressed())
 	{
 		if (++vars.startLevel > MAX_LEVEL)
 		{
@@ -22,7 +22,7 @@ void SelectLevelScreen::update()
 		resetIdleTime();
 	}
 
-	if (wasLeftOrDownPressed())
+	if (wasPreviousPressed())
 	{
 		if (--vars.startLevel < MIN_LEVEL)
 		{
@@ -32,7 +32,7 @@ void SelectLevelScreen::update()
 		resetIdleTime();
 	}
 
-	if (wasStartOrSelectPressed())
+	if (wasContinuePressed())
 	{
 		setNextScreen(getScreens().GetReady);
 	}

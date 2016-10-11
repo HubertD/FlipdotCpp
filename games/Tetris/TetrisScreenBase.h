@@ -24,9 +24,9 @@ class TetrisScreenBase
 		bool isAnyKeyPressed();
 		bool wasKeyPressed(GamepadKey key);
 		bool wasKeyReleased(GamepadKey key);
-		bool wasStartOrSelectPressed();
-		bool wasRightOrUpPressed();
-		bool wasLeftOrDownPressed();
+		bool wasContinuePressed();
+		bool wasNextPressed();
+		bool wasPreviousPressed();
 
 		void clearScreen();
 		void setPixel(unsigned x, unsigned y, bool value);

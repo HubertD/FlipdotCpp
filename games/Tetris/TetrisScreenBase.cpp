@@ -60,19 +60,19 @@ bool TetrisScreenBase::wasKeyReleased(GamepadKey key)
 	return getGamepad().wasKeyReleased(key);
 }
 
-bool TetrisScreenBase::wasStartOrSelectPressed()
+bool TetrisScreenBase::wasContinuePressed()
 {
 	return getGamepad().wasKeyPressed(GamepadKey::KEY_START)
 		   || getGamepad().wasKeyPressed(GamepadKey::KEY_SELECT);
 }
 
-bool TetrisScreenBase::wasRightOrUpPressed()
+bool TetrisScreenBase::wasNextPressed()
 {
 	return getGamepad().wasKeyPressed(GamepadKey::KEY_RIGHT)
 		   || getGamepad().wasKeyPressed(GamepadKey::KEY_UP);
 }
 
-bool TetrisScreenBase::wasLeftOrDownPressed()
+bool TetrisScreenBase::wasPreviousPressed()
 {
 	return getGamepad().wasKeyPressed(GamepadKey::KEY_LEFT)
 		   || getGamepad().wasKeyPressed(GamepadKey::KEY_DOWN);
