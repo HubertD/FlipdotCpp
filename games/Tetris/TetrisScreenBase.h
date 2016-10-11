@@ -34,7 +34,7 @@ class TetrisScreenBase
 		void drawChar(unsigned x, unsigned y, char ch, FlipdotColor color=FlipdotColor::BLACK, Orientation orientation = Orientation::DEG_0);
 		void drawText(unsigned x, unsigned y, char *text, FlipdotColor color=FlipdotColor::BLACK, Orientation orientation = Orientation::DEG_0, int spacing=0);
 		void drawNumber(unsigned x, unsigned y, unsigned number, FlipdotColor color=FlipdotColor::BLACK, Orientation orientation = Orientation::DEG_0, int spacing=0);
-		void drawBitmap(int x, int y, const FlipdotBitmap &bitmap, bool doInvert=false);
+		void drawObject(int x, int y, const IDrawable &drawable, bool doInvert=false);
 
 
 	public:

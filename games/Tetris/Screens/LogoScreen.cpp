@@ -6,7 +6,7 @@
 void LogoScreen::enter()
 {
 	clearScreen();
-	drawBitmap(0, 8, BytewerkLogo, true);
+	drawObject(0, 8, BytewerkLogo, true);
 	drawText(1, 1, (char*)"BYTEWERK");
 }
 

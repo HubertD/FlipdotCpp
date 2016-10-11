@@ -239,7 +239,7 @@ int FlipdotGfx::getCharStepY(Orientation orientation, int spacing)
 	}
 }
 
-void FlipdotGfx::drawBitmap(int x, int y, const FlipdotBitmap& bitmap, bool doInvert)
+void FlipdotGfx::draw(int x, int y, const IDrawable &drawable, bool doInvert)
 {
-	bitmap.draw(*this, x, y, doInvert);
+	drawable.draw(*this, x, y, doInvert);
 }

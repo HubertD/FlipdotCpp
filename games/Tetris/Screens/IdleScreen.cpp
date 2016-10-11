@@ -9,7 +9,7 @@ void IdleScreen::enter()
 {
 	clearScreen();
 	drawText(2, 1, (char*)"TETRIS", FlipdotColor::BLACK, Orientation::DEG_0, 1);
-	drawBitmap(3, 12, StatsQrCode, true);
+	drawObject(3, 12, StatsQrCode, true);
 }
 
 void IdleScreen::update()

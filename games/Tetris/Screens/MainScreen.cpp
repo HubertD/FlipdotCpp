@@ -44,28 +44,10 @@ void MainScreen::drawScore()
 
 void MainScreen::drawField()
 {
-	for (int fieldY=0; fieldY<FIELD_HEIGHT; fieldY++)
-	{
-		for (int fieldX=0; fieldX<FIELD_WIDTH; fieldX++)
-		{
-			drawFieldPoint(fieldX, fieldY, getFieldPoint(fieldX, fieldY) ? FlipdotColor::BLACK : FlipdotColor::WHITE);
-		}
-	}
-}
-
-void MainScreen::drawFieldPoint(int fieldX, int fieldY, FlipdotColor color)
-{
-	auto px = FIELD_X + (fieldX*FIELD_POINT_WIDTH);
-	auto py = FIELD_Y + (fieldY*FIELD_POINT_WIDTH);
-	bool value = (color == FlipdotColor::BLACK);
-	drawRect(px, py, FIELD_POINT_WIDTH, FIELD_POINT_HEIGHT, value);
+	drawObject(FIELD_X, FIELD_Y, _field);
 }
 
 void MainScreen::drawNextBlock()
 {
 }
 
-bool MainScreen::getFieldPoint(int fieldX, int fieldY)
-{
-	return (_field[fieldY] & (1<<fieldX)) != 0;
-}

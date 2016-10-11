@@ -14,11 +14,13 @@ Paint::~Paint() {
 
 void Paint::init(unsigned ticks)
 {
+	(void) ticks;
 	_gfx.clear();
 }
 
 void Paint::update(unsigned ticks)
 {
+	(void) ticks;
 	auto& gamepad = _gfx.getGamepad();
 
 	if (gamepad.wasKeyPressed(GamepadKey::KEY_LEFT))
@@ -56,6 +58,6 @@ void Paint::update(unsigned ticks)
 	_gfx.drawText(2, 32, (char*)"FNORD");
 
 	_gfx.setPixel(_cursorX, _cursorY, true);
-	_gfx.drawBitmap(0, 0, BytewerkLogo);
+	_gfx.draw(0, 0, BytewerkLogo);
 
 }

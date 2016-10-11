@@ -110,8 +110,7 @@ void TetrisScreenBase::drawNumber(unsigned x, unsigned y, unsigned number,
 	_game.getGfx().drawNumber(x, y, number, color, orientation, spacing);
 }
 
-void TetrisScreenBase::drawBitmap(int x, int y, const FlipdotBitmap& bitmap,
-		bool doInvert)
+void TetrisScreenBase::drawObject(int x, int y, const IDrawable &drawable, bool doInvert)
 {
-	_game.getGfx().drawBitmap(x, y, bitmap, doInvert);
+	_game.getGfx().draw(x, y, drawable, doInvert);
 }
