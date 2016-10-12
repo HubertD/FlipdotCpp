@@ -13,6 +13,8 @@ class TetrisField : public IDrawable
 		static const int POINT_WIDTH = 2;
 		static const int POINT_HEIGHT = 2;
 
+		void clear();
+
 		void setPoint(int fieldX, int fieldY, bool value);
 		bool getPoint(int fieldX, int fieldY) const;
 

@@ -3,6 +3,7 @@
 
 #include <games/Tetris/TetrisVariables.h>
 #include <games/Tetris/TetrisBlock.h>
+#include <games/Tetris/TetrisScreens.h>
 
 MainScreen::MainScreen(TetrisGame& game)
   : TetrisScreenBase(game),
@@ -20,28 +21,18 @@ void MainScreen::enter()
 	_stepInterval = 1000;
 	_tNextStep = now();
 
-	_currentBlock = TetrisBlock::createRandomBlock();
-	_currentBlock.setX(4);
-	_currentBlock.setY(0);
+	_field.clear();
 
 	_nextBlock = TetrisBlock::createRandomBlock();
+	switchToNextBlock();
 }
 
 void MainScreen::update()
 {
 	updateGamepad();
-	if (now() >= _tNextStep)
-	{
-		_tNextStep += _stepInterval;
-		if (!moveIfAllowed(TetrisBlock::Move::DOWN))
-		{
-			_currentBlock.merge(_field);
-			_currentBlock = _nextBlock;
-			_currentBlock.setX(4);
-			_currentBlock.setY(-2);
-			_nextBlock = TetrisBlock::createRandomBlock();
-		}
-	}
+	makeStepIfDue();
+	checkRemoveFullRows();
+	checkGameOver();
 	draw();
 }
 
@@ -73,6 +64,33 @@ void MainScreen::updateGamepad()
 	}
 }
 
+void MainScreen::makeStepIfDue()
+{
+	if (now() < _tNextStep) { return; }
+
+	if (!moveIfAllowed(TetrisBlock::Move::DOWN))
+	{
+		_currentBlock.merge(_field);
+		switchToNextBlock();
+	}
+
+	_tNextStep += _stepInterval;
+}
+
+
+void MainScreen::checkRemoveFullRows()
+{
+
+}
+
+void MainScreen::checkGameOver()
+{
+	if (_currentBlock.doesCollide(_field))
+	{
+		setNextScreen(getScreens().GetReady); /* Game over */
+	}
+}
+
 bool MainScreen::isMoveAllowed(TetrisBlock::Move move)
 {
 	auto copy = _currentBlock;
@@ -89,6 +107,14 @@ bool MainScreen::moveIfAllowed(TetrisBlock::Move move)
 	} else {
 		return false;
 	}
+}
+
+void MainScreen::switchToNextBlock()
+{
+	_currentBlock = _nextBlock;
+	_currentBlock.setX((TetrisField::FIELD_WIDTH / 2) - 1);
+	_currentBlock.setY(-3);
+	_nextBlock = TetrisBlock::createRandomBlock();
 }
 
 void MainScreen::draw()
@@ -125,4 +151,5 @@ void MainScreen::drawField()
 
 void MainScreen::drawNextBlock()
 {
+	_nextBlock.draw(getGfx(), NEXT_BLOCK_X, NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT);
 }

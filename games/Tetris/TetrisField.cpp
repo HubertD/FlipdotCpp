@@ -2,6 +2,14 @@
 #include <games/Tetris/TetrisBlock.h>
 #include <FlipdotGfx.h>
 
+void TetrisField::clear()
+{
+	for (int i=0; i<FIELD_HEIGHT; i++)
+	{
+		_data[i] = 0;
+	}
+}
+
 void TetrisField::setPoint(int fieldX, int fieldY, bool value)
 {
 	uint16_t bitmask = (1<<fieldX);

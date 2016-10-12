@@ -16,6 +16,8 @@ class MainScreen: public TetrisScreenBase
 
 		static const int FIELD_X = 0;
 		static const int FIELD_Y = 0;
+		static const int NEXT_BLOCK_X = 24;
+		static const int NEXT_BLOCK_Y = 6;
 
 		unsigned _score = 0;
 		unsigned _level = 0;
@@ -27,8 +29,12 @@ class MainScreen: public TetrisScreenBase
 		TetrisBlock _nextBlock;
 
 		void updateGamepad();
+		void makeStepIfDue();
+		void checkRemoveFullRows();
+		void checkGameOver();
 		bool isMoveAllowed(TetrisBlock::Move move);
 		bool moveIfAllowed(TetrisBlock::Move move);
+		void switchToNextBlock();
 		void draw();
 		void drawLevel();
 		void drawScore();
