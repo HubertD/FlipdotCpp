@@ -1,4 +1,5 @@
 #include <games/Tetris/TetrisField.h>
+#include <games/Tetris/TetrisBlock.h>
 #include <FlipdotGfx.h>
 
 void TetrisField::setPoint(int fieldX, int fieldY, bool value)
@@ -38,6 +39,16 @@ void TetrisField::draw(FlipdotGfx& gfx, int x, int y, bool doInvert) const
 void TetrisField::drawPoint(FlipdotGfx &gfx, int x, int y, int fieldX, int fieldY, bool value) const
 {
 	auto px = x + (fieldX*POINT_WIDTH);
-	auto py = y + (fieldY*POINT_WIDTH);
+	auto py = y + fieldY*POINT_WIDTH;
 	gfx.drawRect(px, py, POINT_WIDTH, POINT_HEIGHT, value);
+}
+
+void TetrisField::deleteRow(int row)
+{
+	(void) row;
+	for (int y=1; y<FIELD_HEIGHT; y++)
+	{
+		_data[y] = _data[y-1];
+	}
+	_data[0] = 0;
 }

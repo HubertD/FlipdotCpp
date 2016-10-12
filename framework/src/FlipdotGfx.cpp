@@ -166,7 +166,7 @@ void FlipdotGfx::drawChar(unsigned x, unsigned y, char ch, FlipdotColor color, O
 					setPixel(x+5-dy, y+dx-2, value);
 					break;
 
-				case Orientation::DEG_270: // FIXME
+				case Orientation::DEG_270:
 					setPixel(x+dy, y+(3-dx)-2, value);
 					break;
 
