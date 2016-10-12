@@ -51,12 +51,37 @@ void TetrisField::drawPoint(FlipdotGfx &gfx, int x, int y, int fieldX, int field
 	gfx.drawRect(px, py, POINT_WIDTH, POINT_HEIGHT, value);
 }
 
+bool TetrisField::isRowFull(int row)
+{
+	if ( (row<0) || (row >= FIELD_HEIGHT) ) {
+		return false;
+	} else {
+		return (_data[row] & FULL_ROW_MASK) == FULL_ROW_MASK;
+	}
+}
+
 void TetrisField::deleteRow(int row)
 {
-	(void) row;
-	for (int y=1; y<FIELD_HEIGHT; y++)
+	for (int y=row; y>0; y--)
 	{
 		_data[y] = _data[y-1];
 	}
 	_data[0] = 0;
 }
+
+void TetrisField::deleteFullRows()
+{
+	int i=FIELD_HEIGHT-1;
+
+	// TODO simplify loop
+	while (i>0)
+	{
+		if (isRowFull(i)) {
+			deleteRow(i);
+		} else {
+			i--;
+		}
+	};
+
+}
+

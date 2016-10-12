@@ -108,21 +108,21 @@ void FlipdotGfx::clear()
 	_fb.clear();
 }
 
-void FlipdotGfx::setPixel(unsigned x, unsigned y, bool value)
+void FlipdotGfx::setPixel(int x, int y, bool value)
 {
 	_fb.setPixel(x, y, value);
 }
 
-bool FlipdotGfx::getPixel(unsigned x, unsigned y)
+bool FlipdotGfx::getPixel(int x, int y)
 {
 	return _fb.getPixel(x, y);
 }
 
-void FlipdotGfx::drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value)
+void FlipdotGfx::drawRect(int x, int y, int dx, int dy, bool value)
 {
-	for (unsigned px=x; px<(x+dx); px++)
+	for (int px=x; px<(x+dx); px++)
 	{
-		for (unsigned py=y; py<(y+dy); py++)
+		for (int py=y; py<(y+dy); py++)
 		{
 			setPixel(px, py, value);
 		}
@@ -148,7 +148,7 @@ uint16_t FlipdotGfx::getCharData(char ch)
     }
 }
 
-void FlipdotGfx::drawChar(unsigned x, unsigned y, char ch, FlipdotColor color, Orientation orientation)
+void FlipdotGfx::drawChar(int x, int y, char ch, FlipdotColor color, Orientation orientation)
 {
 	uint16_t data = getCharData(ch);
 
@@ -196,7 +196,7 @@ IGamepad& FlipdotGfx::getGamepad()
 	return _gamepad;
 }
 
-void FlipdotGfx::drawText(unsigned x, unsigned y, char* text, FlipdotColor color, Orientation orientation, int spacing)
+void FlipdotGfx::drawText(int x, int y, char* text, FlipdotColor color, Orientation orientation, int spacing)
 {
 	while (*text != 0)
 	{
@@ -207,7 +207,7 @@ void FlipdotGfx::drawText(unsigned x, unsigned y, char* text, FlipdotColor color
 	}
 }
 
-void FlipdotGfx::drawNumber(unsigned x, unsigned y, unsigned number, FlipdotColor color, Orientation orientation, int spacing)
+void FlipdotGfx::drawNumber(int x, int y, unsigned number, FlipdotColor color, Orientation orientation, int spacing)
 {
 	do {
 		x -= getCharStepX(orientation, spacing);

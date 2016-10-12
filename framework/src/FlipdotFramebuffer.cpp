@@ -84,12 +84,12 @@ void FlipdotFramebuffer::clear()
 	}
 }
 
-void FlipdotFramebuffer::setPixel(unsigned x, unsigned y, bool value)
+void FlipdotFramebuffer::setPixel(int x, int y, bool value)
 {
 	_offScreenBuffer.setPixel(x, y, value);
 }
 
-bool FlipdotFramebuffer::getPixel(unsigned x, unsigned y)
+bool FlipdotFramebuffer::getPixel(int x, int y)
 {
 	return _offScreenBuffer.getPixel(x, y);
 }

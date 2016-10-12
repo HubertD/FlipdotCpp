@@ -18,8 +18,8 @@ class FlipdotFramebuffer
 		void flush();
 
 		void clear();
-		void setPixel(unsigned x, unsigned y, bool value);
-		bool getPixel(unsigned x, unsigned y);
+		void setPixel(int x, int y, bool value);
+		bool getPixel(int x, int y);
 
 		ScreenBuffer &getOnScreenBuffer();
 		ScreenBuffer &getOffScreenBuffer();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <FlipdotTypes.h>
 
 class TetrisField;
 class FlipdotGfx;
@@ -41,6 +42,6 @@ class TetrisBlock
 
 		bool doesCollide(TetrisField& field);
 		void merge(TetrisField& field);
-		void draw(FlipdotGfx& gfx, int offsetX, int offsetY, int pointSizeX, int pointSizeY);
+		void draw(FlipdotGfx& gfx, int offsetX, int offsetY, int pointSizeX, int pointSizeY, FlipdotColor color);
 
 };

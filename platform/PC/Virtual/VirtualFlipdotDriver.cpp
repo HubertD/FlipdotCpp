@@ -153,6 +153,7 @@ void VirtualFlipdotDriver::onUpdateScreen()
 
 void VirtualFlipdotDriver::onUpdateColumn(unsigned column)
 {
+	(void) column;
 	onUpdateScreen();
 }
 

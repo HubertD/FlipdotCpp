@@ -18,7 +18,7 @@ void MainScreen::enter()
 	_score = 13307;
 	_level = getVariables().startLevel;
 	_destructedLines = 0;
-	_stepInterval = 1000;
+	_stepInterval = 500;
 	_tNextStep = now();
 
 	_field.clear();
@@ -32,8 +32,10 @@ void MainScreen::update()
 	updateGamepad();
 	makeStepIfDue();
 	checkRemoveFullRows();
-	checkGameOver();
-	draw();
+	if (!checkGameOver())
+	{
+		draw();
+	}
 }
 
 void MainScreen::updateGamepad()
@@ -48,7 +50,7 @@ void MainScreen::updateGamepad()
 		moveIfAllowed(TetrisBlock::Move::LEFT);
 	}
 
-	if (wasKeyPressed(GamepadKey::KEY_A))
+	if (wasKeyPressed(GamepadKey::KEY_A) || wasKeyPressed(GamepadKey::KEY_UP))
 	{
 		moveIfAllowed(TetrisBlock::Move::ROTATE_RIGHT);
 	}
@@ -80,14 +82,17 @@ void MainScreen::makeStepIfDue()
 
 void MainScreen::checkRemoveFullRows()
 {
-
+	_field.deleteFullRows();
 }
 
-void MainScreen::checkGameOver()
+bool MainScreen::checkGameOver()
 {
 	if (_currentBlock.doesCollide(_field))
 	{
 		setNextScreen(getScreens().GetReady); /* Game over */
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -120,6 +125,7 @@ void MainScreen::switchToNextBlock()
 void MainScreen::draw()
 {
 	clearScreen();
+	drawRect(20, 0, 12, 40, true);
 	drawLevel();
 	drawScore();
 	drawField();
@@ -128,28 +134,28 @@ void MainScreen::draw()
 
 void MainScreen::drawLevel()
 {
-	drawChar(23, 0, 'L');
-	drawChar(26, 0, ':');
-	drawChar(29, 0, '0'+_level);
+	drawChar(21, 0, 'L', FlipdotColor::WHITE);
+	drawChar(25, 0, ':', FlipdotColor::WHITE);
+	drawChar(28, 0, '0'+_level, FlipdotColor::WHITE);
 }
 
 void MainScreen::drawScore()
 {
 	if (_score < 10000) {
-		drawNumber(26, 43, _score, FlipdotColor::BLACK, Orientation::DEG_90);
+		drawNumber(24, 42, _score, FlipdotColor::WHITE, Orientation::DEG_90);
 	} else {
-		drawNumber(26, 38, _score, FlipdotColor::BLACK, Orientation::DEG_90);
-		drawChar(26, 39, 'K', FlipdotColor::BLACK, Orientation::DEG_90);
+		drawNumber(24, 37, _score, FlipdotColor::WHITE, Orientation::DEG_90);
+		drawChar(24, 38, 'K', FlipdotColor::WHITE, Orientation::DEG_90);
 	}
 }
 
 void MainScreen::drawField()
 {
 	drawObject(FIELD_X, FIELD_Y, _field);
-	_currentBlock.draw(getGfx(), FIELD_X, FIELD_Y, 2, 2);
+	_currentBlock.draw(getGfx(), FIELD_X, FIELD_Y, 2, 2, FlipdotColor::BLACK);
 }
 
 void MainScreen::drawNextBlock()
 {
-	_nextBlock.draw(getGfx(), NEXT_BLOCK_X, NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT);
+	_nextBlock.draw(getGfx(), NEXT_BLOCK_X, NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, FlipdotColor::WHITE);
 }

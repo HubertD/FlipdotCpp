@@ -90,6 +90,7 @@ void SDLFlipdotDriver::drawOverlayRect(int x, int y, int w, int h, uint8_t r, ui
 
 void SDLFlipdotDriver::drawDebugScreenBuffer(int x, int y, ScreenBuffer& buffer, ScreenBuffer& diffBuffer)
 {
+	(void) diffBuffer;
 	SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
 	SDL_Rect rect = {0, 0, 10, 10};
 
