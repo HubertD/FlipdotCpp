@@ -62,8 +62,6 @@
 #define COL_DATA_GPIO_Port GPIOA
 #define COL_CLK_Pin GPIO_PIN_2
 #define COL_CLK_GPIO_Port GPIOA
-
-
 #define STROBE_Pin GPIO_PIN_5
 #define STROBE_GPIO_Port GPIOA
 #define BLACK_OE_Pin GPIO_PIN_6
@@ -78,6 +76,14 @@
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin GPIO_PIN_14
 #define SWCLK_GPIO_Port GPIOA
+
+#define NES_CLK_Pin GPIO_PIN_2
+#define NES_CLK_GPIO_Port GPIOC
+#define NES_DATA_Pin GPIO_PIN_1
+#define NES_DATA_GPIO_Port GPIOC
+#define NES_LATCH_Pin GPIO_PIN_0
+#define NES_LATCH_GPIO_Port GPIOC
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

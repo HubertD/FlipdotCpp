@@ -98,6 +98,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : NES_DATA */
+  GPIO_InitStruct.Pin = NES_DATA_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(NES_DATA_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pins : ROW_DATA_Pin ROW_CLK_Pin COL_DATA_Pin COL_CLK_Pin
                            STROBE_Pin BLACK_OE_Pin WHITE_OE_Pin */
   GPIO_InitStruct.Pin = ROW_DATA_Pin|ROW_CLK_Pin|COL_DATA_Pin|COL_CLK_Pin
@@ -106,6 +112,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure NES GPIO output pins : NES_CLK, NES_LATCH */
+  GPIO_InitStruct.Pin = NES_CLK_Pin|NES_LATCH_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LD4_Pin LD3_Pin */
   GPIO_InitStruct.Pin = LD4_Pin|LD3_Pin;
@@ -117,6 +130,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, ROW_DATA_Pin|ROW_CLK_Pin|COL_DATA_Pin|COL_CLK_Pin
                           |STROBE_Pin|BLACK_OE_Pin|WHITE_OE_Pin, GPIO_PIN_RESET);
+
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, LD4_Pin|LD3_Pin, GPIO_PIN_RESET);
