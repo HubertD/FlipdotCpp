@@ -18,11 +18,13 @@ class MainScreen: public TetrisScreenBase
 		static const int FIELD_Y = 0;
 		static const int NEXT_BLOCK_X = 22;
 		static const int NEXT_BLOCK_Y = 6;
+		static const int LINE_SCORE_MULT = 2;
 
 		unsigned _score = 0;
+		unsigned _scoreBuf = 0;
 		unsigned _level = 0;
-		unsigned _destructedLines = 0;
-		unsigned _stepInterval = 1000;
+		unsigned _destructedRows = 0;
+		unsigned _stepInterval = 0;
 		unsigned _tNextStep = 0;
 		TetrisField _field;
 		TetrisBlock _currentBlock;
@@ -30,7 +32,8 @@ class MainScreen: public TetrisScreenBase
 
 		void updateGamepad();
 		void makeStepIfDue();
-		void checkRemoveFullRows();
+		void removeFullRows();
+		int calcPointsForDeletedRows(int deletedRows);
 		bool checkGameOver();
 		bool isMoveAllowed(TetrisBlock::Move move);
 		bool moveIfAllowed(TetrisBlock::Move move);
@@ -40,5 +43,6 @@ class MainScreen: public TetrisScreenBase
 		void drawScore();
 		void drawField();
 		void drawNextBlock();
+		void updateStepInterval();
 
 };

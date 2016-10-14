@@ -74,19 +74,22 @@ void TetrisField::deleteRow(int row)
 	_data[0] = 0;
 }
 
-void TetrisField::deleteFullRows()
+int TetrisField::deleteFullRows()
 {
 	int i=FIELD_HEIGHT-1;
+	int deletedRows = 0;
 
 	// TODO simplify loop
 	while (i>0)
 	{
 		if (isRowFull(i)) {
 			deleteRow(i);
+			deletedRows++;
 		} else {
 			i--;
 		}
 	};
 
+	return deletedRows;
 }
 

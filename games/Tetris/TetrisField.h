@@ -25,7 +25,7 @@ class TetrisField : public IDrawable
 		bool isRowFull(int row);
 		void deleteRow(int row);
 
-		void deleteFullRows();
+		int deleteFullRows();
 
 	private:
 		uint16_t _data[FIELD_HEIGHT] = { 0 };

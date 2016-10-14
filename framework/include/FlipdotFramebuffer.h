@@ -25,7 +25,7 @@ class FlipdotFramebuffer
 		ScreenBuffer &getOffScreenBuffer();
 
 	private:
-		static const unsigned DOT_FLIP_TIME_MS = 15;
+		static const unsigned DOT_FLIP_TIME_MS = 6;
 
 		IFlipdotDriver &_driver;
 		FlipdotPanel _panels[NUM_PANELS];

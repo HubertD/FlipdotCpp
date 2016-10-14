@@ -131,8 +131,9 @@ bool TetrisBlock::doesCollide(TetrisField& field)
 			{
 				auto fieldX = _posX + ix;
 				auto fieldY = _posY + iy;
-				if ((fieldX<0) || (fieldX>=TetrisField::FIELD_WIDTH)
-						|| (fieldY>=TetrisField::FIELD_HEIGHT)
+				if ((fieldX<0)
+					|| (fieldX>=TetrisField::FIELD_WIDTH)
+					|| (fieldY>=TetrisField::FIELD_HEIGHT)
 					|| field.getPoint(_posX+ix, _posY+iy))
 				{
 					return true;
