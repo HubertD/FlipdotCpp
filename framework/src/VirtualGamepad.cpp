@@ -44,3 +44,12 @@ bool VirtualGamepad::keyStatus(GamepadKey key, uint32_t status)
 {
 	return (status & (1 << (unsigned)key)) != 0;
 }
+
+void VirtualGamepad::setKeyStatus(GamepadKey key, bool isPressed)
+{
+	if (isPressed) {
+		injectKeyPress(key);
+	} else {
+		injectKeyRelease(key);
+	}
+}

@@ -30,9 +30,64 @@ bool CubeMxPlatform::doQuit()
 }
 
 
+void CubeMxPlatform::update()
+{
+	uint8_t nes = getNESbyte();
+	_gamepad.setKeyStatus(GamepadKey::KEY_A,      (nes & 0x80) != 0);
+	_gamepad.setKeyStatus(GamepadKey::KEY_B,      (nes & 0x40) != 0);
+	_gamepad.setKeyStatus(GamepadKey::KEY_SELECT, (nes & 0x20) != 0);
+	_gamepad.setKeyStatus(GamepadKey::KEY_START,  (nes & 0x10) != 0);
+	_gamepad.setKeyStatus(GamepadKey::KEY_UP,     (nes & 0x08) != 0);
+	_gamepad.setKeyStatus(GamepadKey::KEY_DOWN,   (nes & 0x04) != 0);
+	_gamepad.setKeyStatus(GamepadKey::KEY_LEFT,   (nes & 0x02) != 0);
+	_gamepad.setKeyStatus(GamepadKey::KEY_RIGHT,  (nes & 0x01) != 0);
+}
+
 void CubeMxPlatform::done()
 {
 }
+
+uint8_t CubeMxPlatform::getNESbyte()
+{
+	uint8_t value = 0;
+
+	sendNESlatch();
+	for (int i=0; i<8; i++)
+	{
+		value <<= 1;
+		if (getNESbit())
+		{
+			value |= 0x01;
+		}
+
+		sendNESclock();
+	}
+
+	return value;
+}
+
+bool CubeMxPlatform::getNESbit()
+{
+	return HAL_GPIO_ReadPin(NES_DATA_GPIO_Port, NES_DATA_Pin) == 0;
+}
+
+void CubeMxPlatform::sendNESlatch()
+{
+	HAL_GPIO_WritePin(NES_LATCH_GPIO_Port, NES_LATCH_Pin, GPIO_PIN_SET);
+	for (int i=0; i<100; i++) { asm("nop"); }
+	HAL_GPIO_WritePin(NES_LATCH_GPIO_Port, NES_LATCH_Pin, GPIO_PIN_RESET);
+	for (int i=0; i<10; i++) { asm("nop"); }
+}
+
+void CubeMxPlatform::sendNESclock()
+{
+	for (int i=0; i<10; i++) { asm("nop"); }
+	HAL_GPIO_WritePin(NES_CLK_GPIO_Port, NES_CLK_Pin, GPIO_PIN_SET);
+	for (int i=0; i<10; i++) { asm("nop"); }
+	HAL_GPIO_WritePin(NES_CLK_GPIO_Port, NES_CLK_Pin, GPIO_PIN_RESET);
+}
+
+
 
 FlipdotFramebuffer& CubeMxPlatform::getFramebuffer()
 {
@@ -148,5 +203,6 @@ void Error_Handler(void)
 void assert_failed(uint8_t* file, uint32_t line)
 {
 }
+
 #endif
 

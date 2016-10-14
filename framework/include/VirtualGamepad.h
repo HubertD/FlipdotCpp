@@ -17,6 +17,7 @@ class VirtualGamepad : public IGamepad
 
 		void injectKeyPress(GamepadKey key);
 		void injectKeyRelease(GamepadKey key);
+		void setKeyStatus(GamepadKey key, bool isPressed);
 
 	private:
 		uint32_t _currentStatus = 0;

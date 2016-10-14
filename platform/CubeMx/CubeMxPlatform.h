@@ -12,7 +12,7 @@ class CubeMxPlatform : IPlatform
 
 		void init() override;
 		void done() override;
-		void update() override {};
+		void update() override;
 
 		FlipdotFramebuffer& getFramebuffer() override;
 		IGamepad& getGamepad() override;
@@ -24,5 +24,10 @@ class CubeMxPlatform : IPlatform
 		CubeMxFlipdotDriver _driver;
 		FlipdotFramebuffer _framebuffer;
 		VirtualGamepad _gamepad;
+
+		uint8_t getNESbyte();
+		void sendNESlatch();
+		void sendNESclock();
+		bool getNESbit();
 };
 

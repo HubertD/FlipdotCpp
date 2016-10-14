@@ -12,6 +12,8 @@ void TetrisField::clear()
 
 void TetrisField::setPoint(int fieldX, int fieldY, bool value)
 {
+	if ((fieldX<0) || (fieldX>=FIELD_WIDTH)) { return; }
+	if ((fieldY<0) || (fieldY>=FIELD_HEIGHT)) { return; }
 	uint16_t bitmask = (1<<fieldX);
 	if (value) {
 		_data[fieldY] |= bitmask;
@@ -22,6 +24,9 @@ void TetrisField::setPoint(int fieldX, int fieldY, bool value)
 
 bool TetrisField::getPoint(int fieldX, int fieldY) const
 {
+	if (fieldY<0) { return false; }
+	if (fieldY>=FIELD_HEIGHT) { return true; }
+	if ( (fieldX<0) || (fieldX >= FIELD_WIDTH) ) { return true; }
 	return (_data[fieldY] & (1<<fieldX)) != 0;
 }
 

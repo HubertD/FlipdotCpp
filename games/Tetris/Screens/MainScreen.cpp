@@ -22,8 +22,6 @@ void MainScreen::enter()
 	_tNextStep = now();
 
 	_field.clear();
-
-	_nextBlock = TetrisBlock::createRandomBlock();
 	switchToNextBlock();
 }
 
