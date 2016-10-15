@@ -8,11 +8,11 @@ class TetrisBlock;
 class TetrisField : public IDrawable
 {
 	public:
-		static const int FIELD_WIDTH = 10;
-		static const int FIELD_HEIGHT = 20;
+		static const int COLUMNS = 10;
+		static const int ROWS = 20;
 		static const int POINT_WIDTH = 2;
 		static const int POINT_HEIGHT = 2;
-		static const unsigned FULL_ROW_MASK = 0xFFFFFFFF >> (32-FIELD_WIDTH);
+		static const unsigned FULL_ROW_MASK = 0xFFFFFFFF >> (32-COLUMNS);
 
 		void clear();
 
@@ -31,7 +31,7 @@ class TetrisField : public IDrawable
 		void setInvertFullRows(bool doInvert);
 
 	private:
-		uint16_t _data[FIELD_HEIGHT] = { 0 };
+		uint16_t _data[ROWS] = { 0 };
 		bool _invertFullRows = false;
 
 		void drawPoint(Framebuffer& fb, int x, int y, int fieldX, int fieldY, bool value) const;

@@ -4,7 +4,7 @@
 
 void TetrisField::clear()
 {
-	for (int i=0; i<FIELD_HEIGHT; i++)
+	for (int i=0; i<ROWS; i++)
 	{
 		_data[i] = 0;
 	}
@@ -12,8 +12,8 @@ void TetrisField::clear()
 
 void TetrisField::setPoint(int fieldX, int fieldY, bool value)
 {
-	if ((fieldX<0) || (fieldX>=FIELD_WIDTH)) { return; }
-	if ((fieldY<0) || (fieldY>=FIELD_HEIGHT)) { return; }
+	if ((fieldX<0) || (fieldX>=COLUMNS)) { return; }
+	if ((fieldY<0) || (fieldY>=ROWS)) { return; }
 	uint16_t bitmask = (1<<fieldX);
 	if (value) {
 		_data[fieldY] |= bitmask;
@@ -25,8 +25,8 @@ void TetrisField::setPoint(int fieldX, int fieldY, bool value)
 bool TetrisField::getPoint(int fieldX, int fieldY) const
 {
 	if (fieldY<0) { return false; }
-	if (fieldY>=FIELD_HEIGHT) { return true; }
-	if ( (fieldX<0) || (fieldX >= FIELD_WIDTH) ) { return true; }
+	if (fieldY>=ROWS) { return true; }
+	if ( (fieldX<0) || (fieldX >= COLUMNS) ) { return true; }
 	return (_data[fieldY] & (1<<fieldX)) != 0;
 }
 
@@ -39,11 +39,11 @@ bool TetrisField::getPixel(int x, int y) const
 
 void TetrisField::draw(Framebuffer& fb, int x, int y, bool doInvert) const
 {
-	for (int fieldY=0; fieldY<FIELD_HEIGHT; fieldY++)
+	for (int fieldY=0; fieldY<ROWS; fieldY++)
 	{
 		bool invertThisRow = doInvert ^ (_invertFullRows && isRowFull(fieldY));
 
-		for (int fieldX=0; fieldX<FIELD_WIDTH; fieldX++)
+		for (int fieldX=0; fieldX<COLUMNS; fieldX++)
 		{
 			bool value = getPoint(fieldX, fieldY) ^ invertThisRow;
 			drawPoint(fb, x, y, fieldX, fieldY, value);
@@ -60,7 +60,7 @@ void TetrisField::drawPoint(Framebuffer& fb, int x, int y, int fieldX, int field
 
 bool TetrisField::isRowFull(int row) const
 {
-	if ( (row<0) || (row >= FIELD_HEIGHT) ) {
+	if ( (row<0) || (row >= ROWS) ) {
 		return false;
 	} else {
 		return (_data[row] & FULL_ROW_MASK) == FULL_ROW_MASK;
@@ -78,7 +78,7 @@ void TetrisField::deleteRow(int row)
 
 bool TetrisField::hasFullRows() const
 {
-	for (int i=0; i<FIELD_HEIGHT; i++)
+	for (int i=0; i<ROWS; i++)
 	{
 		if (isRowFull(i))
 		{
@@ -90,7 +90,7 @@ bool TetrisField::hasFullRows() const
 
 int TetrisField::deleteFullRows()
 {
-	int i=FIELD_HEIGHT-1;
+	int i=ROWS-1;
 	int deletedRows = 0;
 
 	// TODO simplify loop

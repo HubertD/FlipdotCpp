@@ -157,7 +157,7 @@ void MainScreen::makeStepIfDue()
 void MainScreen::switchToNextBlock()
 {
 	_currentBlock = _nextBlock;
-	_currentBlock.setX((TetrisField::FIELD_WIDTH / 2) - 1);
+	_currentBlock.setX((TetrisField::COLUMNS / 2) - 1);
 	_currentBlock.setY(-3);
 	_nextBlock = TetrisBlock::createRandomBlock();
 }
