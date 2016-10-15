@@ -77,7 +77,8 @@ void MainScreen::updateStateGameOver()
 
 void MainScreen::updateStateRowsBlinking()
 {
-	if (_tBlinkNextToggle >= now()) {
+	if (_tBlinkNextToggle >= now())
+	{
 		return;
 	}
 
@@ -179,7 +180,7 @@ void MainScreen::checkGameOver()
 	{
 		getVariables().lastScore = _score;
 		_state = State::GAME_OVER;
-		_tGameOverWait = now() + TIMEOUT_GAME_OVER;
+		_tGameOverWait = now() + WAIT_AFTER_GAME_OVER;
 	}
 }
 
@@ -189,9 +190,9 @@ void MainScreen::draw()
 
 	drawRect(20, 0, 12, 40, true);
 
-	drawChar(21, 1, 'L', FlipdotColor::WHITE);
-	drawChar(24, 1, ':', FlipdotColor::WHITE);
-	drawChar(28, 1, '0'+_level, FlipdotColor::WHITE);
+	drawChar(LEVEL_X,   LEVEL_Y, 'L', FlipdotColor::WHITE);
+	drawChar(LEVEL_X+3, LEVEL_Y, ':', FlipdotColor::WHITE);
+	drawChar(LEVEL_X+7, LEVEL_Y, '0'+_level, FlipdotColor::WHITE);
 
 	if (_score < SCORE_SHOW_K)
 	{

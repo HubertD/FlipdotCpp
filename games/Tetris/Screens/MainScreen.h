@@ -22,13 +22,19 @@ class MainScreen: public TetrisScreenBase
 
 		static const int FIELD_X = 0;
 		static const int FIELD_Y = 0;
+
+		static const int LEVEL_X = 21;
+		static const int LEVEL_Y = 1;
+
 		static const int NEXT_BLOCK_X = 22;
 		static const int NEXT_BLOCK_Y = 6;
+
 		static const int SCORE_X = 24;
 		static const int SCORE_Y = 42;
+
 		static const unsigned SCORE_SHOW_K = 10000;
 
-		static const unsigned TIMEOUT_GAME_OVER = 2000;
+		static const unsigned WAIT_AFTER_GAME_OVER = 2000;
 		static const unsigned DELETED_ROWS_BLINK_COUNT = 3;
 		static const unsigned DELETED_ROWS_BLINK_INTERVAL = 200;
 
