@@ -2,14 +2,14 @@
 
 #include <stdint.h>
 #include <IGame.h>
+#include <GameScreenBase.h>
 
 class Environment;
 
-class GameOfLife : public IGame
+class GameOfLife : public IGame, public GameScreenBase
 {
 	public:
-		GameOfLife(Environment& env);
-		virtual ~GameOfLife();
+		using GameScreenBase::GameScreenBase;
 		void init(unsigned ticks) override;
 		void update(unsigned ticks) override;
 
@@ -19,7 +19,6 @@ class GameOfLife : public IGame
 		static const int STEP_INTERVAL = 500;
 		static const unsigned FIELD_ARRAY_LENGTH = (FIELD_WIDTH * FIELD_HEIGHT - 1)/32 + 1;
 
-		Environment& _env;
 		uint32_t _field[FIELD_ARRAY_LENGTH] = { 0 };
 		unsigned _tNextStep = 0;
 

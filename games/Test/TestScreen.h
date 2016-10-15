@@ -1,21 +1,19 @@
 #pragma once
 
 #include <IGame.h>
+#include <GameScreenBase.h>
 
 class Environment;
 
-class TestScreen: public IGame
+class TestScreen: public IGame, public GameScreenBase
 {
 	public:
-		TestScreen(Environment& env);
-		virtual ~TestScreen();
+		using GameScreenBase::GameScreenBase;
 		void init(unsigned ticks) override;
 		void update(unsigned ticks) override;
 
 	private:
 		static const unsigned STEP_INTERVAL = 250;
-
-		Environment& _env;
 
 		unsigned _tNextStep = 0;
 		unsigned _pointX = 0;

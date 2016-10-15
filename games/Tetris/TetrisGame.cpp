@@ -14,13 +14,13 @@ TetrisGame::~TetrisGame()
 
 void TetrisGame::init(unsigned ticks)
 {
-	_now = ticks;
+	(void) ticks;
 	setNextScreen(_screens.Logo);
 }
 
 void TetrisGame::update(unsigned ticks)
 {
-	_now = ticks;
+	(void) ticks;
 	if (_nextScreen != _currentScreen)
 	{
 		_currentScreen->leave();
@@ -39,16 +39,6 @@ Environment& TetrisGame::getEnvironment()
 	return _env;
 }
 
-Framebuffer& TetrisGame::getFramebuffer()
-{
-	return _env.framebuffer;
-}
-
-IGamepad& TetrisGame::getGamepad()
-{
-	return _env.gamepad;
-}
-
 void TetrisGame::setNextScreen(TetrisScreenBase& screen)
 {
 	_nextScreen = &screen;
@@ -56,12 +46,7 @@ void TetrisGame::setNextScreen(TetrisScreenBase& screen)
 
 unsigned TetrisGame::timeSinceLastScreenChange()
 {
-	return _now - _tLastScreenChange;
-}
-
-unsigned TetrisGame::now()
-{
-	return _now;
+	return _env.now - _tLastScreenChange;
 }
 
 TetrisScreens& TetrisGame::getScreens()

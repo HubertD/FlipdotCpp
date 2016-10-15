@@ -16,14 +16,11 @@ class TetrisGame : public IGame
 
 	public:
 		Environment& getEnvironment();
-		Framebuffer& getFramebuffer();
-		IGamepad& getGamepad();
 
 		TetrisScreens &getScreens();
 		TetrisVariables &getVariables();
 		void setNextScreen(TetrisScreenBase& screen);
 
-		unsigned now();
 		unsigned timeSinceLastScreenChange();
 
 	private:
@@ -35,8 +32,5 @@ class TetrisGame : public IGame
 		TetrisScreenBase* _currentScreen = &_screens.Null;
 		TetrisScreenBase* _nextScreen = &_screens.Logo;
 
-		unsigned _now = 0;
 		unsigned _tLastScreenChange = 0;
-
-
 };

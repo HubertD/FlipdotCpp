@@ -1,21 +1,19 @@
 #pragma once
 
 #include <IGame.h>
+#include <GameScreenBase.h>
 
 class Environment;
 
-class Screensaver: public IGame
+class Screensaver: public GameScreenBase, public IGame
 {
 	public:
-		Screensaver(Environment& env);
-		virtual ~Screensaver();
+		using GameScreenBase::GameScreenBase;
 		void init(unsigned ticks) override;
 		void update(unsigned ticks) override;
 
 	private:
 		static const unsigned STEP_INTERVAL = 35;
-
-		Environment& _env;
 
 		unsigned _ballX = 0;
 		unsigned _ballY = 0;

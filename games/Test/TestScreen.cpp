@@ -4,15 +4,6 @@
 #include <Environment.h>
 #include <Framebuffer.h>
 
-TestScreen::TestScreen(Environment& env)
-  : _env(env)
-{
-}
-
-TestScreen::~TestScreen()
-{
-}
-
 void TestScreen::init(unsigned ticks)
 {
 	_tNextStep = ticks + 1000;
@@ -36,9 +27,8 @@ void TestScreen::update(unsigned ticks)
 		_pointY = 0;
 	}
 
-	_env.framebuffer.clear();
-	_env.framebuffer.setPixel(_pointX, _pointY, true);
-
+	clearScreen();
+	setPixel(_pointX, _pointY, true);
 
 }
 

@@ -5,15 +5,6 @@
 #include <Font.h>
 #include <Framebuffer.h>
 
-Screensaver::Screensaver(Environment& env)
-  : _env(env)
-{
-}
-
-Screensaver::~Screensaver()
-{
-}
-
 void Screensaver::init(unsigned ticks)
 {
 	_tNextStep = ticks + 1000;

@@ -4,19 +4,10 @@
 #include <Font.h>
 #include <Framebuffer.h>
 
-GameOfLife::GameOfLife(Environment& env)
-  : _env(env)
-{
-}
-
-GameOfLife::~GameOfLife()
-{
-}
-
 void GameOfLife::init(unsigned ticks)
 {
 	_tNextStep = ticks + 3000;
-	Font::drawText(_env.framebuffer, 1, 18, (char*)"BYTEWERK");
+	drawText(1, 18, (char*)"BYTEWERK");
 }
 
 void GameOfLife::update(unsigned ticks)
@@ -45,7 +36,7 @@ void GameOfLife::draw()
 	{
 		for (int x=0; x<FIELD_WIDTH; x++)
 		{
-			_env.framebuffer.setPixel(x, y, getCellState(x,y));
+			setPixel(x, y, getCellState(x,y));
 		}
 	}
 }
