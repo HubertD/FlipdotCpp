@@ -89,7 +89,7 @@ void CubeMxPlatform::sendNESclock()
 
 
 
-FlipdotFramebuffer& CubeMxPlatform::getFramebuffer()
+Framebuffer& CubeMxPlatform::getFramebuffer()
 {
 	return _framebuffer;
 }
