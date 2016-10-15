@@ -3,6 +3,7 @@
 #include <Platform.h>
 #include <Environment.h>
 #include <Framebuffer.h>
+#include <IGame.h>
 
 int main(void)
 {

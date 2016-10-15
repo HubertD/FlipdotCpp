@@ -1,7 +1,6 @@
 #pragma once
 
-#include "IGame.h"
-
+class IGame;
 class Environment;
 
 class GameFactory

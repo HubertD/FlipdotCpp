@@ -1,10 +1,3 @@
-/*
- * GameFactory.cpp
- *
- *  Created on: 04.10.2016
- *      Author: hd
- */
-
 #include "GameFactory.h"
 #include <Environment.h>
 

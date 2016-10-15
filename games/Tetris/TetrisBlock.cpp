@@ -54,7 +54,9 @@ TetrisBlock TetrisBlock::createRandomBlock()
 {
 	int x = rand();
 	x %= NUMBER_OF_BLOCKS;
-	return _blocks[x];
+	auto block = _blocks[x];
+	block._rotation = rand() % 4;
+	return block;
 }
 
 void TetrisBlock::setX(int newX)
