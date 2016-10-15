@@ -10,8 +10,8 @@ class Paint : public GameScreenBase, public IGame
 {
 	public:
 		using GameScreenBase::GameScreenBase;
-		void init(unsigned ticks) override;
-		void update(unsigned ticks) override;
+		void init() override;
+		void update() override;
 
 	private:
 		int _cursorX = 5;

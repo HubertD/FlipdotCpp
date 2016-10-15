@@ -5,20 +5,20 @@
 #include <Font.h>
 #include <Framebuffer.h>
 
-void Screensaver::init(unsigned ticks)
+void Screensaver::init()
 {
-	_tNextStep = ticks + 1000;
+	_tNextStep = _env.now + 1000;
 	_maxX = SCREEN_WIDTH - 1;
 	_maxY = SCREEN_HEIGHT - 1;
 }
 
-void Screensaver::update(unsigned ticks)
+void Screensaver::update()
 {
-	if (ticks >= _tNextStep)
+	if (_env.now >= _tNextStep)
 	{
 		makeStep();
 		redraw();
-		_tNextStep = ticks + STEP_INTERVAL;
+		_tNextStep = _env.now + STEP_INTERVAL;
 	}
 }
 

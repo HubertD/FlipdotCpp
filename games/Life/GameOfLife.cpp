@@ -4,18 +4,18 @@
 #include <Font.h>
 #include <Framebuffer.h>
 
-void GameOfLife::init(unsigned ticks)
+void GameOfLife::init()
 {
-	_tNextStep = ticks + 3000;
+	_tNextStep = _env.now + 3000;
 	drawText(1, 18, (char*)"BYTEWERK");
 }
 
-void GameOfLife::update(unsigned ticks)
+void GameOfLife::update()
 {
-	if (ticks>_tNextStep) {
+	if (_env.now >= _tNextStep) {
 		makeStep();
 		draw();
-		_tNextStep = ticks + STEP_INTERVAL;
+		_tNextStep = _env.now + STEP_INTERVAL;
 	}
 }
 

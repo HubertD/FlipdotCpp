@@ -4,18 +4,18 @@
 #include <Environment.h>
 #include <Framebuffer.h>
 
-void TestScreen::init(unsigned ticks)
+void TestScreen::init()
 {
-	_tNextStep = ticks + 1000;
+	_tNextStep = _env.now + STEP_INTERVAL;
 }
 
-void TestScreen::update(unsigned ticks)
+void TestScreen::update()
 {
-	if (ticks < _tNextStep)
+	if (_env.now < _tNextStep)
 	{
 		return;
 	}
-	_tNextStep = ticks + STEP_INTERVAL;
+	_tNextStep = _env.now + STEP_INTERVAL;
 
 	if (++_pointX >= SCREEN_WIDTH)
 	{

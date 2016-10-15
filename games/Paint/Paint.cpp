@@ -6,15 +6,13 @@
 #include <assets/Bitmaps.h>
 #include <Framebuffer.h>
 
-void Paint::init(unsigned ticks)
+void Paint::init()
 {
-	(void) ticks;
 	clearScreen();
 }
 
-void Paint::update(unsigned ticks)
+void Paint::update()
 {
-	(void) ticks;
 	auto& gamepad = getGamepad();
 
 	if (gamepad.wasKeyPressed(GamepadKey::KEY_LEFT))

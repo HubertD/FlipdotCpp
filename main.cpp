@@ -18,15 +18,14 @@ int main(void)
 	Environment env(framebuffer, gamepad);
 
 	IGame *game = GameFactory::createGame(GameFactory::Game::TETRIS, env);
-	game->init(0);
+	game->init();
 
 	while (!platform.doQuit())
 	{
 		platform.update();
-		unsigned now = platform.getTicks();
-		env.setCurrentTime(now);
-		game->update(now);
-		framebuffer.update(now);
+		env.setCurrentTime(platform.getTicks());
+		game->update();
+		framebuffer.update(env.now);
 	}
 
 	platform.done();

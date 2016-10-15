@@ -12,21 +12,19 @@ TetrisGame::~TetrisGame()
 {
 }
 
-void TetrisGame::init(unsigned ticks)
+void TetrisGame::init()
 {
-	(void) ticks;
 	setNextScreen(_screens.Logo);
 }
 
-void TetrisGame::update(unsigned ticks)
+void TetrisGame::update()
 {
-	(void) ticks;
 	if (_nextScreen != _currentScreen)
 	{
 		_currentScreen->leave();
 		_lastScreen = _currentScreen;
 		_currentScreen = _nextScreen;
-		_tLastScreenChange = ticks;
+		_tLastScreenChange = _env.now;
 		_currentScreen->enter();
 	}
 

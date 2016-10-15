@@ -9,8 +9,8 @@ class Screensaver: public GameScreenBase, public IGame
 {
 	public:
 		using GameScreenBase::GameScreenBase;
-		void init(unsigned ticks) override;
-		void update(unsigned ticks) override;
+		void init() override;
+		void update() override;
 
 	private:
 		static const unsigned STEP_INTERVAL = 35;

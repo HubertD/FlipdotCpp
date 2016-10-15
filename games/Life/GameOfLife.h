@@ -10,8 +10,8 @@ class GameOfLife : public IGame, public GameScreenBase
 {
 	public:
 		using GameScreenBase::GameScreenBase;
-		void init(unsigned ticks) override;
-		void update(unsigned ticks) override;
+		void init() override;
+		void update() override;
 
 	private:
 		static const int FIELD_WIDTH = 32;

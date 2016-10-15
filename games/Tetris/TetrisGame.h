@@ -11,8 +11,8 @@ class TetrisGame : public IGame
 	public:
 		TetrisGame(Environment& env);
 		~TetrisGame();
-		void init(unsigned ticks) override;
-		void update(unsigned ticks) override;
+		void init() override;
+		void update() override;
 
 	public:
 		Environment& getEnvironment();
