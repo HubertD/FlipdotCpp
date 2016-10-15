@@ -1,6 +1,7 @@
 #include "GameOfLife.h"
 
 #include <FlipdotGfx.h>
+#include <Font.h>
 
 GameOfLife::GameOfLife(FlipdotGfx& gfx)
   : _gfx(gfx)
@@ -14,7 +15,7 @@ GameOfLife::~GameOfLife()
 void GameOfLife::init(unsigned ticks)
 {
 	_tNextStep = ticks + 3000;
-	_gfx.drawText(1, 18, (char*)"BYTEWERK");
+	Font::drawText(_gfx, 1, 18, (char*)"BYTEWERK");
 }
 
 void GameOfLife::update(unsigned ticks)

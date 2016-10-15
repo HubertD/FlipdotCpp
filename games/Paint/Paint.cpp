@@ -2,6 +2,7 @@
 
 #include <Environment.h>
 #include <IGamepad.h>
+#include <Font.h>
 #include <assets/Bitmaps.h>
 
 Paint::Paint(Environment& env)
@@ -53,10 +54,11 @@ void Paint::update(unsigned ticks)
 
 	auto &gfx = _env.gfx;
 	gfx.clear();
-	gfx.drawNumber(SCREEN_WIDTH/2+4, SCREEN_HEIGHT/2-4, 42);
-	gfx.drawNumber(25, 35, 123456, FlipdotColor::BLACK, Orientation::DEG_90);
-	gfx.drawNumber(1,  5, 123456,  FlipdotColor::BLACK, Orientation::DEG_270);
-	gfx.drawText(2, 32, (char*)"FNORD");
+
+	Font::drawNumber(gfx, SCREEN_WIDTH/2+4, SCREEN_HEIGHT/2-4, 42);
+	Font::drawNumber(gfx, 25, 35, 123456, FlipdotColor::BLACK, Orientation::DEG_90);
+	Font::drawNumber(gfx, 1,  5, 123456,  FlipdotColor::BLACK, Orientation::DEG_270);
+	Font::drawText(gfx, 2, 32, (char*)"FNORD");
 
 	gfx.setPixel(_cursorX, _cursorY, true);
 	gfx.draw(0, 0, BytewerkLogo);

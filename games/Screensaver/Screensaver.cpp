@@ -2,6 +2,7 @@
 
 #include <FlipdotConfig.h>
 #include <FlipdotGfx.h>
+#include <Font.h>
 
 Screensaver::Screensaver(FlipdotGfx& gfx)
   : _gfx(gfx)
@@ -41,8 +42,8 @@ void Screensaver::makeStep()
 void Screensaver::redraw()
 {
 	_gfx.clear();
-	_gfx.drawChar( 5, 18, 'X');
-	_gfx.drawChar(15, 18, 'O');
-	_gfx.drawChar(25, 18, 'R');
+	Font::drawChar(_gfx, 5, 18, 'X');
+	Font::drawChar(_gfx, 15, 18, 'O');
+	Font::drawChar(_gfx, 25, 18, 'R');
 	_gfx.setPixel(_ballX, _ballY, true);
 }

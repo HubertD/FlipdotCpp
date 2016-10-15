@@ -10,11 +10,12 @@ int main(void)
 	Platform platform;
 	platform.init();
 
-	FlipdotFramebuffer& framebuffer = platform.getFramebuffer();
 	IGamepad& gamepad = platform.getGamepad();
+	gamepad.init();
+
+	FlipdotFramebuffer& framebuffer = platform.getFramebuffer();
 	FlipdotGfx gfx(framebuffer);
 	framebuffer.init();
-	gamepad.init();
 
 	Environment env(gfx, gamepad);
 

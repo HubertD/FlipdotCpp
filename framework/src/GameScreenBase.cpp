@@ -1,5 +1,6 @@
 #include <GameScreenBase.h>
 #include <Environment.h>
+#include <Font.h>
 
 GameScreenBase::GameScreenBase(Environment& env)
   : _env(env)
@@ -80,19 +81,19 @@ void GameScreenBase::drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, 
 
 void GameScreenBase::drawChar(unsigned x, unsigned y, char ch, FlipdotColor color, Orientation orientation)
 {
-	_env.gfx.drawChar(x, y, ch, color, orientation);
+	Font::drawChar(_env.gfx, x, y, ch, color, orientation);
 }
 
 void GameScreenBase::drawText(unsigned x, unsigned y, char* text,
 		FlipdotColor color, Orientation orientation, int spacing)
 {
-	_env.gfx.drawText(x, y, text, color, orientation, spacing);
+	Font::drawText(_env.gfx, x, y, text, color, orientation, spacing);
 }
 
 void GameScreenBase::drawNumber(unsigned x, unsigned y, unsigned number,
 		FlipdotColor color, Orientation orientation, int spacing)
 {
-	_env.gfx.drawNumber(x, y, number, color, orientation, spacing);
+	Font::drawNumber(_env.gfx, x, y, number, color, orientation, spacing);
 }
 
 void GameScreenBase::drawObject(int x, int y, const IDrawable &drawable, bool doInvert)
