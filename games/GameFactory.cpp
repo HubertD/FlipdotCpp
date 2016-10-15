@@ -5,33 +5,35 @@
  *      Author: hd
  */
 
-#include <games/Tetris/TetrisGame.h>
 #include "GameFactory.h"
+#include <Environment.h>
+
+#include <games/Tetris/TetrisGame.h>
 #include "Screensaver/Screensaver.h"
 #include "Life/GameOfLife.h"
 #include "Test/TestScreen.h"
 #include "Paint/Paint.h"
 #include "Tetris/TetrisGame.h"
 
-IGame* GameFactory::createGame(Game game, FlipdotGfx &gfx)
+IGame* GameFactory::createGame(Game game, Environment& env)
 {
 	switch (game)
 	{
 		case Game::TESTSCREEN:
-			return new TestScreen(gfx);
+			return new TestScreen(env.gfx);
 
 		case Game::GAME_OF_LIFE:
-			return new GameOfLife(gfx);
+			return new GameOfLife(env.gfx);
 
 		case Game::PAINT:
-			return new Paint(gfx);
+			return new Paint(env.gfx);
 
 		case Game::TETRIS:
-			return new TetrisGame(gfx);
+			return new TetrisGame(env);
 
 		case Game::SCREENSAVER:
 		default:
-			return new Screensaver(gfx);
+			return new Screensaver(env.gfx);
 	}
 }
 

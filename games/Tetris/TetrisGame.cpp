@@ -1,8 +1,8 @@
 #include "TetrisGame.h"
+#include <Environment.h>
 
-TetrisGame::TetrisGame(FlipdotGfx& gfx)
-  : _gfx(gfx),
-	_gamepad(gfx.getGamepad()),
+TetrisGame::TetrisGame(Environment& env)
+  : _env(env),
 	_screens(*this),
 	_variables()
 {
@@ -31,17 +31,22 @@ void TetrisGame::update(unsigned ticks)
 	}
 
 	_currentScreen->update();
-	_gamepad.resetEvents();
+	_env.gamepad.resetEvents();
+}
+
+Environment& TetrisGame::getEnvironment()
+{
+	return _env;
 }
 
 FlipdotGfx& TetrisGame::getGfx()
 {
-	return _gfx;
+	return _env.gfx;
 }
 
 IGamepad& TetrisGame::getGamepad()
 {
-	return _gfx.getGamepad();
+	return _env.gamepad;
 }
 
 void TetrisGame::setNextScreen(TetrisScreenBase& screen)

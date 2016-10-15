@@ -4,15 +4,18 @@
 #include "TetrisScreens.h"
 #include "TetrisVariables.h"
 
+class Environment;
+
 class TetrisGame : public IGame
 {
 	public:
-		TetrisGame(FlipdotGfx& gfx);
+		TetrisGame(Environment& env);
 		~TetrisGame();
 		void init(unsigned ticks) override;
 		void update(unsigned ticks) override;
 
 	public:
+		Environment& getEnvironment();
 		FlipdotGfx& getGfx();
 		IGamepad& getGamepad();
 
@@ -24,8 +27,7 @@ class TetrisGame : public IGame
 		unsigned timeSinceLastScreenChange();
 
 	private:
-		FlipdotGfx& _gfx;
-		IGamepad& _gamepad;
+		Environment& _env;
 		TetrisScreens _screens;
 		TetrisVariables _variables;
 

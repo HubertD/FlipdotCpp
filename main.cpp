@@ -3,6 +3,7 @@
 #include <FlipdotGfx.h>
 #include <games/GameFactory.h>
 #include <Platform.h>
+#include <Environment.h>
 
 int main(void)
 {
@@ -15,13 +16,16 @@ int main(void)
 	framebuffer.init();
 	gamepad.init();
 
-	IGame *game = GameFactory::createGame(GameFactory::Game::TETRIS, gfx);
+	Environment env(gfx, gamepad);
+
+	IGame *game = GameFactory::createGame(GameFactory::Game::TETRIS, env);
 	game->init(0);
 
 	while (!platform.doQuit())
 	{
 		platform.update();
 		unsigned now = platform.getTicks();
+		env.setCurrentTime(now);
 		game->update(now);
 		gfx.update(now);
 	}
