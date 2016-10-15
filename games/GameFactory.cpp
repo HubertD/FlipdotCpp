@@ -20,10 +20,10 @@ IGame* GameFactory::createGame(Game game, Environment& env)
 	switch (game)
 	{
 		case Game::TESTSCREEN:
-			return new TestScreen(env.gfx);
+			return new TestScreen(env);
 
 		case Game::GAME_OF_LIFE:
-			return new GameOfLife(env.gfx);
+			return new GameOfLife(env);
 
 		case Game::PAINT:
 			return new Paint(env);
@@ -33,7 +33,7 @@ IGame* GameFactory::createGame(Game game, Environment& env)
 
 		case Game::SCREENSAVER:
 		default:
-			return new Screensaver(env.gfx);
+			return new Screensaver(env);
 	}
 }
 

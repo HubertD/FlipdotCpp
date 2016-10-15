@@ -1,5 +1,5 @@
 #include <Font.h>
-#include <FlipdotGfx.h>
+#include <FlipdotFramebuffer.h>
 
 enum PixelFontCharacter {
 	PFC_A         =  0,
@@ -106,7 +106,7 @@ uint16_t Font::getCharData(char ch)
     }
 }
 
-void Font::drawChar(FlipdotGfx &gfx, int x, int y, char ch, FlipdotColor color, Orientation orientation)
+void Font::drawChar(FlipdotFramebuffer& fb, int x, int y, char ch, FlipdotColor color, Orientation orientation)
 {
 	uint16_t data = getCharData(ch);
 
@@ -121,16 +121,16 @@ void Font::drawChar(FlipdotGfx &gfx, int x, int y, char ch, FlipdotColor color, 
 			switch (orientation)
 			{
 				case Orientation::DEG_90:
-					gfx.setPixel(x+5-dy, y+dx-2, value);
+					fb.setPixel(x+5-dy, y+dx-2, value);
 					break;
 
 				case Orientation::DEG_270:
-					gfx.setPixel(x+dy, y+(3-dx)-2, value);
+					fb.setPixel(x+dy, y+(3-dx)-2, value);
 					break;
 
 				case Orientation::DEG_0:
 				default: // TODO DEG_180
-					gfx.setPixel(x+dx, y+dy, value);
+					fb.setPixel(x+dx, y+dy, value);
 					break;
 			}
 
@@ -139,24 +139,24 @@ void Font::drawChar(FlipdotGfx &gfx, int x, int y, char ch, FlipdotColor color, 
 	}
 }
 
-void Font::drawText(FlipdotGfx &gfx, int x, int y, char* text, FlipdotColor color, Orientation orientation, int spacing)
+void Font::drawText(FlipdotFramebuffer& fb, int x, int y, char* text, FlipdotColor color, Orientation orientation, int spacing)
 {
 	while (*text != 0)
 	{
-	    drawChar(gfx, x, y, *text, color, orientation);
+	    drawChar(fb, x, y, *text, color, orientation);
 	    text++;
 		x += getCharStepX(orientation, spacing);
 		y += getCharStepY(orientation, spacing);
 	}
 }
 
-void Font::drawNumber(FlipdotGfx &gfx, int x, int y, unsigned number, FlipdotColor color, Orientation orientation, int spacing)
+void Font::drawNumber(FlipdotFramebuffer& fb, int x, int y, unsigned number, FlipdotColor color, Orientation orientation, int spacing)
 {
 	do {
 		x -= getCharStepX(orientation, spacing);
 		y += getCharStepY(orientation, spacing);
 
-	    drawChar(gfx, x, y, '0'+(number % 10), color, orientation);
+	    drawChar(fb, x, y, '0'+(number % 10), color, orientation);
 
 	    number /= 10;
 	} while (number!=0);

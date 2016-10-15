@@ -39,9 +39,9 @@ Environment& TetrisGame::getEnvironment()
 	return _env;
 }
 
-FlipdotGfx& TetrisGame::getGfx()
+FlipdotFramebuffer& TetrisGame::getFramebuffer()
 {
-	return _env.gfx;
+	return _env.framebuffer;
 }
 
 IGamepad& TetrisGame::getGamepad()

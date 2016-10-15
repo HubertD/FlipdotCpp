@@ -5,6 +5,7 @@
 #include <FlipdotConfig.h>
 #include "IFlipdotDriver.h"
 #include "FlipdotPanel.h"
+#include <IDrawable.h>
 
 class FlipdotFramebuffer
 {
@@ -20,6 +21,9 @@ class FlipdotFramebuffer
 		void clear();
 		void setPixel(int x, int y, bool value);
 		bool getPixel(int x, int y);
+
+		void drawRect(int x, int y, int dx, int dy, bool value);
+		void draw(int x, int y, const IDrawable &drawable, bool doInvert=false);
 
 		ScreenBuffer &getOnScreenBuffer();
 		ScreenBuffer &getOffScreenBuffer();

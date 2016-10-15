@@ -1,6 +1,6 @@
 #include <games/Tetris/TetrisField.h>
 #include <games/Tetris/TetrisBlock.h>
-#include <FlipdotGfx.h>
+#include <FlipdotFramebuffer.h>
 
 void TetrisField::clear()
 {
@@ -37,7 +37,7 @@ bool TetrisField::getPixel(int x, int y) const
 	return getPoint(fieldX, fieldY);
 }
 
-void TetrisField::draw(FlipdotGfx& gfx, int x, int y, bool doInvert) const
+void TetrisField::draw(FlipdotFramebuffer& fb, int x, int y, bool doInvert) const
 {
 	for (int fieldY=0; fieldY<FIELD_HEIGHT; fieldY++)
 	{
@@ -46,16 +46,16 @@ void TetrisField::draw(FlipdotGfx& gfx, int x, int y, bool doInvert) const
 		for (int fieldX=0; fieldX<FIELD_WIDTH; fieldX++)
 		{
 			bool value = getPoint(fieldX, fieldY) ^ invertThisRow;
-			drawPoint(gfx, x, y, fieldX, fieldY, value);
+			drawPoint(fb, x, y, fieldX, fieldY, value);
 		}
 	}
 }
 
-void TetrisField::drawPoint(FlipdotGfx &gfx, int x, int y, int fieldX, int fieldY, bool value) const
+void TetrisField::drawPoint(FlipdotFramebuffer& fb, int x, int y, int fieldX, int fieldY, bool value) const
 {
 	auto px = x + (fieldX*POINT_WIDTH);
 	auto py = y + fieldY*POINT_WIDTH;
-	gfx.drawRect(px, py, POINT_WIDTH, POINT_HEIGHT, value);
+	fb.drawRect(px, py, POINT_WIDTH, POINT_HEIGHT, value);
 }
 
 bool TetrisField::isRowFull(int row) const

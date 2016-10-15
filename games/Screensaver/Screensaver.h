@@ -2,12 +2,12 @@
 
 #include <IGame.h>
 
-class FlipdotGfx;
+class Environment;
 
 class Screensaver: public IGame
 {
 	public:
-		Screensaver(FlipdotGfx& gfx);
+		Screensaver(Environment& env);
 		virtual ~Screensaver();
 		void init(unsigned ticks) override;
 		void update(unsigned ticks) override;
@@ -15,7 +15,7 @@ class Screensaver: public IGame
 	private:
 		static const unsigned STEP_INTERVAL = 35;
 
-		FlipdotGfx& _gfx;
+		Environment& _env;
 
 		unsigned _ballX = 0;
 		unsigned _ballY = 0;

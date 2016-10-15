@@ -1,10 +1,11 @@
 #include "GameOfLife.h"
 
-#include <FlipdotGfx.h>
+#include <Environment.h>
+#include <FlipdotFramebuffer.h>
 #include <Font.h>
 
-GameOfLife::GameOfLife(FlipdotGfx& gfx)
-  : _gfx(gfx)
+GameOfLife::GameOfLife(Environment& env)
+  : _env(env)
 {
 }
 
@@ -15,7 +16,7 @@ GameOfLife::~GameOfLife()
 void GameOfLife::init(unsigned ticks)
 {
 	_tNextStep = ticks + 3000;
-	Font::drawText(_gfx, 1, 18, (char*)"BYTEWERK");
+	Font::drawText(_env.framebuffer, 1, 18, (char*)"BYTEWERK");
 }
 
 void GameOfLife::update(unsigned ticks)
@@ -44,7 +45,7 @@ void GameOfLife::draw()
 	{
 		for (int x=0; x<FIELD_WIDTH; x++)
 		{
-			_gfx.setPixel(x, y, getCellState(x,y));
+			_env.framebuffer.setPixel(x, y, getCellState(x,y));
 		}
 	}
 }
@@ -72,7 +73,7 @@ void GameOfLife::setCellState(int x, int y, bool isAlive)
 
 bool GameOfLife::getLastCellState(int x, int y)
 {
-	return _gfx.getPixel(x, y);
+	return _env.framebuffer.getPixel(x, y);
 }
 
 bool GameOfLife::calcNextCellState(int x, int y)

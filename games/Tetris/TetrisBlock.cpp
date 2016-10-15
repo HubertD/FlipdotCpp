@@ -1,7 +1,7 @@
 #include <games/Tetris/TetrisBlock.h>
 
 #include <games/Tetris/TetrisField.h>
-#include <FlipdotGfx.h>
+#include <FlipdotFramebuffer.h>
 #include <stdlib.h>
 
 TetrisBlock TetrisBlock::_blocks[] =
@@ -67,7 +67,7 @@ void TetrisBlock::setY(int newY)
 	_posY = newY;
 }
 
-void TetrisBlock::draw(FlipdotGfx& gfx, int offsetX, int offsetY, int pointSizeX, int pointSizeY, FlipdotColor color)
+void TetrisBlock::draw(FlipdotFramebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, FlipdotColor color)
 {
 	auto px = offsetX + pointSizeX * _posX;
 	auto py = offsetY + pointSizeY * _posY;
@@ -78,7 +78,7 @@ void TetrisBlock::draw(FlipdotGfx& gfx, int offsetX, int offsetY, int pointSizeX
 		{
 			if (getPoint(ix, iy))
 			{
-				gfx.drawRect(px+pointSizeX*ix, py+pointSizeY*iy, pointSizeX, pointSizeY, color==FlipdotColor::BLACK);
+				fb.drawRect(px+pointSizeX*ix, py+pointSizeY*iy, pointSizeX, pointSizeY, color==FlipdotColor::BLACK);
 			}
 		}
 	}

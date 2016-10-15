@@ -202,10 +202,10 @@ void MainScreen::draw()
 		drawChar(SCORE_X, SCORE_Y-4, 'K', FlipdotColor::WHITE, Orientation::DEG_90);
 	}
 
-	_nextBlock.draw(getGfx(), NEXT_BLOCK_X, NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, FlipdotColor::WHITE);
+	_nextBlock.draw(getFramebuffer(), NEXT_BLOCK_X, NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, FlipdotColor::WHITE);
 
 	drawObject(FIELD_X, FIELD_Y, _field);
-	_currentBlock.draw(getGfx(), FIELD_X, FIELD_Y, 2, 2, FlipdotColor::BLACK);
+	_currentBlock.draw(getFramebuffer(), FIELD_X, FIELD_Y, 2, 2, FlipdotColor::BLACK);
 }
 
 int MainScreen::calcPointsForDeletedRows(int deletedRows)

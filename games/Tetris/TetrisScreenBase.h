@@ -1,6 +1,5 @@
 #pragma once
 
-#include <FlipdotGfx.h>
 #include <IGamepad.h>
 #include <GameScreenBase.h>
 

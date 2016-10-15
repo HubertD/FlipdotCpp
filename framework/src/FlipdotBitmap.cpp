@@ -1,4 +1,5 @@
 #include <FlipdotBitmap.h>
+#include <FlipdotFramebuffer.h>
 
 FlipdotBitmap::FlipdotBitmap(const uint8_t *data, int width, int height)
   : _data(data), _width(width), _height(height)
@@ -14,14 +15,14 @@ bool FlipdotBitmap::getPixel(int x, int y) const
 	return (_data[bytePosition] & bitMask) != 0;
 }
 
-void FlipdotBitmap::draw(FlipdotGfx &gfx, int x, int y, bool doInvert /*=false*/) const
+void FlipdotBitmap::draw(FlipdotFramebuffer& fb, int x, int y, bool doInvert /*=false*/) const
 {
 	for (int iy=0; iy<_height; iy++) {
 		for (int ix=0; ix<_width; ix++)
 		{
 			bool value = getPixel(ix, iy);
 			if (doInvert) { value = !value; }
-			gfx.setPixel(x+ix, y+iy, value);
+			fb.setPixel(x+ix, y+iy, value);
 		}
 	}
 }

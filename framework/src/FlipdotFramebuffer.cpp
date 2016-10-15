@@ -94,6 +94,23 @@ bool FlipdotFramebuffer::getPixel(int x, int y)
 	return _offScreenBuffer.getPixel(x, y);
 }
 
+
+void FlipdotFramebuffer::drawRect(int x, int y, int dx, int dy, bool value)
+{
+	for (int px=x; px<(x+dx); px++)
+	{
+		for (int py=y; py<(y+dy); py++)
+		{
+			setPixel(px, py, value);
+		}
+	}
+}
+
+void FlipdotFramebuffer::draw(int x, int y, const IDrawable& drawable, bool doInvert)
+{
+	drawable.draw(*this, x, y, doInvert);
+}
+
 void FlipdotFramebuffer::selectColumn(unsigned column)
 {
 	uint8_t row_data[] = {

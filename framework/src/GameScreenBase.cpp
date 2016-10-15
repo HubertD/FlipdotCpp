@@ -11,9 +11,9 @@ GameScreenBase::~GameScreenBase()
 {
 }
 
-FlipdotGfx& GameScreenBase::getGfx()
+FlipdotFramebuffer& GameScreenBase::getFramebuffer()
 {
-	return _env.gfx;
+	return _env.framebuffer;
 }
 
 IGamepad& GameScreenBase::getGamepad()
@@ -66,37 +66,37 @@ bool GameScreenBase::wasPreviousPressed()
 
 void GameScreenBase::clearScreen()
 {
-	_env.gfx.clear();
+	_env.framebuffer.clear();
 }
 
 void GameScreenBase::setPixel(unsigned x, unsigned y, bool value)
 {
-	_env.gfx.setPixel(x, y, value);
+	_env.framebuffer.setPixel(x, y, value);
 }
 
 void GameScreenBase::drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value)
 {
-	_env.gfx.drawRect(x, y, dx, dy, value);
+	_env.framebuffer.drawRect(x, y, dx, dy, value);
 }
 
 void GameScreenBase::drawChar(unsigned x, unsigned y, char ch, FlipdotColor color, Orientation orientation)
 {
-	Font::drawChar(_env.gfx, x, y, ch, color, orientation);
+	Font::drawChar(_env.framebuffer, x, y, ch, color, orientation);
 }
 
 void GameScreenBase::drawText(unsigned x, unsigned y, char* text,
 		FlipdotColor color, Orientation orientation, int spacing)
 {
-	Font::drawText(_env.gfx, x, y, text, color, orientation, spacing);
+	Font::drawText(_env.framebuffer, x, y, text, color, orientation, spacing);
 }
 
 void GameScreenBase::drawNumber(unsigned x, unsigned y, unsigned number,
 		FlipdotColor color, Orientation orientation, int spacing)
 {
-	Font::drawNumber(_env.gfx, x, y, number, color, orientation, spacing);
+	Font::drawNumber(_env.framebuffer, x, y, number, color, orientation, spacing);
 }
 
 void GameScreenBase::drawObject(int x, int y, const IDrawable &drawable, bool doInvert)
 {
-	_env.gfx.draw(x, y, drawable, doInvert);
+	_env.framebuffer.draw(x, y, drawable, doInvert);
 }

@@ -2,12 +2,12 @@
 
 #include <IGame.h>
 
-class FlipdotGfx;
+class Environment;
 
 class TestScreen: public IGame
 {
 	public:
-		TestScreen(FlipdotGfx& gfx);
+		TestScreen(Environment& env);
 		virtual ~TestScreen();
 		void init(unsigned ticks) override;
 		void update(unsigned ticks) override;
@@ -15,7 +15,7 @@ class TestScreen: public IGame
 	private:
 		static const unsigned STEP_INTERVAL = 250;
 
-		FlipdotGfx& _gfx;
+		Environment& _env;
 
 		unsigned _tNextStep = 0;
 		unsigned _pointX = 0;

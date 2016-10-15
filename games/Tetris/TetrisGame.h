@@ -16,7 +16,7 @@ class TetrisGame : public IGame
 
 	public:
 		Environment& getEnvironment();
-		FlipdotGfx& getGfx();
+		FlipdotFramebuffer& getFramebuffer();
 		IGamepad& getGamepad();
 
 		TetrisScreens &getScreens();

@@ -1,18 +1,18 @@
 #pragma once
 
-class FlipdotGfx;
+class FlipdotFramebuffer;
 class IGamepad;
 
 class Environment
 {
 	public:
-		FlipdotGfx& gfx;
+		FlipdotFramebuffer& framebuffer;
 		IGamepad& gamepad;
 		unsigned now = 0;
 
-		Environment(FlipdotGfx& aGfx, IGamepad& aGamepad)
-		  : gfx(aGfx),
-			gamepad(aGamepad)
+		Environment(FlipdotFramebuffer& fb, IGamepad& gpad)
+		  : framebuffer(fb),
+			gamepad(gpad)
 		{
 		}
 

@@ -1,10 +1,11 @@
 #include "TestScreen.h"
 
 #include <FlipdotConfig.h>
-#include <FlipdotGfx.h>
+#include <Environment.h>
+#include <FlipdotFramebuffer.h>
 
-TestScreen::TestScreen(FlipdotGfx& gfx)
-  : _gfx(gfx)
+TestScreen::TestScreen(Environment& env)
+  : _env(env)
 {
 }
 
@@ -35,8 +36,8 @@ void TestScreen::update(unsigned ticks)
 		_pointY = 0;
 	}
 
-	_gfx.clear();
-	_gfx.setPixel(_pointX, _pointY, true);
+	_env.framebuffer.clear();
+	_env.framebuffer.setPixel(_pointX, _pointY, true);
 
 
 }
