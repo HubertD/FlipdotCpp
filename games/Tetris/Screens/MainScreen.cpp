@@ -73,7 +73,13 @@ void MainScreen::updateStateGameOver()
 {
 	if (now() > _tGameOverWait)
 	{
-		setNextScreen(getScreens().TryAgain);
+		if (_score > getVariables().highScore)
+		{
+			getVariables().highScore = _score;
+			setNextScreen(getScreens().NewHighscore);
+		} else {
+			setNextScreen(getScreens().TryAgain);
+		}
 	}
 }
 

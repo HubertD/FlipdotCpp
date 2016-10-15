@@ -8,14 +8,14 @@ void GamepadKey::update(unsigned ticks, bool isPressed)
 		if (_tNextRepeat == 0)
 		{
 			_tNextRepeat = ticks + T_FIRST_REPEAT;
-			_events |= (unsigned) Event::DOWN;
-			_events |= (unsigned) Event::PRESS;
+			setEvent(Event::DOWN);
+			setEvent(Event::PRESS);
 		} else {
 			if (ticks >= _tNextRepeat)
 			{
 				_tNextRepeat = ticks + T_REPEAT;
-				_events |= (unsigned) Event::REPEAT;
-				_events |= (unsigned) Event::PRESS;
+				setEvent(Event::REPEAT);
+				setEvent(Event::PRESS);
 			}
 		}
 
@@ -24,7 +24,7 @@ void GamepadKey::update(unsigned ticks, bool isPressed)
 		if (_tNextRepeat != 0)
 		{
 			_tNextRepeat = 0;
-			_events |= (unsigned) Event::UP;
+			setEvent(Event::UP);
 		}
 
 	}
@@ -47,20 +47,30 @@ bool GamepadKey::isPressed()
 
 bool GamepadKey::hasDownEvent()
 {
-	return (_events & (unsigned)Event::DOWN) != 0;
+	return hasEvent(Event::DOWN);
 }
 
 bool GamepadKey::hasUpEvent()
 {
-	return (_events & (unsigned)Event::UP) != 0;
+	return hasEvent(Event::UP);
 }
 
 bool GamepadKey::hasPressEvent()
 {
-	return (_events & (unsigned)Event::PRESS) != 0;
+	return hasEvent(Event::PRESS);
 }
 
 bool GamepadKey::hasRepeatEvent()
 {
-	return (_events & (unsigned)Event::REPEAT) != 0;
+	return hasEvent(Event::REPEAT);
+}
+
+void GamepadKey::setEvent(Event event)
+{
+	_events |= (1<< (unsigned)event);
+}
+
+bool GamepadKey::hasEvent(Event event)
+{
+	return (_events & (1<< (unsigned)event)) != 0;
 }

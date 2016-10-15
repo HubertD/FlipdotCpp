@@ -32,7 +32,7 @@ class MainScreen: public TetrisScreenBase
 		static const int SCORE_X = 24;
 		static const int SCORE_Y = 42;
 
-		static const unsigned SCORE_SHOW_K = 10000;
+		static const int SCORE_SHOW_K = 10000;
 
 		static const unsigned WAIT_AFTER_GAME_OVER = 2000;
 		static const unsigned DELETED_ROWS_BLINK_COUNT = 3;
@@ -52,8 +52,8 @@ class MainScreen: public TetrisScreenBase
 
 
 
-		unsigned _score = 0;
-		unsigned _scoreBuf = 0;
+		int _score = 0;
+		int _scoreBuf = 0;
 		unsigned _level = 0;
 		unsigned _destructedRows = 0;
 		unsigned _stepInterval = 0;

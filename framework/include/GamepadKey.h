@@ -23,4 +23,7 @@ class GamepadKey
 
 		unsigned _tNextRepeat = 0;
 		unsigned _events = 0;
+
+		void setEvent(Event event);
+		bool hasEvent(Event event);
 };
