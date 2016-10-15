@@ -26,6 +26,8 @@ class MainScreen: public TetrisScreenBase
 		static const int NEXT_BLOCK_Y = 6;
 		static const int LINE_SCORE_MULT = 2;
 		static const unsigned TIMEOUT_GAME_OVER = 2000;
+		static const unsigned DELETED_ROWS_BLINK_COUNT = 3;
+		static const unsigned DELETED_ROWS_BLINK_INTERVAL = 200;
 
 		unsigned _score = 0;
 		unsigned _scoreBuf = 0;
@@ -34,15 +36,20 @@ class MainScreen: public TetrisScreenBase
 		unsigned _stepInterval = 0;
 		unsigned _tNextStep = 0;
 		unsigned _tGameOverWait = 0;
+		unsigned _tBlinkNextToggle = 0;
+		unsigned _blinkTogglesRemaining = 0;
+
 		TetrisField _field;
 		TetrisBlock _currentBlock;
 		TetrisBlock _nextBlock;
 
-		void updateGameRunning();
-		void updateGameOver();
+		void updateStateGameRunning();
+		void updateStateGameOver();
+		void updateStateRowsBlinking();
 
 		void updateGamepad();
 		void makeStepIfDue();
+		void checkForFullRows();
 		void removeFullRows();
 		int calcPointsForDeletedRows(int deletedRows);
 		bool checkGameOver();

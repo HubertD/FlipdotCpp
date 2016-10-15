@@ -41,9 +41,11 @@ void TetrisField::draw(FlipdotGfx& gfx, int x, int y, bool doInvert) const
 {
 	for (int fieldY=0; fieldY<FIELD_HEIGHT; fieldY++)
 	{
+		bool invertThisRow = doInvert ^ (_invertFullRows && isRowFull(fieldY));
+
 		for (int fieldX=0; fieldX<FIELD_WIDTH; fieldX++)
 		{
-			bool value = getPoint(fieldX, fieldY) ^ doInvert;
+			bool value = getPoint(fieldX, fieldY) ^ invertThisRow;
 			drawPoint(gfx, x, y, fieldX, fieldY, value);
 		}
 	}
@@ -56,7 +58,7 @@ void TetrisField::drawPoint(FlipdotGfx &gfx, int x, int y, int fieldX, int field
 	gfx.drawRect(px, py, POINT_WIDTH, POINT_HEIGHT, value);
 }
 
-bool TetrisField::isRowFull(int row)
+bool TetrisField::isRowFull(int row) const
 {
 	if ( (row<0) || (row >= FIELD_HEIGHT) ) {
 		return false;
@@ -72,6 +74,18 @@ void TetrisField::deleteRow(int row)
 		_data[y] = _data[y-1];
 	}
 	_data[0] = 0;
+}
+
+bool TetrisField::hasFullRows() const
+{
+	for (int i=0; i<FIELD_HEIGHT; i++)
+	{
+		if (isRowFull(i))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 int TetrisField::deleteFullRows()
@@ -93,3 +107,7 @@ int TetrisField::deleteFullRows()
 	return deletedRows;
 }
 
+void TetrisField::setInvertFullRows(bool doInvert)
+{
+	_invertFullRows = doInvert;
+}

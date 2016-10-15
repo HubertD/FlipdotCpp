@@ -34,10 +34,13 @@ void MainScreen::update()
 	switch (state)
 	{
 		case State::RUNNING:
-			updateGameRunning();
+			updateStateGameRunning();
 			break;
 		case State::GAME_OVER:
-			updateGameOver();
+			updateStateGameOver();
+			break;
+		case State::ROWS_BLINKING:
+			updateStateRowsBlinking();
 			break;
 		default:
 			break;
@@ -45,19 +48,53 @@ void MainScreen::update()
 	draw();
 }
 
-void MainScreen::updateGameRunning()
+void MainScreen::updateStateGameRunning()
 {
 	updateGamepad();
 	makeStepIfDue();
-	removeFullRows();
+	checkForFullRows();
 	checkGameOver();
 }
 
-void MainScreen::updateGameOver()
+void MainScreen::checkForFullRows()
+{
+	if (!_field.hasFullRows())
+	{
+		return;
+	}
+
+	state = State::ROWS_BLINKING;
+	_blinkTogglesRemaining = 1 + 2 * DELETED_ROWS_BLINK_COUNT;
+	_tBlinkNextToggle = 0;
+	updateStateRowsBlinking();
+}
+
+void MainScreen::updateStateGameOver()
 {
 	if (now() > _tGameOverWait)
 	{
 		setNextScreen(getScreens().TryAgain);
+	}
+}
+
+void MainScreen::updateStateRowsBlinking()
+{
+	if (_tBlinkNextToggle >= now()) {
+		return;
+	}
+
+	if (--_blinkTogglesRemaining == 0)
+	{
+		_field.setInvertFullRows(false);
+		_tBlinkNextToggle = 0;
+
+		removeFullRows();
+		state = State::RUNNING;
+		_tNextStep = now() + _stepInterval;
+
+	} else {
+		_tBlinkNextToggle = now() + DELETED_ROWS_BLINK_INTERVAL;
+		_field.setInvertFullRows((_blinkTogglesRemaining % 2) == 0);
 	}
 }
 
@@ -73,12 +110,12 @@ void MainScreen::updateGamepad()
 		moveIfAllowed(TetrisBlock::Move::LEFT);
 	}
 
-	if (wasKeyPressed(GamepadKey::KEY_A) || wasKeyPressed(GamepadKey::KEY_UP))
+	if (wasKeyPressed(GamepadKey::KEY_A))
 	{
 		moveIfAllowed(TetrisBlock::Move::ROTATE_LEFT);
 	}
 
-	if (wasKeyPressed(GamepadKey::KEY_B))
+	if (wasKeyPressed(GamepadKey::KEY_B) || wasKeyPressed(GamepadKey::KEY_UP))
 	{
 		moveIfAllowed(TetrisBlock::Move::ROTATE_RIGHT);
 	}
@@ -97,10 +134,12 @@ void MainScreen::makeStepIfDue()
 	if (!moveIfAllowed(TetrisBlock::Move::DOWN))
 	{
 		_currentBlock.merge(_field);
+		_score += _scoreBuf;
+		_scoreBuf = 0;
 		switchToNextBlock();
 	}
 
-	_tNextStep += _stepInterval;
+	_tNextStep = now() + _stepInterval;
 }
 
 
@@ -111,7 +150,6 @@ void MainScreen::removeFullRows()
 	if (deletedRows>0)
 	{
 		_destructedRows += deletedRows;
-
 		_score += calcPointsForDeletedRows(deletedRows);
 
 		_level = (_destructedRows / 10) + getVariables().startLevel;
@@ -155,8 +193,6 @@ bool MainScreen::moveIfAllowed(TetrisBlock::Move move)
 
 void MainScreen::switchToNextBlock()
 {
-	_score += _scoreBuf;
-	_scoreBuf = 0;
 	_currentBlock = _nextBlock;
 	_currentBlock.setX((TetrisField::FIELD_WIDTH / 2) - 1);
 	_currentBlock.setY(-3);
@@ -222,4 +258,3 @@ void MainScreen::updateStepInterval()
 {
 	_stepInterval = 400 - (_level*30);
 }
-

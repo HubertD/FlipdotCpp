@@ -22,13 +22,17 @@ class TetrisField : public IDrawable
 		bool getPixel(int x, int y) const override;
 		void draw(FlipdotGfx &gfx, int x, int y, bool doInvert=false) const override;
 
-		bool isRowFull(int row);
+		bool isRowFull(int row) const;
 		void deleteRow(int row);
 
+		bool hasFullRows() const;
 		int deleteFullRows();
+
+		void setInvertFullRows(bool doInvert);
 
 	private:
 		uint16_t _data[FIELD_HEIGHT] = { 0 };
+		bool _invertFullRows = false;
 
 		void drawPoint(FlipdotGfx &gfx, int x, int y, int fieldX, int fieldY, bool value) const;
 
