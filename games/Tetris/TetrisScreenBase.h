@@ -1,6 +1,5 @@
 #pragma once
 
-#include <IGamepad.h>
 #include <GameScreenBase.h>
 
 class TetrisGame;

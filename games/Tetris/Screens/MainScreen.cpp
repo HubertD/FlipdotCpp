@@ -1,6 +1,8 @@
 #include <games/Tetris/Screens/MainScreen.h>
 #include <stdlib.h>
 
+#include <Gamepad.h>
+
 #include <games/Tetris/TetrisVariables.h>
 #include <games/Tetris/TetrisBlock.h>
 #include <games/Tetris/TetrisScreens.h>
@@ -99,27 +101,29 @@ void MainScreen::updateStateRowsBlinking()
 
 void MainScreen::checkCommands()
 {
-	if (wasKeyPressed(GamepadKey::KEY_RIGHT))
-	{
-		moveIfAllowed(TetrisBlock::Move::RIGHT);
-	}
+	auto& gp = getGamepad();
 
-	if (wasKeyPressed(GamepadKey::KEY_LEFT))
+	if (gp.West.hasPressEvent())
 	{
 		moveIfAllowed(TetrisBlock::Move::LEFT);
 	}
 
-	if (wasKeyPressed(GamepadKey::KEY_A))
+	if (gp.East.hasPressEvent())
+	{
+		moveIfAllowed(TetrisBlock::Move::RIGHT);
+	}
+
+	if (gp.A.hasPressEvent())
 	{
 		moveIfAllowed(TetrisBlock::Move::ROTATE_LEFT);
 	}
 
-	if (wasKeyPressed(GamepadKey::KEY_B) || wasKeyPressed(GamepadKey::KEY_UP))
+	if (gp.B.hasPressEvent() || gp.North.hasPressEvent())
 	{
 		moveIfAllowed(TetrisBlock::Move::ROTATE_RIGHT);
 	}
 
-	if (wasKeyPressed(GamepadKey::KEY_DOWN))
+	if (gp.South.hasPressEvent())
 	{
 		moveIfAllowed(TetrisBlock::Move::DOWN);
 	}

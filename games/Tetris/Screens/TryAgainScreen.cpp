@@ -39,5 +39,5 @@ void TryAgainScreen::draw()
 
 	drawNumber(31, 23, getVariables().lastScore, Color::BLACK, Orientation::DEG_0, 0);
 	drawNumber(31, 29, getVariables().highScore, Color::BLACK, Orientation::DEG_0, 0);
-	drawText(11, 35, (char*)"XOR", Color::BLACK, Orientation::DEG_0, 1);
+	drawText(11, 35, getVariables().highScorer, Color::BLACK, Orientation::DEG_0, 1);
 }

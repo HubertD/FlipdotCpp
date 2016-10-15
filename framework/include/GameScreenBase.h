@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Framebuffer.h>
-#include <IGamepad.h>
 
+class Gamepad;
 class Environment;
 
 class GameScreenBase
@@ -23,12 +23,10 @@ class GameScreenBase
 
 		unsigned now();
 		Framebuffer &getFramebuffer();
-		IGamepad &getGamepad();
+		Gamepad &getGamepad();
 
 		bool isAnyKeyPressed();
 		bool wasAnyKeyPressed();
-		bool wasKeyPressed(GamepadKey key);
-		bool wasKeyReleased(GamepadKey key);
 		bool wasContinuePressed();
 		bool wasNextPressed();
 		bool wasPreviousPressed();

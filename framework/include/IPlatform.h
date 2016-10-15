@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 class Framebuffer;
-class IGamepad;
+class Gamepad;
 
 class IPlatform
 {
@@ -12,7 +12,7 @@ class IPlatform
 		virtual void update() = 0;
 
 		virtual Framebuffer &getFramebuffer() = 0;
-		virtual IGamepad &getGamepad() = 0;
+		virtual Gamepad &getGamepad() = 0;
 
 		virtual uint32_t getTicks() = 0;
 		virtual bool doQuit() = 0;

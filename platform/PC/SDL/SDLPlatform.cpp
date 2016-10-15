@@ -27,7 +27,9 @@ void SDLPlatform::update()
 	{
 		handleSDLEvent(e);
 	}
-	SDL_Delay(5);
+
+	_gamepad.update(getTicks());
+	SDL_Delay(2);
 }
 
 void SDLPlatform::handleSDLEvent(SDL_Event& event)
@@ -61,50 +63,51 @@ bool SDLPlatform::doQuit()
 	return _doQuit;
 }
 
-IGamepad& SDLPlatform::getGamepad()
+Gamepad& SDLPlatform::getGamepad()
 {
 	return _gamepad;
 }
 
 void SDLPlatform::handleKeyEvent(SDL_KeyboardEvent &key)
 {
-	GamepadKey gamepadKey = GamepadKey::KEY_NONE;
+	GamepadKey* padkey = nullptr;
 
 	switch (key.keysym.sym)
 	{
 		case SDLK_LEFT:
-			gamepadKey = GamepadKey::KEY_LEFT;
+			padkey = &_gamepad.West;
 			break;
 		case SDLK_RIGHT:
-			gamepadKey = GamepadKey::KEY_RIGHT;
+			padkey = &_gamepad.East;
 			break;
 		case SDLK_UP:
-			gamepadKey = GamepadKey::KEY_UP;
+			padkey = &_gamepad.North;
 			break;
 		case SDLK_DOWN:
-			gamepadKey = GamepadKey::KEY_DOWN;
+			padkey = &_gamepad.South;
 			break;
 		case SDLK_SPACE:
-			gamepadKey = GamepadKey::KEY_SELECT;
+			padkey = &_gamepad.Select;
 			break;
 		case SDLK_RETURN:
-			gamepadKey = GamepadKey::KEY_START;
+			padkey = &_gamepad.Start;
 			break;
 		case SDLK_a:
-			gamepadKey = GamepadKey::KEY_A;
+			padkey = &_gamepad.A;
 			break;
 		case SDLK_s:
 		case SDLK_b:
-			gamepadKey = GamepadKey::KEY_B;
+			padkey = &_gamepad.B;
 			break;
 		default:
 			return;
 	}
 
-	if (key.type == SDL_KEYDOWN) {
-		_gamepad.injectKeyPress(gamepadKey);
+	if (key.type == SDL_KEYDOWN)
+	{
+		padkey->update(getTicks(), true);
 	} else if (key.type == SDL_KEYUP) {
-		_gamepad.injectKeyRelease(gamepadKey);
+		padkey->update(getTicks(), false);
 	}
 
 }

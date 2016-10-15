@@ -49,7 +49,7 @@ void VCDPlatform::setQuitUTicks(int uticks)
 	_uticksQuit = uticks;
 }
 
-IGamepad& VCDPlatform::getGamepad()
+Gamepad& VCDPlatform::getGamepad()
 {
 	return _gamepad;
 }

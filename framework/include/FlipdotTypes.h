@@ -24,16 +24,3 @@ class PanelConfig
 		const Orientation orientation;
 };
 
-enum class GamepadKey
-{
-	KEY_UP,
-	KEY_DOWN,
-	KEY_LEFT,
-	KEY_RIGHT,
-	KEY_A,
-	KEY_B,
-	KEY_START,
-	KEY_SELECT,
-	KEY_NONE
-};
-

@@ -1,6 +1,7 @@
 #include <GameScreenBase.h>
 #include <Environment.h>
 #include <Font.h>
+#include <Gamepad.h>
 
 GameScreenBase::GameScreenBase(Environment& env)
   : _env(env)
@@ -16,7 +17,7 @@ Framebuffer& GameScreenBase::getFramebuffer()
 	return _env.framebuffer;
 }
 
-IGamepad& GameScreenBase::getGamepad()
+Gamepad& GameScreenBase::getGamepad()
 {
 	return _env.gamepad;
 }
@@ -28,40 +29,47 @@ unsigned GameScreenBase::now()
 
 bool GameScreenBase::isAnyKeyPressed()
 {
-	return getGamepad().isAnyKeyPressed();
+	auto& gp = _env.gamepad;
+	return gp.A.isPressed()
+		|| gp.B.isPressed()
+		|| gp.North.isPressed()
+		|| gp.South.isPressed()
+		|| gp.West.isPressed()
+		|| gp.East.isPressed()
+		|| gp.Start.isPressed()
+		|| gp.Select.isPressed();
 }
 
 bool GameScreenBase::wasAnyKeyPressed()
 {
-	return getGamepad().wasAnyKeyPressed();
-}
-
-bool GameScreenBase::wasKeyPressed(GamepadKey key)
-{
-	return getGamepad().wasKeyPressed(key);
-}
-
-bool GameScreenBase::wasKeyReleased(GamepadKey key)
-{
-	return getGamepad().wasKeyReleased(key);
+	auto& gp = _env.gamepad;
+	return gp.A.hasPressEvent()
+		|| gp.B.hasPressEvent()
+		|| gp.North.hasPressEvent()
+		|| gp.South.hasPressEvent()
+		|| gp.West.hasPressEvent()
+		|| gp.East.hasPressEvent()
+		|| gp.Start.hasPressEvent()
+		|| gp.Select.hasPressEvent();
 }
 
 bool GameScreenBase::wasContinuePressed()
 {
-	return getGamepad().wasKeyPressed(GamepadKey::KEY_START)
-		   || getGamepad().wasKeyPressed(GamepadKey::KEY_A);
+	auto& gp = _env.gamepad;
+	return gp.Start.hasPressEvent()
+		|| gp.A.hasPressEvent();
 }
 
 bool GameScreenBase::wasNextPressed()
 {
-	return getGamepad().wasKeyPressed(GamepadKey::KEY_RIGHT)
-		   || getGamepad().wasKeyPressed(GamepadKey::KEY_UP);
+	auto& gp = _env.gamepad;
+	return gp.East.hasPressEvent() || gp.North.hasPressEvent();
 }
 
 bool GameScreenBase::wasPreviousPressed()
 {
-	return getGamepad().wasKeyPressed(GamepadKey::KEY_LEFT)
-		   || getGamepad().wasKeyPressed(GamepadKey::KEY_DOWN);
+	auto& gp = _env.gamepad;
+	return gp.West.hasPressEvent() || gp.South.hasPressEvent();
 }
 
 void GameScreenBase::clearScreen()

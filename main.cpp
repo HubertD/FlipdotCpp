@@ -9,8 +9,7 @@ int main(void)
 	Platform platform;
 	platform.init();
 
-	IGamepad& gamepad = platform.getGamepad();
-	gamepad.init();
+	Gamepad& gamepad = platform.getGamepad();
 
 	Framebuffer& framebuffer = platform.getFramebuffer();
 	framebuffer.init();

@@ -73,7 +73,7 @@ static const uint16_t font[] = {
 	0xE54E, // Z
 	0x56D4, // 0
 	0x2C92, // 1
-	0xC546, // 2
+	0xC54E, // 2
 	0xC51C, // 3
 	0xB792, // 4
 	0xF11C, // 5

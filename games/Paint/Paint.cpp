@@ -1,7 +1,7 @@
 #include "Paint.h"
 
 #include <Environment.h>
-#include <IGamepad.h>
+#include <Gamepad.h>
 #include <Font.h>
 #include <assets/Bitmaps.h>
 #include <Framebuffer.h>
@@ -13,29 +13,29 @@ void Paint::init()
 
 void Paint::update()
 {
-	auto& gamepad = getGamepad();
+	auto& gp = getGamepad();
 
-	if (gamepad.wasKeyPressed(GamepadKey::KEY_LEFT))
+	if (gp.West.hasPressEvent())
 	{
 		_cursorX -= 1;
 	}
 
-	if (gamepad.wasKeyPressed(GamepadKey::KEY_RIGHT))
+	if (gp.East.hasPressEvent())
 	{
 		_cursorX += 1;
 	}
 
-	if (gamepad.wasKeyPressed(GamepadKey::KEY_UP))
+	if (gp.North.hasPressEvent())
 	{
 		_cursorY -= 1;
 	}
 
-	if (gamepad.wasKeyPressed(GamepadKey::KEY_DOWN))
+	if (gp.South.hasPressEvent())
 	{
 		_cursorY += 1;
 	}
 
-	gamepad.resetEvents();
+	gp.resetEvents();
 
 	if (_cursorX < 0) { _cursorX = SCREEN_WIDTH-1; }
 	if (_cursorX >= (int)SCREEN_WIDTH) { _cursorX = 0; }

@@ -1,5 +1,6 @@
 #include "TetrisGame.h"
 #include <Environment.h>
+#include <Gamepad.h>
 
 TetrisGame::TetrisGame(Environment& env)
   : _env(env),

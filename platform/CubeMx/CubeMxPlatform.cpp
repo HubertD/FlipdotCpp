@@ -33,14 +33,15 @@ bool CubeMxPlatform::doQuit()
 void CubeMxPlatform::update()
 {
 	uint8_t nes = getNESbyte();
-	_gamepad.setKeyStatus(GamepadKey::KEY_A,      (nes & 0x80) != 0);
-	_gamepad.setKeyStatus(GamepadKey::KEY_B,      (nes & 0x40) != 0);
-	_gamepad.setKeyStatus(GamepadKey::KEY_SELECT, (nes & 0x20) != 0);
-	_gamepad.setKeyStatus(GamepadKey::KEY_START,  (nes & 0x10) != 0);
-	_gamepad.setKeyStatus(GamepadKey::KEY_UP,     (nes & 0x08) != 0);
-	_gamepad.setKeyStatus(GamepadKey::KEY_DOWN,   (nes & 0x04) != 0);
-	_gamepad.setKeyStatus(GamepadKey::KEY_LEFT,   (nes & 0x02) != 0);
-	_gamepad.setKeyStatus(GamepadKey::KEY_RIGHT,  (nes & 0x01) != 0);
+	auto now = getTicks();
+	_gamepad.A.update(now, (nes & 0x80) != 0);
+	_gamepad.B.update(now, (nes & 0x40) != 0);
+	_gamepad.Select.update(now, (nes & 0x20) != 0);
+	_gamepad.Start.update(now, (nes & 0x10) != 0);
+	_gamepad.North.update(now, (nes & 0x08) != 0);
+	_gamepad.South.update(now, (nes & 0x04) != 0);
+	_gamepad.West.update(now, (nes & 0x02) != 0);
+	_gamepad.East.update(now, (nes & 0x01) != 0);
 }
 
 void CubeMxPlatform::done()
@@ -94,7 +95,7 @@ Framebuffer& CubeMxPlatform::getFramebuffer()
 	return _framebuffer;
 }
 
-IGamepad& CubeMxPlatform::getGamepad()
+Gamepad& CubeMxPlatform::getGamepad()
 {
 	return _gamepad;
 }

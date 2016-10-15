@@ -2,7 +2,7 @@
 
 #include <IPlatform.h>
 #include <Framebuffer.h>
-#include <VirtualGamepad.h>
+#include <Gamepad.h>
 #include "CubeMxFlipdotDriver.h"
 
 class CubeMxPlatform : IPlatform
@@ -15,7 +15,7 @@ class CubeMxPlatform : IPlatform
 		void update() override;
 
 		Framebuffer& getFramebuffer() override;
-		IGamepad& getGamepad() override;
+		Gamepad& getGamepad() override;
 
 		uint32_t getTicks() override;
 		bool doQuit() override;
@@ -23,7 +23,7 @@ class CubeMxPlatform : IPlatform
 	private:
 		CubeMxFlipdotDriver _driver;
 		Framebuffer _framebuffer;
-		VirtualGamepad _gamepad;
+		Gamepad _gamepad;
 
 		uint8_t getNESbyte();
 		void sendNESlatch();

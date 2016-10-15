@@ -1,16 +1,16 @@
 #pragma once
 
 class Framebuffer;
-class IGamepad;
+class Gamepad;
 
 class Environment
 {
 	public:
 		Framebuffer& framebuffer;
-		IGamepad& gamepad;
+		Gamepad& gamepad;
 		unsigned now = 0;
 
-		Environment(Framebuffer& fb, IGamepad& gpad)
+		Environment(Framebuffer& fb, Gamepad& gpad)
 		  : framebuffer(fb),
 			gamepad(gpad)
 		{
