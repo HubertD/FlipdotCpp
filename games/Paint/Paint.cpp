@@ -1,11 +1,11 @@
 #include "Paint.h"
 
-#include <FlipdotGfx.h>
+#include <Environment.h>
 #include <IGamepad.h>
 #include <assets/Bitmaps.h>
 
-Paint::Paint(FlipdotGfx& gfx)
-  : _gfx(gfx)
+Paint::Paint(Environment& env)
+  : _env(env)
 {
 }
 
@@ -15,13 +15,13 @@ Paint::~Paint() {
 void Paint::init(unsigned ticks)
 {
 	(void) ticks;
-	_gfx.clear();
+	_env.gfx.clear();
 }
 
 void Paint::update(unsigned ticks)
 {
 	(void) ticks;
-	auto& gamepad = _gfx.getGamepad();
+	auto& gamepad = _env.gamepad;
 
 	if (gamepad.wasKeyPressed(GamepadKey::KEY_LEFT))
 	{
@@ -51,13 +51,14 @@ void Paint::update(unsigned ticks)
 	if (_cursorY < 0) { _cursorY = SCREEN_HEIGHT-1; }
 	if (_cursorY >= (int)SCREEN_HEIGHT) { _cursorY = 0; }
 
-	_gfx.clear();
-	_gfx.drawNumber(SCREEN_WIDTH/2+4, SCREEN_HEIGHT/2-4, 42);
-	_gfx.drawNumber(25, 35, 123456, FlipdotColor::BLACK, Orientation::DEG_90);
-	_gfx.drawNumber(1,  5, 123456,  FlipdotColor::BLACK, Orientation::DEG_270);
-	_gfx.drawText(2, 32, (char*)"FNORD");
+	auto &gfx = _env.gfx;
+	gfx.clear();
+	gfx.drawNumber(SCREEN_WIDTH/2+4, SCREEN_HEIGHT/2-4, 42);
+	gfx.drawNumber(25, 35, 123456, FlipdotColor::BLACK, Orientation::DEG_90);
+	gfx.drawNumber(1,  5, 123456,  FlipdotColor::BLACK, Orientation::DEG_270);
+	gfx.drawText(2, 32, (char*)"FNORD");
 
-	_gfx.setPixel(_cursorX, _cursorY, true);
-	_gfx.draw(0, 0, BytewerkLogo);
+	gfx.setPixel(_cursorX, _cursorY, true);
+	gfx.draw(0, 0, BytewerkLogo);
 
 }

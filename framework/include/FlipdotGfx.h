@@ -5,12 +5,11 @@
 
 class FlipdotFramebuffer;
 class IDrawable;
-class IGamepad;
 
 class FlipdotGfx
 {
 	public:
-		FlipdotGfx(FlipdotFramebuffer &framebuffer, IGamepad& gamepad);
+		FlipdotGfx(FlipdotFramebuffer &framebuffer);
 		FlipdotGfx( const FlipdotGfx& other ) = delete;
 		FlipdotGfx& operator=( const FlipdotGfx& ) = delete;
 		~FlipdotGfx();
@@ -29,11 +28,8 @@ class FlipdotGfx
 		unsigned getScreenWidth();
 		unsigned getScreenHeight();
 
-		IGamepad& getGamepad();
-
 	private:
 		FlipdotFramebuffer &_fb;
-		IGamepad& _gamepad;
 		uint16_t getCharData(char ch);
 
 		int getCharStepX(Orientation orientation, int spacing);

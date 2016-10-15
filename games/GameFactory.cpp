@@ -26,7 +26,7 @@ IGame* GameFactory::createGame(Game game, Environment& env)
 			return new GameOfLife(env.gfx);
 
 		case Game::PAINT:
-			return new Paint(env.gfx);
+			return new Paint(env);
 
 		case Game::TETRIS:
 			return new TetrisGame(env);

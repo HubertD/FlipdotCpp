@@ -89,8 +89,8 @@ static const uint16_t font[] = {
 	0x000E  // _
 };
 
-FlipdotGfx::FlipdotGfx(FlipdotFramebuffer& fb, IGamepad& gamepad)
-  : _fb(fb), _gamepad(gamepad)
+FlipdotGfx::FlipdotGfx(FlipdotFramebuffer& fb)
+  : _fb(fb)
 {
 }
 
@@ -189,11 +189,6 @@ unsigned FlipdotGfx::getScreenWidth()
 unsigned FlipdotGfx::getScreenHeight()
 {
 	return SCREEN_HEIGHT;
-}
-
-IGamepad& FlipdotGfx::getGamepad()
-{
-	return _gamepad;
 }
 
 void FlipdotGfx::drawText(int x, int y, char* text, FlipdotColor color, Orientation orientation, int spacing)
