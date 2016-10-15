@@ -25,9 +25,6 @@ class FlipdotGfx
 		void drawNumber(int x, int y, unsigned number, FlipdotColor color=FlipdotColor::BLACK, Orientation orientation = Orientation::DEG_0, int spacing=0);
 		void draw(int x, int y, const IDrawable &drawable, bool doInvert=false);
 
-		unsigned getScreenWidth();
-		unsigned getScreenHeight();
-
 	private:
 		FlipdotFramebuffer &_fb;
 		uint16_t getCharData(char ch);

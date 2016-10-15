@@ -1,5 +1,6 @@
 #include "Screensaver.h"
 
+#include <FlipdotConfig.h>
 #include <FlipdotGfx.h>
 
 Screensaver::Screensaver(FlipdotGfx& gfx)
@@ -14,8 +15,8 @@ Screensaver::~Screensaver()
 void Screensaver::init(unsigned ticks)
 {
 	_tNextStep = ticks + 1000;
-	_maxX = _gfx.getScreenWidth() - 1;
-	_maxY = _gfx.getScreenHeight() - 1;
+	_maxX = SCREEN_WIDTH - 1;
+	_maxY = SCREEN_HEIGHT - 1;
 }
 
 void Screensaver::update(unsigned ticks)
@@ -26,7 +27,6 @@ void Screensaver::update(unsigned ticks)
 		redraw();
 		_tNextStep = ticks + STEP_INTERVAL;
 	}
-
 }
 
 void Screensaver::makeStep()

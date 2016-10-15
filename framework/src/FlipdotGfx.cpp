@@ -181,16 +181,6 @@ void FlipdotGfx::drawChar(int x, int y, char ch, FlipdotColor color, Orientation
 	}
 }
 
-unsigned FlipdotGfx::getScreenWidth()
-{
-	return SCREEN_WIDTH;
-}
-
-unsigned FlipdotGfx::getScreenHeight()
-{
-	return SCREEN_HEIGHT;
-}
-
 void FlipdotGfx::drawText(int x, int y, char* text, FlipdotColor color, Orientation orientation, int spacing)
 {
 	while (*text != 0)
