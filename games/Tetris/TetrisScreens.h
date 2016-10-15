@@ -6,6 +6,7 @@
 #include "Screens/SelectLevelScreen.h"
 #include "Screens/GetReadyScreen.h"
 #include "Screens/MainScreen.h"
+#include "Screens/TryAgainScreen.h"
 
 struct TetrisScreens
 {
@@ -15,6 +16,7 @@ struct TetrisScreens
 	SelectLevelScreen SelectLevel;
 	GetReadyScreen GetReady;
 	MainScreen Main;
+	TryAgainScreen TryAgain;
 
 	TetrisScreens(TetrisGame& game)
 	  : Null(game),
@@ -22,7 +24,8 @@ struct TetrisScreens
 		Idle(game),
 		SelectLevel(game),
 		GetReady(game),
-		Main(game)
+		Main(game),
+		TryAgain(game)
 	{
 	}
 };

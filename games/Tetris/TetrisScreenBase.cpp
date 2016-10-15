@@ -50,6 +50,11 @@ bool TetrisScreenBase::isAnyKeyPressed()
 	return getGamepad().isAnyKeyPressed();
 }
 
+bool TetrisScreenBase::wasAnyKeyPressed()
+{
+	return getGamepad().wasAnyKeyPressed();
+}
+
 bool TetrisScreenBase::wasKeyPressed(GamepadKey key)
 {
 	return getGamepad().wasKeyPressed(key);
@@ -63,7 +68,7 @@ bool TetrisScreenBase::wasKeyReleased(GamepadKey key)
 bool TetrisScreenBase::wasContinuePressed()
 {
 	return getGamepad().wasKeyPressed(GamepadKey::KEY_START)
-		   || getGamepad().wasKeyPressed(GamepadKey::KEY_SELECT);
+		   || getGamepad().wasKeyPressed(GamepadKey::KEY_A);
 }
 
 bool TetrisScreenBase::wasNextPressed()
@@ -114,3 +119,4 @@ void TetrisScreenBase::drawObject(int x, int y, const IDrawable &drawable, bool 
 {
 	_game.getGfx().draw(x, y, drawable, doInvert);
 }
+

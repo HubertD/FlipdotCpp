@@ -20,20 +20,44 @@ void MainScreen::enter()
 	_level = getVariables().startLevel;
 	_destructedRows = 0;
 	_tNextStep = now();
+	getVariables().lastScore = 0;
 
 	_field.clear();
+
+	state = State::RUNNING;
 	switchToNextBlock();
 	updateStepInterval();
 }
 
 void MainScreen::update()
 {
+	switch (state)
+	{
+		case State::RUNNING:
+			updateGameRunning();
+			break;
+		case State::GAME_OVER:
+			updateGameOver();
+			break;
+		default:
+			break;
+	}
+	draw();
+}
+
+void MainScreen::updateGameRunning()
+{
 	updateGamepad();
 	makeStepIfDue();
 	removeFullRows();
-	if (!checkGameOver())
+	checkGameOver();
+}
+
+void MainScreen::updateGameOver()
+{
+	if (now() > _tGameOverWait)
 	{
-		draw();
+		setNextScreen(getScreens().TryAgain);
 	}
 }
 
@@ -102,7 +126,9 @@ bool MainScreen::checkGameOver()
 {
 	if (_currentBlock.doesCollide(_field))
 	{
-		setNextScreen(getScreens().SelectLevel); /* Game over */
+		getVariables().lastScore = _score;
+		state = State::GAME_OVER;
+		_tGameOverWait = now() + TIMEOUT_GAME_OVER;
 		return true;
 	} else {
 		return false;
@@ -196,3 +222,4 @@ void MainScreen::updateStepInterval()
 {
 	_stepInterval = 400 - (_level*30);
 }
+

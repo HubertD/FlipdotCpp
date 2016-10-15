@@ -12,6 +12,7 @@ class IGamepad
 		virtual bool isAnyKeyPressed() = 0;
 		virtual bool wasKeyPressed(GamepadKey key) = 0;
 		virtual bool wasKeyReleased(GamepadKey key) = 0;
+		virtual bool wasAnyKeyPressed() = 0;
 		virtual void resetEvents() = 0;
 
 };

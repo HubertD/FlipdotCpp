@@ -11,7 +11,7 @@ class SelectLevelScreen : public TetrisScreenBase
 		void update() override;
 
 	private:
-		static const unsigned IDLE_TIMEOUT_MS = 10000;
+		static const unsigned IDLE_TIMEOUT_MS = 15000;
 		static const int MIN_LEVEL = 0;
 		static const int MAX_LEVEL = 9;
 

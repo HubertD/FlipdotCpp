@@ -22,6 +22,7 @@ class TetrisScreenBase
 		void setNextScreen(TetrisScreenBase& screen);
 
 		bool isAnyKeyPressed();
+		bool wasAnyKeyPressed();
 		bool wasKeyPressed(GamepadKey key);
 		bool wasKeyReleased(GamepadKey key);
 		bool wasContinuePressed();

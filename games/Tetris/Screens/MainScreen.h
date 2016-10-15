@@ -14,11 +14,18 @@ class MainScreen: public TetrisScreenBase
 
 	private:
 
+		enum class State {
+			RUNNING,
+			GAME_OVER,
+			ROWS_BLINKING
+		} state = State::RUNNING;
+
 		static const int FIELD_X = 0;
 		static const int FIELD_Y = 0;
 		static const int NEXT_BLOCK_X = 22;
 		static const int NEXT_BLOCK_Y = 6;
 		static const int LINE_SCORE_MULT = 2;
+		static const unsigned TIMEOUT_GAME_OVER = 2000;
 
 		unsigned _score = 0;
 		unsigned _scoreBuf = 0;
@@ -26,9 +33,13 @@ class MainScreen: public TetrisScreenBase
 		unsigned _destructedRows = 0;
 		unsigned _stepInterval = 0;
 		unsigned _tNextStep = 0;
+		unsigned _tGameOverWait = 0;
 		TetrisField _field;
 		TetrisBlock _currentBlock;
 		TetrisBlock _nextBlock;
+
+		void updateGameRunning();
+		void updateGameOver();
 
 		void updateGamepad();
 		void makeStepIfDue();
