@@ -24,7 +24,7 @@ void VCDPlatform::incrementUTicks(int increment)
 	_uticks += increment;
 }
 
-FlipdotFramebuffer& VCDPlatform::getFramebuffer()
+Framebuffer& VCDPlatform::getFramebuffer()
 {
 	return _framebuffer;
 }

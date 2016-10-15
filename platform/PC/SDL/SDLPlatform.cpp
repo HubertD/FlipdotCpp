@@ -1,6 +1,6 @@
 #include "SDLPlatform.h"
 #include <iostream>
-#include <FlipdotFramebuffer.h>
+#include <Framebuffer.h>
 
 SDLPlatform::SDLPlatform()
 {
@@ -11,7 +11,7 @@ void SDLPlatform::init()
 	SDL_Init(SDL_INIT_VIDEO);
 	_window = SDL_CreateWindow("Flipdot", 100, 100, 1000, 800, SDL_WINDOW_SHOWN);
 	_driver = new SDLFlipdotDriver(*this, _window, 2, 2);
-	_framebuffer = new FlipdotFramebuffer(*_driver);
+	_framebuffer = new Framebuffer(*_driver);
 }
 
 void SDLPlatform::done()
@@ -46,7 +46,7 @@ void SDLPlatform::handleSDLEvent(SDL_Event& event)
 	}
 }
 
-FlipdotFramebuffer& SDLPlatform::getFramebuffer()
+Framebuffer& SDLPlatform::getFramebuffer()
 {
 	return *_framebuffer;
 }

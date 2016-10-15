@@ -15,7 +15,7 @@ class SDLPlatform : IPlatform
 		void done() override;
 		void update() override;
 
-		FlipdotFramebuffer &getFramebuffer() override;
+		Framebuffer &getFramebuffer() override;
 		IGamepad &getGamepad() override;
 
 		uint32_t getTicks() override;
@@ -23,7 +23,7 @@ class SDLPlatform : IPlatform
 
 	private:
 		SDLFlipdotDriver *_driver = nullptr;
-		FlipdotFramebuffer *_framebuffer = nullptr;
+		Framebuffer *_framebuffer = nullptr;
 		SDL_Window *_window = nullptr;
 		VirtualGamepad _gamepad;
 		bool _doQuit = false;

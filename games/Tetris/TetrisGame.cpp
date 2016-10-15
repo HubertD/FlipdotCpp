@@ -39,7 +39,7 @@ Environment& TetrisGame::getEnvironment()
 	return _env;
 }
 
-FlipdotFramebuffer& TetrisGame::getFramebuffer()
+Framebuffer& TetrisGame::getFramebuffer()
 {
 	return _env.framebuffer;
 }

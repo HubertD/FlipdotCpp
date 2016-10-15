@@ -7,10 +7,10 @@
 #include "FlipdotPanel.h"
 #include <IDrawable.h>
 
-class FlipdotFramebuffer
+class Framebuffer
 {
 	public:
-		FlipdotFramebuffer(IFlipdotDriver &driver);
+		Framebuffer(IFlipdotDriver &driver);
 
 		void configurePanels();
 		void init();

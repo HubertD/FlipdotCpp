@@ -1,8 +1,8 @@
 #include <FlipdotTypes.h>
-#include <FlipdotFramebuffer.h>
 #include <games/GameFactory.h>
 #include <Platform.h>
 #include <Environment.h>
+#include <Framebuffer.h>
 
 int main(void)
 {
@@ -12,7 +12,7 @@ int main(void)
 	IGamepad& gamepad = platform.getGamepad();
 	gamepad.init();
 
-	FlipdotFramebuffer& framebuffer = platform.getFramebuffer();
+	Framebuffer& framebuffer = platform.getFramebuffer();
 	framebuffer.init();
 
 	Environment env(framebuffer, gamepad);

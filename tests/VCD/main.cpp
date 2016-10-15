@@ -1,4 +1,4 @@
-#include <FlipdotFramebuffer.h>
+#include <Framebuffer.h>
 #include <platform/PC/VCD/VCDPlatform.h>
 
 int main(void)
@@ -7,7 +7,7 @@ int main(void)
 	platform.init();
 	platform.setQuitUTicks(500*1000);
 
-	FlipdotFramebuffer& framebuffer = platform.getFramebuffer();
+	auto& framebuffer = platform.getFramebuffer();
 	framebuffer.init();
 
 	framebuffer.clear();

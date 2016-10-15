@@ -4,7 +4,7 @@
 #include <FlipdotTypes.h>
 
 class TetrisField;
-class FlipdotFramebuffer;
+class Framebuffer;
 
 class TetrisBlock
 {
@@ -42,6 +42,6 @@ class TetrisBlock
 
 		bool doesCollide(TetrisField& field);
 		void merge(TetrisField& field);
-		void draw(FlipdotFramebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, FlipdotColor color);
+		void draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, FlipdotColor color);
 
 };

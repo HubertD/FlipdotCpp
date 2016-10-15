@@ -1,5 +1,5 @@
 #include <Font.h>
-#include <FlipdotFramebuffer.h>
+#include <Framebuffer.h>
 
 enum PixelFontCharacter {
 	PFC_A         =  0,
@@ -106,7 +106,7 @@ uint16_t Font::getCharData(char ch)
     }
 }
 
-void Font::drawChar(FlipdotFramebuffer& fb, int x, int y, char ch, FlipdotColor color, Orientation orientation)
+void Font::drawChar(Framebuffer& fb, int x, int y, char ch, FlipdotColor color, Orientation orientation)
 {
 	uint16_t data = getCharData(ch);
 
@@ -139,7 +139,7 @@ void Font::drawChar(FlipdotFramebuffer& fb, int x, int y, char ch, FlipdotColor 
 	}
 }
 
-void Font::drawText(FlipdotFramebuffer& fb, int x, int y, char* text, FlipdotColor color, Orientation orientation, int spacing)
+void Font::drawText(Framebuffer& fb, int x, int y, char* text, FlipdotColor color, Orientation orientation, int spacing)
 {
 	while (*text != 0)
 	{
@@ -150,7 +150,7 @@ void Font::drawText(FlipdotFramebuffer& fb, int x, int y, char* text, FlipdotCol
 	}
 }
 
-void Font::drawNumber(FlipdotFramebuffer& fb, int x, int y, unsigned number, FlipdotColor color, Orientation orientation, int spacing)
+void Font::drawNumber(Framebuffer& fb, int x, int y, unsigned number, FlipdotColor color, Orientation orientation, int spacing)
 {
 	do {
 		x -= getCharStepX(orientation, spacing);

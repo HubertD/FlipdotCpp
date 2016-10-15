@@ -2,7 +2,7 @@
 
 #include <FlipdotConfig.h>
 #include <Environment.h>
-#include <FlipdotFramebuffer.h>
+#include <Framebuffer.h>
 
 TestScreen::TestScreen(Environment& env)
   : _env(env)

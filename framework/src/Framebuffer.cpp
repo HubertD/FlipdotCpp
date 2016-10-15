@@ -1,25 +1,25 @@
-#include "FlipdotFramebuffer.h"
+#include <Framebuffer.h>
 
-FlipdotFramebuffer::FlipdotFramebuffer(IFlipdotDriver &driver)
+Framebuffer::Framebuffer(IFlipdotDriver &driver)
   : _driver(driver)
 {
 }
 
-void FlipdotFramebuffer::init()
+void Framebuffer::init()
 {
 	configurePanels();
 	clear();
 	flush();
 }
 
-void FlipdotFramebuffer::configurePanels()
+void Framebuffer::configurePanels()
 {
 	for (unsigned i=0; i<NUM_PANELS; i++) {
 		_panels[i].configure(PANEL_CONFG[i]);
 	}
 }
 
-void FlipdotFramebuffer::update(unsigned ticks)
+void Framebuffer::update(unsigned ticks)
 {
 	_driver.update(ticks);
 
@@ -49,23 +49,23 @@ void FlipdotFramebuffer::update(unsigned ticks)
 	} while (_updateCounter != startCounter);
 }
 
-void FlipdotFramebuffer::flush()
+void Framebuffer::flush()
 {
 	flushColor(FlipdotColor::BLACK);
 	flushColor(FlipdotColor::WHITE);
 }
 
-ScreenBuffer& FlipdotFramebuffer::getOnScreenBuffer()
+ScreenBuffer& Framebuffer::getOnScreenBuffer()
 {
 	return _onScreenBuffer;
 }
 
-ScreenBuffer& FlipdotFramebuffer::getOffScreenBuffer()
+ScreenBuffer& Framebuffer::getOffScreenBuffer()
 {
 	return _offScreenBuffer;
 }
 
-void FlipdotFramebuffer::flushColor(FlipdotColor color)
+void Framebuffer::flushColor(FlipdotColor color)
 {
 	for (unsigned i=0; i<FlipdotPanel::ACTIVE_COLUMNS; i++)
 	{
@@ -73,7 +73,7 @@ void FlipdotFramebuffer::flushColor(FlipdotColor color)
 	}
 }
 
-void FlipdotFramebuffer::clear()
+void Framebuffer::clear()
 {
 	for (unsigned y=0; y<SCREEN_HEIGHT; y++)
 	{
@@ -84,18 +84,18 @@ void FlipdotFramebuffer::clear()
 	}
 }
 
-void FlipdotFramebuffer::setPixel(int x, int y, bool value)
+void Framebuffer::setPixel(int x, int y, bool value)
 {
 	_offScreenBuffer.setPixel(x, y, value);
 }
 
-bool FlipdotFramebuffer::getPixel(int x, int y)
+bool Framebuffer::getPixel(int x, int y)
 {
 	return _offScreenBuffer.getPixel(x, y);
 }
 
 
-void FlipdotFramebuffer::drawRect(int x, int y, int dx, int dy, bool value)
+void Framebuffer::drawRect(int x, int y, int dx, int dy, bool value)
 {
 	for (int px=x; px<(x+dx); px++)
 	{
@@ -106,12 +106,12 @@ void FlipdotFramebuffer::drawRect(int x, int y, int dx, int dy, bool value)
 	}
 }
 
-void FlipdotFramebuffer::draw(int x, int y, const IDrawable& drawable, bool doInvert)
+void Framebuffer::draw(int x, int y, const IDrawable& drawable, bool doInvert)
 {
 	drawable.draw(*this, x, y, doInvert);
 }
 
-void FlipdotFramebuffer::selectColumn(unsigned column)
+void Framebuffer::selectColumn(unsigned column)
 {
 	uint8_t row_data[] = {
 		(uint8_t)((1<<column) & 0xFF),
@@ -120,7 +120,7 @@ void FlipdotFramebuffer::selectColumn(unsigned column)
 	_driver.writeRowData(row_data, sizeof(row_data));
 }
 
-void FlipdotFramebuffer::updateColumn(unsigned column, FlipdotColor color)
+void Framebuffer::updateColumn(unsigned column, FlipdotColor color)
 {
 	selectColumn(column);
 
@@ -142,7 +142,7 @@ void FlipdotFramebuffer::updateColumn(unsigned column, FlipdotColor color)
 
 }
 
-bool FlipdotFramebuffer::columnNeedsUpdate(unsigned column, FlipdotColor color)
+bool Framebuffer::columnNeedsUpdate(unsigned column, FlipdotColor color)
 {
 	for (auto panel: _panels)
 	{

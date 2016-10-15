@@ -1,7 +1,7 @@
 #include "SDLFlipdotDriver.h"
 #include <FlipdotConfig.h>
 #include <IPlatform.h>
-#include <FlipdotFramebuffer.h>
+#include <Framebuffer.h>
 
 SDLFlipdotDriver::SDLFlipdotDriver(IPlatform &platform, SDL_Window* window, unsigned numPanelsX, unsigned numPanelsY)
   : VirtualFlipdotDriver(numPanelsX, numPanelsY),

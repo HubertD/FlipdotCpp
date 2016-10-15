@@ -1,10 +1,10 @@
 #include "Paint.h"
 
 #include <Environment.h>
-#include <FlipdotFramebuffer.h>
 #include <IGamepad.h>
 #include <Font.h>
 #include <assets/Bitmaps.h>
+#include <Framebuffer.h>
 
 Paint::Paint(Environment& env)
   : _env(env)

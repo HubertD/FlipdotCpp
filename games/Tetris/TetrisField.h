@@ -20,7 +20,7 @@ class TetrisField : public IDrawable
 		bool getPoint(int fieldX, int fieldY) const;
 
 		bool getPixel(int x, int y) const override;
-		void draw(FlipdotFramebuffer& fb, int x, int y, bool doInvert=false) const override;
+		void draw(Framebuffer& fb, int x, int y, bool doInvert=false) const override;
 
 		bool isRowFull(int row) const;
 		void deleteRow(int row);
@@ -34,6 +34,6 @@ class TetrisField : public IDrawable
 		uint16_t _data[FIELD_HEIGHT] = { 0 };
 		bool _invertFullRows = false;
 
-		void drawPoint(FlipdotFramebuffer& fb, int x, int y, int fieldX, int fieldY, bool value) const;
+		void drawPoint(Framebuffer& fb, int x, int y, int fieldX, int fieldY, bool value) const;
 
 };

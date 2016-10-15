@@ -1,8 +1,8 @@
 #include "GameOfLife.h"
 
 #include <Environment.h>
-#include <FlipdotFramebuffer.h>
 #include <Font.h>
+#include <Framebuffer.h>
 
 GameOfLife::GameOfLife(Environment& env)
   : _env(env)

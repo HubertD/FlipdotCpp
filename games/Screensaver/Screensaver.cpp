@@ -2,8 +2,8 @@
 
 #include <FlipdotConfig.h>
 #include <Environment.h>
-#include <FlipdotFramebuffer.h>
 #include <Font.h>
+#include <Framebuffer.h>
 
 Screensaver::Screensaver(Environment& env)
   : _env(env)

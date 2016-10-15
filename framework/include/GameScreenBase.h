@@ -1,6 +1,6 @@
 #pragma once
 
-#include <FlipdotFramebuffer.h>
+#include <Framebuffer.h>
 #include <IGamepad.h>
 
 class Environment;
@@ -22,7 +22,7 @@ class GameScreenBase
 		Environment& _env;
 
 		unsigned now();
-		FlipdotFramebuffer &getFramebuffer();
+		Framebuffer &getFramebuffer();
 		IGamepad &getGamepad();
 
 		bool isAnyKeyPressed();

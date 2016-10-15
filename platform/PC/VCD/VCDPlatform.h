@@ -1,7 +1,7 @@
 #pragma once
 
+#include <Framebuffer.h>
 #include <IPlatform.h>
-#include <FlipdotFramebuffer.h>
 #include <VirtualGamepad.h>
 #include "VCDFlipdotDriver.h"
 
@@ -18,7 +18,7 @@ class VCDPlatform : IPlatform
 		unsigned getUTicks();
 		void setQuitUTicks(int uticks);
 
-		FlipdotFramebuffer &getFramebuffer() override;
+		Framebuffer &getFramebuffer() override;
 		IGamepad& getGamepad() override;
 
 		uint32_t getTicks() override;
@@ -28,7 +28,7 @@ class VCDPlatform : IPlatform
 		static constexpr unsigned UTICKS_PER_UPDATE = 10;
 
 		VCDFlipdotDriver _driver;
-		FlipdotFramebuffer _framebuffer;
+		Framebuffer _framebuffer;
 		VirtualGamepad _gamepad;
 
 		unsigned _uticks = 0;

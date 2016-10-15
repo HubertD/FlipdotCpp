@@ -11,7 +11,7 @@ GameScreenBase::~GameScreenBase()
 {
 }
 
-FlipdotFramebuffer& GameScreenBase::getFramebuffer()
+Framebuffer& GameScreenBase::getFramebuffer()
 {
 	return _env.framebuffer;
 }
