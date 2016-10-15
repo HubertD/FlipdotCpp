@@ -5,10 +5,10 @@
 
 class Framebuffer;
 
-class FlipdotBitmap : public IDrawable
+class Bitmap : public IDrawable
 {
 	public:
-		FlipdotBitmap(const uint8_t *data, int width, int height);
+		Bitmap(const uint8_t *data, int width, int height);
 		bool getPixel(int x, int y) const override;
 		void draw(Framebuffer& fb, int x, int y, bool doInvert=false) const override;
 
