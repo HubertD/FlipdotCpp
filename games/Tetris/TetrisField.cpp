@@ -93,8 +93,7 @@ int TetrisField::deleteFullRows()
 	int i=ROWS-1;
 	int deletedRows = 0;
 
-	// TODO simplify loop
-	while (i>0)
+	while (i>=0)
 	{
 		if (isRowFull(i)) {
 			deleteRow(i);
