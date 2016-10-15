@@ -36,7 +36,7 @@ void Framebuffer::update(unsigned ticks)
 	{
 		_updateCounter = (_updateCounter + 1) % (2*FlipdotPanel::ACTIVE_COLUMNS);
 
-		FlipdotColor color = (_updateCounter < FlipdotPanel::ACTIVE_COLUMNS) ? FlipdotColor::BLACK : FlipdotColor::WHITE;
+		Color color = (_updateCounter < FlipdotPanel::ACTIVE_COLUMNS) ? Color::BLACK : Color::WHITE;
 		unsigned column = _updateCounter % FlipdotPanel::ACTIVE_COLUMNS;
 
 		if (columnNeedsUpdate(column, color))
@@ -51,8 +51,8 @@ void Framebuffer::update(unsigned ticks)
 
 void Framebuffer::flush()
 {
-	flushColor(FlipdotColor::BLACK);
-	flushColor(FlipdotColor::WHITE);
+	flushColor(Color::BLACK);
+	flushColor(Color::WHITE);
 }
 
 ScreenBuffer& Framebuffer::getOnScreenBuffer()
@@ -65,7 +65,7 @@ ScreenBuffer& Framebuffer::getOffScreenBuffer()
 	return _offScreenBuffer;
 }
 
-void Framebuffer::flushColor(FlipdotColor color)
+void Framebuffer::flushColor(Color color)
 {
 	for (unsigned i=0; i<FlipdotPanel::ACTIVE_COLUMNS; i++)
 	{
@@ -120,7 +120,7 @@ void Framebuffer::selectColumn(unsigned column)
 	_driver.writeRowData(row_data, sizeof(row_data));
 }
 
-void Framebuffer::updateColumn(unsigned column, FlipdotColor color)
+void Framebuffer::updateColumn(unsigned column, Color color)
 {
 	selectColumn(column);
 
@@ -133,7 +133,7 @@ void Framebuffer::updateColumn(unsigned column, FlipdotColor color)
 	}
 	_driver.strobe();
 
-	if (color==FlipdotColor::BLACK)
+	if (color==Color::BLACK)
 	{
 		_driver.setOutputEnableBlack();
 	} else {
@@ -142,7 +142,7 @@ void Framebuffer::updateColumn(unsigned column, FlipdotColor color)
 
 }
 
-bool Framebuffer::columnNeedsUpdate(unsigned column, FlipdotColor color)
+bool Framebuffer::columnNeedsUpdate(unsigned column, Color color)
 {
 	for (auto panel: _panels)
 	{

@@ -47,8 +47,8 @@ void SelectLevelScreen::update()
 void SelectLevelScreen::draw()
 {
 	clearScreen();
-	drawText(2, 1, (char*)"SELECT", FlipdotColor::BLACK, Orientation::DEG_0, 1);
-	drawText(2, 8, (char*)"LEVEL", FlipdotColor::BLACK, Orientation::DEG_0, 2);
+	drawText(2, 1, (char*)"SELECT", Color::BLACK, Orientation::DEG_0, 1);
+	drawText(2, 8, (char*)"LEVEL", Color::BLACK, Orientation::DEG_0, 2);
 	drawChar(15, 17, '_');
 	drawChar(15, 15, '0' + getVariables().startLevel);
 }

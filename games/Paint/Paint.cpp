@@ -57,8 +57,8 @@ void Paint::update(unsigned ticks)
 	fb.clear();
 
 	Font::drawNumber(fb, SCREEN_WIDTH/2+4, SCREEN_HEIGHT/2-4, 42);
-	Font::drawNumber(fb, 25, 35, 123456, FlipdotColor::BLACK, Orientation::DEG_90);
-	Font::drawNumber(fb, 1,  5, 123456,  FlipdotColor::BLACK, Orientation::DEG_270);
+	Font::drawNumber(fb, 25, 35, 123456, Color::BLACK, Orientation::DEG_90);
+	Font::drawNumber(fb, 1,  5, 123456,  Color::BLACK, Orientation::DEG_270);
 	Font::drawText(fb, 2, 32, (char*)"FNORD");
 
 	fb.setPixel(_cursorX, _cursorY, true);

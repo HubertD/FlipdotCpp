@@ -31,7 +31,7 @@ void FlipdotPanel::fillShiftRegister(ScreenBuffer &screen, unsigned column, uint
 
 bool FlipdotPanel::columnNeedsUpdate(
 	unsigned column,
-	FlipdotColor color,
+	Color color,
 	ScreenBuffer& onScreenBuffer,
 	ScreenBuffer& offScreenBuffer
 )
@@ -41,7 +41,7 @@ bool FlipdotPanel::columnNeedsUpdate(
 	unsigned onScreenData = onScreenBuffer.getColumnPixels(screenX, _y, 20);
 	unsigned offScreenData = offScreenBuffer.getColumnPixels(screenX, _y, 20);
 
-	if (color==FlipdotColor::BLACK)
+	if (color==Color::BLACK)
 	{
 		return (onScreenData | offScreenData) != onScreenData;
 	} else {
@@ -51,12 +51,12 @@ bool FlipdotPanel::columnNeedsUpdate(
 
 void FlipdotPanel::updateOnScreenBuffer(
 	unsigned column,
-	FlipdotColor color,
+	Color color,
 	ScreenBuffer& onScreenBuffer,
 	ScreenBuffer& offScreenBuffer
 )
 {
 	unsigned screenX = getScreenX(column);
-	onScreenBuffer.copyFrom(offScreenBuffer, screenX, _y, screenX, _y, 1, ACTIVE_ROWS, (color==FlipdotColor::BLACK), (color==FlipdotColor::WHITE));
+	onScreenBuffer.copyFrom(offScreenBuffer, screenX, _y, screenX, _y, 1, ACTIVE_ROWS, (color==Color::BLACK), (color==Color::WHITE));
 }
 

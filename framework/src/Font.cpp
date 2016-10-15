@@ -106,11 +106,11 @@ uint16_t Font::getCharData(char ch)
     }
 }
 
-void Font::drawChar(Framebuffer& fb, int x, int y, char ch, FlipdotColor color, Orientation orientation)
+void Font::drawChar(Framebuffer& fb, int x, int y, char ch, Color color, Orientation orientation)
 {
 	uint16_t data = getCharData(ch);
 
-	bool foregroundValue = (color==FlipdotColor::BLACK);
+	bool foregroundValue = (color==Color::BLACK);
 
 	for (unsigned dy=0; dy<5; dy++)
 	{
@@ -139,7 +139,7 @@ void Font::drawChar(Framebuffer& fb, int x, int y, char ch, FlipdotColor color, 
 	}
 }
 
-void Font::drawText(Framebuffer& fb, int x, int y, char* text, FlipdotColor color, Orientation orientation, int spacing)
+void Font::drawText(Framebuffer& fb, int x, int y, char* text, Color color, Orientation orientation, int spacing)
 {
 	while (*text != 0)
 	{
@@ -150,7 +150,7 @@ void Font::drawText(Framebuffer& fb, int x, int y, char* text, FlipdotColor colo
 	}
 }
 
-void Font::drawNumber(Framebuffer& fb, int x, int y, unsigned number, FlipdotColor color, Orientation orientation, int spacing)
+void Font::drawNumber(Framebuffer& fb, int x, int y, unsigned number, Color color, Orientation orientation, int spacing)
 {
 	do {
 		x -= getCharStepX(orientation, spacing);

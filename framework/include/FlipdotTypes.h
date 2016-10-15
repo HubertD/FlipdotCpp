@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-enum class FlipdotColor
+enum class Color
 {
 	BLACK,
 	WHITE

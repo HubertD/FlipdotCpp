@@ -67,7 +67,7 @@ void TetrisBlock::setY(int newY)
 	_posY = newY;
 }
 
-void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, FlipdotColor color)
+void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, Color color)
 {
 	auto px = offsetX + pointSizeX * _posX;
 	auto py = offsetY + pointSizeY * _posY;
@@ -78,7 +78,7 @@ void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX
 		{
 			if (getPoint(ix, iy))
 			{
-				fb.drawRect(px+pointSizeX*ix, py+pointSizeY*iy, pointSizeX, pointSizeY, color==FlipdotColor::BLACK);
+				fb.drawRect(px+pointSizeX*ix, py+pointSizeY*iy, pointSizeX, pointSizeY, color==Color::BLACK);
 			}
 		}
 	}

@@ -14,8 +14,8 @@ class FlipdotPanel
 
 		void fillShiftRegister(ScreenBuffer &screen, unsigned column, uint8_t *buf);
 
-		bool columnNeedsUpdate(unsigned column, FlipdotColor color, ScreenBuffer& onScreenBuffer, ScreenBuffer& offScreenBuffer);
-		void updateOnScreenBuffer(unsigned column, FlipdotColor color, ScreenBuffer& onScreenBuffer, ScreenBuffer& offScreenBuffer);
+		bool columnNeedsUpdate(unsigned column, Color color, ScreenBuffer& onScreenBuffer, ScreenBuffer& offScreenBuffer);
+		void updateOnScreenBuffer(unsigned column, Color color, ScreenBuffer& onScreenBuffer, ScreenBuffer& offScreenBuffer);
 
 	private:
 		unsigned _x = 0;

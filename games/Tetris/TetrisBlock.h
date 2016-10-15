@@ -42,6 +42,6 @@ class TetrisBlock
 
 		bool doesCollide(TetrisField& field);
 		void merge(TetrisField& field);
-		void draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, FlipdotColor color);
+		void draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, Color color);
 
 };

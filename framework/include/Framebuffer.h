@@ -40,10 +40,10 @@ class Framebuffer
 		uint32_t _tWaitDotsFlip = 0;
 
 		void selectColumn(unsigned column);
-		void updateColumn(unsigned column, FlipdotColor color);
-		void flushColor(FlipdotColor color);
+		void updateColumn(unsigned column, Color color);
+		void flushColor(Color color);
 
-		bool columnNeedsUpdate(unsigned column, FlipdotColor color);
+		bool columnNeedsUpdate(unsigned column, Color color);
 
 };
 

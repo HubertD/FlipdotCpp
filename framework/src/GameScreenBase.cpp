@@ -79,19 +79,19 @@ void GameScreenBase::drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, 
 	_env.framebuffer.drawRect(x, y, dx, dy, value);
 }
 
-void GameScreenBase::drawChar(unsigned x, unsigned y, char ch, FlipdotColor color, Orientation orientation)
+void GameScreenBase::drawChar(unsigned x, unsigned y, char ch, Color color, Orientation orientation)
 {
 	Font::drawChar(_env.framebuffer, x, y, ch, color, orientation);
 }
 
 void GameScreenBase::drawText(unsigned x, unsigned y, char* text,
-		FlipdotColor color, Orientation orientation, int spacing)
+		Color color, Orientation orientation, int spacing)
 {
 	Font::drawText(_env.framebuffer, x, y, text, color, orientation, spacing);
 }
 
 void GameScreenBase::drawNumber(unsigned x, unsigned y, unsigned number,
-		FlipdotColor color, Orientation orientation, int spacing)
+		Color color, Orientation orientation, int spacing)
 {
 	Font::drawNumber(_env.framebuffer, x, y, number, color, orientation, spacing);
 }

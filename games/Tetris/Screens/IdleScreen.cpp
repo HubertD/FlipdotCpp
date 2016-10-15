@@ -8,7 +8,7 @@
 void IdleScreen::enter()
 {
 	clearScreen();
-	drawText(2, 1, (char*)"TETRIS", FlipdotColor::BLACK, Orientation::DEG_0, 1);
+	drawText(2, 1, (char*)"TETRIS", Color::BLACK, Orientation::DEG_0, 1);
 	drawObject(3, 12, StatsQrCode, true);
 }
 

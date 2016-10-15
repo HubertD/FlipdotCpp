@@ -12,6 +12,6 @@ void GetReadyScreen::update()
 void GetReadyScreen::enter()
 {
 	clearScreen();
-	drawText(2, 1, (char*)"GET", FlipdotColor::BLACK, Orientation::DEG_0, 1);
-	drawText(2, 8, (char*)"READY!", FlipdotColor::BLACK, Orientation::DEG_0, 1);
+	drawText(2, 1, (char*)"GET", Color::BLACK, Orientation::DEG_0, 1);
+	drawText(2, 8, (char*)"READY!", Color::BLACK, Orientation::DEG_0, 1);
 }

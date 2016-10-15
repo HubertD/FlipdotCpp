@@ -190,22 +190,22 @@ void MainScreen::draw()
 
 	drawRect(20, 0, 12, 40, true);
 
-	drawChar(LEVEL_X,   LEVEL_Y, 'L', FlipdotColor::WHITE);
-	drawChar(LEVEL_X+3, LEVEL_Y, ':', FlipdotColor::WHITE);
-	drawChar(LEVEL_X+7, LEVEL_Y, '0'+_level, FlipdotColor::WHITE);
+	drawChar(LEVEL_X,   LEVEL_Y, 'L', Color::WHITE);
+	drawChar(LEVEL_X+3, LEVEL_Y, ':', Color::WHITE);
+	drawChar(LEVEL_X+7, LEVEL_Y, '0'+_level, Color::WHITE);
 
 	if (_score < SCORE_SHOW_K)
 	{
-		drawNumber(SCORE_X, SCORE_Y, _score, FlipdotColor::WHITE, Orientation::DEG_90);
+		drawNumber(SCORE_X, SCORE_Y, _score, Color::WHITE, Orientation::DEG_90);
 	} else {
-		drawNumber(SCORE_X, SCORE_Y-5, _score/1000, FlipdotColor::WHITE, Orientation::DEG_90);
-		drawChar(SCORE_X, SCORE_Y-4, 'K', FlipdotColor::WHITE, Orientation::DEG_90);
+		drawNumber(SCORE_X, SCORE_Y-5, _score/1000, Color::WHITE, Orientation::DEG_90);
+		drawChar(SCORE_X, SCORE_Y-4, 'K', Color::WHITE, Orientation::DEG_90);
 	}
 
-	_nextBlock.draw(getFramebuffer(), NEXT_BLOCK_X, NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, FlipdotColor::WHITE);
+	_nextBlock.draw(getFramebuffer(), NEXT_BLOCK_X, NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, Color::WHITE);
 
 	drawObject(FIELD_X, FIELD_Y, _field);
-	_currentBlock.draw(getFramebuffer(), FIELD_X, FIELD_Y, 2, 2, FlipdotColor::BLACK);
+	_currentBlock.draw(getFramebuffer(), FIELD_X, FIELD_Y, 2, 2, Color::BLACK);
 }
 
 int MainScreen::calcPointsForDeletedRows(int deletedRows)
