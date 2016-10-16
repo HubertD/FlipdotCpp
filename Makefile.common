@@ -1,0 +1,13 @@
+# source files used by all builds
+SRC_COMMON = main.cpp $(shell find framework games assets -name \*.cpp)
+
+# common flags
+CXXFLAGS_COMMON = -std=c++11 -Iframework/include -I.
+
+# the toolchain for PC builds
+CXX_PC = g++
+LD_PC  = g++
+
+# flags for PC builds
+CXXFLAGS_PC = $(CXXFLAGS_COMMON) -O2
+LDFLAGS_PC =

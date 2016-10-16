@@ -1,0 +1,24 @@
+include Makefile.common
+
+# target-specific setup
+SRC = $(SRC_COMMON) $(shell find platform/PC/SDL/ platform/PC/Virtual/ -name \*.cpp)
+
+CXX=$(CXX_PC)
+LD=$(LD_PC)
+TARGET=sdl
+
+CXXFLAGS = $(CXXFLAGS_PC) -Iplatform/PC/SDL -Iplatform/PC/Virtual/ $(shell pkg-config --cflags sdl2)
+LDFLAGS = $(LDFLAGS_PC) $(shell pkg-config --libs sdl2)
+
+# variable mapping
+OBJ = $(patsubst %.cpp, obj/$(TARGET)/%.o, $(SRC))
+
+# specific targets
+bin/$(TARGET): $(OBJ)
+	mkdir -p bin
+	$(LD_PC) $(LDFLAGS) -o $@ $^
+
+# wildcard targets
+obj/$(TARGET)/%.o: %.cpp
+	mkdir -p $(dir $@)
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
