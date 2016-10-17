@@ -145,7 +145,7 @@ bool MainScreen::isMovePossible(TetrisBlock::Move move)
 {
 	auto copy = _currentBlock;
 	copy.move(move);
-	return !copy.doesCollide(_field);
+	return !copy.wouldCollide(_field);
 }
 
 void MainScreen::switchToNextBlock()
@@ -166,7 +166,7 @@ void MainScreen::removeFullRows()
 
 void MainScreen::checkGameOver()
 {
-	if (_currentBlock.doesCollide(_field))
+	if (_currentBlock.wouldCollide(_field))
 	{
 		getVariables().lastScore = _score.getScore();
 		_state = State::GAME_OVER;

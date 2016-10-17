@@ -98,7 +98,7 @@ int8_t TetrisBlock::getNextRotationLevel()
 	return (_rotation+1) % NUMBER_OF_ROTATION_STATES;
 }
 
-bool TetrisBlock::doesCollide(TetrisField& field) const
+bool TetrisBlock::wouldCollide(TetrisField& field) const
 {
 	for (int iy=0; iy<4; iy++)
 	{
