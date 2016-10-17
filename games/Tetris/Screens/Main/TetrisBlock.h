@@ -9,6 +9,24 @@ class Framebuffer;
 
 class TetrisBlock : public IDrawable
 {
+	public:
+
+		enum class Move {
+			NONE,
+			LEFT,
+			RIGHT,
+			DOWN,
+			ROTATE_LEFT,
+			ROTATE_RIGHT,
+		};
+
+		static TetrisBlock createRandomBlock();
+		void setPosition(int newX, int newY);
+		void move(Move theMove);
+		bool doesCollide(TetrisField& field) const;
+		void merge(TetrisField& field) const;
+		void draw(Framebuffer& fb, int offsetX, int offsetY, bool doInvert) const override;
+
 	private:
 
 		static const int NUMBER_OF_ROTATION_STATES = 4;
@@ -36,27 +54,8 @@ class TetrisBlock : public IDrawable
 		{
 		}
 
+		bool isPointSet(int x, int y) const;
 		int8_t getNextRotationLevel();
 		int8_t getPreviousRotationLevel();
-
-	public:
-
-		enum class Move {
-			NONE,
-			LEFT,
-			RIGHT,
-			DOWN,
-			ROTATE_LEFT,
-			ROTATE_RIGHT,
-		};
-
-		static TetrisBlock createRandomBlock();
-		void setPosition(int newX, int newY);
-		void move(Move theMove);
-
-		bool doesCollide(TetrisField& field) const;
-		void draw(Framebuffer& fb, int offsetX, int offsetY, bool doInvert) const override;
-		void merge(TetrisField& field) const;
-		bool isPointSet(int x, int y) const;
 
 };

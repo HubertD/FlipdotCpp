@@ -10,26 +10,22 @@ void SelectLevelScreen::enter()
 
 void SelectLevelScreen::update()
 {
-	auto& vars = getVariables();
+
+	if (wasAnyKeyPressed())
+	{
+		resetIdleTime();
+	}
 
 	if (wasNextPressed())
 	{
-		if (++vars.startLevel > MAX_LEVEL)
-		{
-			vars.startLevel = MIN_LEVEL;
-		}
+		changeStartLevel(+1);
 		draw();
-		resetIdleTime();
 	}
 
 	if (wasPreviousPressed())
 	{
-		if (--vars.startLevel < MIN_LEVEL)
-		{
-			vars.startLevel = MAX_LEVEL;
-		}
+		changeStartLevel(-1);
 		draw();
-		resetIdleTime();
 	}
 
 	if (wasContinuePressed())
@@ -51,6 +47,24 @@ void SelectLevelScreen::draw()
 	drawText(2, 8, (char*)"LEVEL", Color::BLACK, Orientation::DEG_0, 2);
 	drawChar(15, 17, '_');
 	drawChar(15, 15, '0' + getVariables().startLevel);
+}
+
+
+void SelectLevelScreen::changeStartLevel(int delta)
+{
+	auto& vars = getVariables();
+
+	vars.startLevel += delta;
+
+	if (vars.startLevel > MAX_LEVEL)
+	{
+		vars.startLevel = 0;
+	}
+
+	if (vars.startLevel < 0)
+	{
+		vars.startLevel = MAX_LEVEL;
+	}
 }
 
 void SelectLevelScreen::resetIdleTime()

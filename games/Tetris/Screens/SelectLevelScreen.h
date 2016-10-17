@@ -17,6 +17,7 @@ class SelectLevelScreen : public TetrisScreenBase
 		unsigned _tIdleSince = 0;
 
 		void draw();
+		void changeStartLevel(int delta);
 		void resetIdleTime();
 		bool isIdleTimeout();
 
