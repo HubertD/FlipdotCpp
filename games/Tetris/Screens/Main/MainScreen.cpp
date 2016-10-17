@@ -57,17 +57,17 @@ void MainScreen::updateStateGameRunning()
 		makeIntervalStep();
 	}
 
-	checkForFullRows();
+	processFullRows();
 	checkGameOver();
 }
 
-void MainScreen::checkForFullRows()
+void MainScreen::processFullRows()
 {
 	if (_field.hasFullRows())
 	{
-		_state = State::ROWS_BLINKING;
 		_blinkTogglesRemaining = 1 + 2 * DELETED_ROWS_BLINK_COUNT;
 		_tBlinkNextToggle = 0;
+		_state = State::ROWS_BLINKING;
 		updateStateRowsBlinking();
 	}
 }
@@ -123,21 +123,14 @@ void MainScreen::checkGamepadPressEvent(GamepadKey& key, TetrisBlock::Move move)
 {
 	if (key.hasPressEvent() && isMovePossible(move))
 	{
-		_currentBlock.makeMove(move);
+		_currentBlock.move(move);
 	}
-}
-
-bool MainScreen::isMovePossible(TetrisBlock::Move move)
-{
-	auto copy = _currentBlock;
-	copy.makeMove(move);
-	return !copy.doesCollide(_field);
 }
 
 void MainScreen::makeIntervalStep()
 {
 	if (isMovePossible(TetrisBlock::Move::DOWN)) {
-		_currentBlock.makeMove(TetrisBlock::Move::DOWN);
+		_currentBlock.move(TetrisBlock::Move::DOWN);
 		_score.scoreStep();
 	} else {
 		_currentBlock.merge(_field);
@@ -148,11 +141,17 @@ void MainScreen::makeIntervalStep()
 	_tNextStep = now() + _score.getStepInterval();
 }
 
+bool MainScreen::isMovePossible(TetrisBlock::Move move)
+{
+	auto copy = _currentBlock;
+	copy.move(move);
+	return !copy.doesCollide(_field);
+}
+
 void MainScreen::switchToNextBlock()
 {
 	_currentBlock = _nextBlock;
-	_currentBlock.setX((TetrisField::COLUMNS / 2) - 1);
-	_currentBlock.setY(-3);
+	_currentBlock.setPosition(((TetrisField::COLUMNS / 2) - 1), -3);
 	_nextBlock = TetrisBlock::createRandomBlock();
 }
 
@@ -180,5 +179,5 @@ void MainScreen::draw()
 	clearScreen();
 	drawObject(FIELD_X, FIELD_Y, _field);
 	drawObject(INFO_AREA_X, INFO_AREA_Y, TetrisInfoArea(_score.getLevel(), _score.getScore(), _nextBlock));
-	_currentBlock.draw(getFramebuffer(), FIELD_X, FIELD_Y, 2, 2, Color::BLACK);
+	drawObject(FIELD_X, FIELD_Y, _currentBlock);
 }

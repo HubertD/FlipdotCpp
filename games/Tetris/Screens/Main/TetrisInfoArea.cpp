@@ -25,5 +25,5 @@ void TetrisInfoArea::draw(Framebuffer& fb, int x, int y, bool doInvert) const
 		Font::drawChar(fb, x+SCORE_X, y+SCORE_Y-1, 'K', Color::WHITE, Orientation::DEG_90);
 	}
 
-	_nextBlock.draw(fb, x+NEXT_BLOCK_X, y+NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, Color::WHITE);
+	_nextBlock.draw(fb, x+NEXT_BLOCK_X, y+NEXT_BLOCK_Y, true);
 }

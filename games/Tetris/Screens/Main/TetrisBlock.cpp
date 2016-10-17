@@ -4,7 +4,7 @@
 #include "TetrisBlock.h"
 #include "TetrisField.h"
 
-TetrisBlock TetrisBlock::_blocks[] =
+TetrisBlock::BlockData TetrisBlock::_blocks[] =
 {
 	/*  ----  -#--
 		#X##  -X--
@@ -52,103 +52,21 @@ TetrisBlock TetrisBlock::_blocks[] =
 
 TetrisBlock TetrisBlock::createRandomBlock()
 {
-	int x = rand();
-	x %= NUMBER_OF_BLOCKS;
-	auto block = _blocks[x];
-	block._rotation = rand() % 4;
-	return block;
+	return TetrisBlock(
+		rand() % NUMBER_OF_BLOCKS,
+		rand() % NUMBER_OF_ROTATION_STATES
+	);
 }
 
-void TetrisBlock::setX(int newX)
+void TetrisBlock::setPosition(int newX, int newY)
 {
 	_posX = newX;
-}
-
-void TetrisBlock::setY(int newY)
-{
 	_posY = newY;
 }
 
-void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, Color color) const
+void TetrisBlock::move(Move theMove)
 {
-	auto px = offsetX + pointSizeX * _posX;
-	auto py = offsetY + pointSizeY * _posY;
-
-	for (int iy=0; iy<4; iy++)
-	{
-		for (int ix=0; ix<4; ix++)
-		{
-			if (getPoint(ix, iy))
-			{
-				fb.drawRect(px+pointSizeX*ix, py+pointSizeY*iy, pointSizeX, pointSizeY, color==Color::BLACK);
-			}
-		}
-	}
-
-}
-
-void TetrisBlock::merge(TetrisField& field) const
-{
-	for (int iy=0; iy<4; iy++)
-	{
-		for (int ix=0; ix<4; ix++)
-		{
-			if (getPoint(ix, iy))
-			{
-				field.setPoint(_posX+ix, _posY+iy, true);
-			}
-		}
-	}
-}
-
-bool TetrisBlock::getPoint(int x, int y) const
-{
-	if ((x<0) || (x>3)) { return false; }
-	if ((y<0) || (y>3)) { return false; }
-
-	unsigned state = _rotationStates[_rotation];
-	unsigned row = state >> (4*y);
-	unsigned mask = (1<<3) >> x;
-
-	return (row & mask) != 0;
-}
-
-int TetrisBlock::getX()
-{
-	return _posX;
-}
-
-int TetrisBlock::getY()
-{
-	return _posY;
-}
-
-bool TetrisBlock::doesCollide(TetrisField& field) const
-{
-	for (int iy=0; iy<4; iy++)
-	{
-		for (int ix=0; ix<4; ix++)
-		{
-			if (getPoint(ix, iy))
-			{
-				auto fieldX = _posX + ix;
-				auto fieldY = _posY + iy;
-				if ((fieldX<0)
-					|| (fieldX>=TetrisField::COLUMNS)
-					|| (fieldY>=TetrisField::ROWS)
-					|| field.getPoint(_posX+ix, _posY+iy))
-				{
-					return true;
-				}
-			}
-		}
-	}
-	return false;
-}
-
-void TetrisBlock::makeMove(Move move)
-{
-	switch (move)
+	switch (theMove)
 	{
 		case Move::LEFT:
 			_posX--;
@@ -160,12 +78,87 @@ void TetrisBlock::makeMove(Move move)
 			_posY++;
 			break;
 		case Move::ROTATE_LEFT:
-			_rotation = (_rotation <= 0) ? 3 : _rotation-1;
+			_rotation = getPreviousRotationLevel();
 			break;
 		case Move::ROTATE_RIGHT:
-			_rotation = (_rotation >= 3) ? 0 : _rotation+1;
+			_rotation = getNextRotationLevel();
 			break;
 		default:
 			break;
 	}
 }
+
+int8_t TetrisBlock::getPreviousRotationLevel()
+{
+	return (_rotation>0) ? _rotation-1 : NUMBER_OF_ROTATION_STATES-1;
+}
+
+int8_t TetrisBlock::getNextRotationLevel()
+{
+	return (_rotation+1) % NUMBER_OF_ROTATION_STATES;
+}
+
+bool TetrisBlock::doesCollide(TetrisField& field) const
+{
+	for (int iy=0; iy<4; iy++)
+	{
+		for (int ix=0; ix<4; ix++)
+		{
+			if (!isPointSet(ix, iy)) { continue; }
+
+			auto fieldX = _posX + ix;
+			auto fieldY = _posY + iy;
+			if ((fieldX<0)
+				|| (fieldX>=TetrisField::COLUMNS)
+				|| (fieldY>=TetrisField::ROWS)
+				|| field.getPoint(_posX+ix, _posY+iy))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, bool doInvert) const
+{
+	Rect rect = { 0, 0, POINT_SIZE_X, POINT_SIZE_Y };
+
+	for (int iy=0; iy<HEIGHT; iy++)
+	{
+		for (int ix=0; ix<WIDTH; ix++)
+		{
+			if (!isPointSet(ix, iy)) { continue; }
+
+			rect.x = offsetX + (_posX+ix)*POINT_SIZE_X;
+			rect.y = offsetY + (_posY+iy)*POINT_SIZE_Y;
+			fb.drawRect(rect, !doInvert);
+		}
+	}
+}
+
+void TetrisBlock::merge(TetrisField& field) const
+{
+	for (int iy=0; iy<HEIGHT; iy++)
+	{
+		for (int ix=0; ix<WIDTH; ix++)
+		{
+			if (!isPointSet(ix, iy)) { continue; }
+
+			field.setPoint(_posX+ix, _posY+iy, true);
+		}
+	}
+}
+
+bool TetrisBlock::isPointSet(int x, int y) const
+{
+	if ((x<0) || (x>=WIDTH)) { return false; }
+	if ((y<0) || (y>=HEIGHT)) { return false; }
+
+	unsigned state = _blocks[_blockId].rotationStates[_rotation];
+	unsigned row = state >> (WIDTH*y);
+	unsigned mask = 1 << (WIDTH-x-1);
+
+	return (row & mask) != 0;
+}
+

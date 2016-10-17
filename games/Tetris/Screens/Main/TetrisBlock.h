@@ -2,24 +2,42 @@
 
 #include <stdint.h>
 #include <FlipdotTypes.h>
+#include <IDrawable.h>
 
 class TetrisField;
 class Framebuffer;
 
-class TetrisBlock
+class TetrisBlock : public IDrawable
 {
 	private:
-		uint16_t _rotationStates[4];
-		uint8_t _rotation = 0;
-		int _posX = 0;
-		int _posY = 0;
-		static const unsigned NUMBER_OF_BLOCKS = 7;
-		static TetrisBlock _blocks[NUMBER_OF_BLOCKS];
 
-		TetrisBlock(uint16_t r1, uint16_t r2, uint16_t r3, uint16_t r4)
-			: _rotationStates { r1, r2, r3, r4 }
+		static const int NUMBER_OF_ROTATION_STATES = 4;
+		struct BlockData
+		{
+			uint16_t rotationStates[NUMBER_OF_ROTATION_STATES];
+		};
+
+		static const unsigned NUMBER_OF_BLOCKS = 7;
+		static BlockData _blocks[NUMBER_OF_BLOCKS];
+
+		static const int WIDTH = 4;
+		static const int HEIGHT = 4;
+		static const int POINT_SIZE_X = 2;
+		static const int POINT_SIZE_Y = 2;
+
+		uint8_t _blockId;
+		int8_t _rotation;
+
+		int8_t _posX = 0;
+		int8_t _posY = 0;
+
+		TetrisBlock(int8_t blockId, int8_t rotation)
+			: _blockId(blockId), _rotation(rotation)
 		{
 		}
+
+		int8_t getNextRotationLevel();
+		int8_t getPreviousRotationLevel();
 
 	public:
 
@@ -33,15 +51,12 @@ class TetrisBlock
 		};
 
 		static TetrisBlock createRandomBlock();
-		void makeMove(Move move);
-		int getX();
-		void setX(int newX);
-		int getY();
-		void setY(int newY);
-		bool getPoint(int x, int y) const;
+		void setPosition(int newX, int newY);
+		void move(Move theMove);
 
 		bool doesCollide(TetrisField& field) const;
+		void draw(Framebuffer& fb, int offsetX, int offsetY, bool doInvert) const override;
 		void merge(TetrisField& field) const;
-		void draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, Color color) const;
+		bool isPointSet(int x, int y) const;
 
 };

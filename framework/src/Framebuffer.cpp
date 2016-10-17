@@ -106,6 +106,11 @@ void Framebuffer::drawRect(int x, int y, int dx, int dy, bool value)
 	}
 }
 
+void Framebuffer::drawRect(Rect rect, bool value)
+{
+	drawRect(rect.x, rect.y, rect.width, rect.height, value);
+}
+
 void Framebuffer::draw(int x, int y, const IDrawable& drawable, bool doInvert)
 {
 	drawable.draw(*this, x, y, doInvert);
@@ -153,3 +158,4 @@ bool Framebuffer::columnNeedsUpdate(unsigned column, Color color)
 	}
 	return false;
 }
+

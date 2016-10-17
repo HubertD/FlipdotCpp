@@ -52,7 +52,7 @@ class MainScreen: public TetrisScreenBase
 		bool isMovePossible(TetrisBlock::Move move);
 
 		void makeIntervalStep();
-		void checkForFullRows();
+		void processFullRows();
 		void removeFullRows();
 		void checkGameOver();
 		void switchToNextBlock();
