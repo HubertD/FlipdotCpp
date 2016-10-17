@@ -5,7 +5,7 @@
 #include "Screens/IdleScreen.h"
 #include "Screens/SelectLevelScreen.h"
 #include "Screens/GetReadyScreen.h"
-#include "Screens/MainScreen.h"
+#include "Screens/Main/MainScreen.h"
 #include "Screens/TryAgainScreen.h"
 #include "Screens/NewHighscoreScreen.h"
 

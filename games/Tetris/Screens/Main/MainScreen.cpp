@@ -1,10 +1,10 @@
-#include <games/Tetris/Screens/MainScreen.h>
-#include <stdlib.h>
+#include "MainScreen.h"
 
+#include <stdlib.h>
 #include <Gamepad.h>
 
+#include "TetrisBlock.h"
 #include <games/Tetris/TetrisVariables.h>
-#include <games/Tetris/TetrisBlock.h>
 #include <games/Tetris/TetrisScreens.h>
 
 MainScreen::MainScreen(TetrisGame& game)
@@ -198,21 +198,21 @@ void MainScreen::draw()
 {
 	clearScreen();
 
-	drawRect(20, 0, 12, 40, true);
+	drawRect(INFO_AREA_X, INFO_AREA_Y, 12, 40, true);
 
-	drawChar(LEVEL_X,   LEVEL_Y, 'L', Color::WHITE);
-	drawChar(LEVEL_X+3, LEVEL_Y, ':', Color::WHITE);
-	drawChar(LEVEL_X+7, LEVEL_Y, '0'+_level, Color::WHITE);
+	drawChar(INFO_AREA_X+LEVEL_X,   INFO_AREA_Y+LEVEL_Y, 'L', Color::WHITE);
+	drawChar(INFO_AREA_X+LEVEL_X+3, INFO_AREA_Y+LEVEL_Y, ':', Color::WHITE);
+	drawChar(INFO_AREA_X+LEVEL_X+7, INFO_AREA_Y+LEVEL_Y, '0'+_level, Color::WHITE);
 
 	if (_score < SCORE_SHOW_K)
 	{
-		drawNumber(SCORE_X, SCORE_Y, _score, Color::WHITE, Orientation::DEG_90);
+		drawNumber(INFO_AREA_X+SCORE_X, INFO_AREA_Y+SCORE_Y, _score, Color::WHITE, Orientation::DEG_90);
 	} else {
-		drawNumber(SCORE_X, SCORE_Y-5, _score/1000, Color::WHITE, Orientation::DEG_90);
-		drawChar(SCORE_X, SCORE_Y-4, 'K', Color::WHITE, Orientation::DEG_90);
+		drawNumber(INFO_AREA_X+SCORE_X, INFO_AREA_Y+SCORE_Y-5, _score/1000, Color::WHITE, Orientation::DEG_90);
+		drawChar(INFO_AREA_X+SCORE_X, INFO_AREA_Y+SCORE_Y-4, 'K', Color::WHITE, Orientation::DEG_90);
 	}
 
-	_nextBlock.draw(getFramebuffer(), NEXT_BLOCK_X, NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, Color::WHITE);
+	_nextBlock.draw(getFramebuffer(), INFO_AREA_X+NEXT_BLOCK_X, INFO_AREA_Y+NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, Color::WHITE);
 
 	drawObject(FIELD_X, FIELD_Y, _field);
 	_currentBlock.draw(getFramebuffer(), FIELD_X, FIELD_Y, 2, 2, Color::BLACK);

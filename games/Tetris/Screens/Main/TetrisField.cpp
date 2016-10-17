@@ -1,6 +1,7 @@
 #include <Framebuffer.h>
-#include <games/Tetris/TetrisField.h>
-#include <games/Tetris/TetrisBlock.h>
+
+#include "TetrisField.h"
+#include "TetrisBlock.h"
 
 void TetrisField::clear()
 {

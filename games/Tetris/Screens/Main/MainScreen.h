@@ -1,8 +1,8 @@
 #pragma once
 
 #include <games/Tetris/TetrisScreenBase.h>
-#include <games/Tetris/TetrisField.h>
-#include <games/Tetris/TetrisBlock.h>
+#include "TetrisField.h"
+#include "TetrisBlock.h"
 
 class MainScreen: public TetrisScreenBase
 {
@@ -23,13 +23,16 @@ class MainScreen: public TetrisScreenBase
 		static const int FIELD_X = 0;
 		static const int FIELD_Y = 0;
 
-		static const int LEVEL_X = 21;
+		static const int INFO_AREA_X = 20;
+		static const int INFO_AREA_Y = 0;
+
+		static const int LEVEL_X = 1;
 		static const int LEVEL_Y = 1;
 
-		static const int NEXT_BLOCK_X = 22;
+		static const int NEXT_BLOCK_X = 2;
 		static const int NEXT_BLOCK_Y = 6;
 
-		static const int SCORE_X = 24;
+		static const int SCORE_X = 4;
 		static const int SCORE_Y = 42;
 
 		static const int SCORE_SHOW_K = 10000;

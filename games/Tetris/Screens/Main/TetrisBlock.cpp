@@ -1,8 +1,8 @@
 #include <Framebuffer.h>
-#include <games/Tetris/TetrisBlock.h>
 
-#include <games/Tetris/TetrisField.h>
 #include <stdlib.h>
+#include "TetrisBlock.h"
+#include "TetrisField.h"
 
 TetrisBlock TetrisBlock::_blocks[] =
 {
