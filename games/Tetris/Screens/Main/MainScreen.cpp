@@ -50,8 +50,13 @@ void MainScreen::update()
 
 void MainScreen::updateStateGameRunning()
 {
-	checkCommands();
-	makeStepIfDue();
+	checkGamepadEvents();
+
+	if (now() >= _tNextStep)
+	{
+		makeIntervalStep();
+	}
+
 	checkForFullRows();
 	checkGameOver();
 }
@@ -103,56 +108,38 @@ void MainScreen::updateStateRowsBlinking()
 	}
 }
 
-void MainScreen::checkCommands()
+void MainScreen::checkGamepadEvents()
 {
 	auto& gp = getGamepad();
+	checkGamepadPressEvent(gp.West,  TetrisBlock::Move::LEFT);
+	checkGamepadPressEvent(gp.East,  TetrisBlock::Move::RIGHT);
+	checkGamepadPressEvent(gp.A,     TetrisBlock::Move::ROTATE_LEFT);
+	checkGamepadPressEvent(gp.B,     TetrisBlock::Move::ROTATE_RIGHT);
+	checkGamepadPressEvent(gp.North, TetrisBlock::Move::ROTATE_RIGHT);
+	checkGamepadPressEvent(gp.South, TetrisBlock::Move::DOWN);
+}
 
-	if (gp.West.hasPressEvent())
+void MainScreen::checkGamepadPressEvent(GamepadKey& key, TetrisBlock::Move move)
+{
+	if (key.hasPressEvent() && isMovePossible(move))
 	{
-		moveIfAllowed(TetrisBlock::Move::LEFT);
-	}
-
-	if (gp.East.hasPressEvent())
-	{
-		moveIfAllowed(TetrisBlock::Move::RIGHT);
-	}
-
-	if (gp.A.hasPressEvent())
-	{
-		moveIfAllowed(TetrisBlock::Move::ROTATE_LEFT);
-	}
-
-	if (gp.B.hasPressEvent() || gp.North.hasPressEvent())
-	{
-		moveIfAllowed(TetrisBlock::Move::ROTATE_RIGHT);
-	}
-
-	if (gp.South.hasPressEvent())
-	{
-		moveIfAllowed(TetrisBlock::Move::DOWN);
+		_currentBlock.makeMove(move);
 	}
 }
 
-bool MainScreen::moveIfAllowed(TetrisBlock::Move move)
+bool MainScreen::isMovePossible(TetrisBlock::Move move)
 {
 	auto copy = _currentBlock;
 	copy.makeMove(move);
-	if (copy.doesCollide(_field))
-	{
-		return false;
-	}
-
-	_currentBlock.makeMove(move);
-	return true;
+	return !copy.doesCollide(_field);
 }
 
-void MainScreen::makeStepIfDue()
+void MainScreen::makeIntervalStep()
 {
-	if (now() < _tNextStep) { return; }
-
-	_score.scoreStep();
-	if (!moveIfAllowed(TetrisBlock::Move::DOWN))
-	{
+	if (isMovePossible(TetrisBlock::Move::DOWN)) {
+		_currentBlock.makeMove(TetrisBlock::Move::DOWN);
+		_score.scoreStep();
+	} else {
 		_currentBlock.merge(_field);
 		_score.scoreMerge();
 		switchToNextBlock();
@@ -172,7 +159,6 @@ void MainScreen::switchToNextBlock()
 void MainScreen::removeFullRows()
 {
 	int deletedRows = _field.deleteFullRows();
-
 	if (deletedRows>0)
 	{
 		_score.scoreDeleteRows(deletedRows);
@@ -192,7 +178,6 @@ void MainScreen::checkGameOver()
 void MainScreen::draw()
 {
 	clearScreen();
-
 	drawObject(FIELD_X, FIELD_Y, _field);
 	drawObject(INFO_AREA_X, INFO_AREA_Y, TetrisInfoArea(_score.getLevel(), _score.getScore(), _nextBlock));
 	_currentBlock.draw(getFramebuffer(), FIELD_X, FIELD_Y, 2, 2, Color::BLACK);

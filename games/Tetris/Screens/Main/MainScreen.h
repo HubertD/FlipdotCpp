@@ -5,6 +5,8 @@
 #include "TetrisBlock.h"
 #include "TetrisScore.h"
 
+class GamepadKey;
+
 class MainScreen: public TetrisScreenBase
 {
 	public:
@@ -45,12 +47,14 @@ class MainScreen: public TetrisScreenBase
 		void updateStateGameOver();
 		void updateStateRowsBlinking();
 
-		void checkCommands();
-		void makeStepIfDue();
+		void checkGamepadEvents();
+		void checkGamepadPressEvent(GamepadKey &key, TetrisBlock::Move move);
+		bool isMovePossible(TetrisBlock::Move move);
+
+		void makeIntervalStep();
 		void checkForFullRows();
 		void removeFullRows();
 		void checkGameOver();
-		bool moveIfAllowed(TetrisBlock::Move move);
 		void switchToNextBlock();
 		void draw();
 
