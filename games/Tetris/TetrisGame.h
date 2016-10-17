@@ -28,7 +28,6 @@ class TetrisGame : public IGame
 		TetrisScreens _screens;
 		TetrisVariables _variables;
 
-		TetrisScreenBase* _lastScreen = &_screens.Null;
 		TetrisScreenBase* _currentScreen = &_screens.Null;
 		TetrisScreenBase* _nextScreen = &_screens.Logo;
 

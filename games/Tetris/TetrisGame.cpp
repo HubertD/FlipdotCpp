@@ -23,7 +23,6 @@ void TetrisGame::update()
 	if (_nextScreen != _currentScreen)
 	{
 		_currentScreen->leave();
-		_lastScreen = _currentScreen;
 		_currentScreen = _nextScreen;
 		_tLastScreenChange = _env.now;
 		_currentScreen->enter();
