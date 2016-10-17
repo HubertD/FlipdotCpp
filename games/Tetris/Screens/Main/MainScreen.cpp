@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <Gamepad.h>
 
+#include "TetrisInfoArea.h"
 #include "TetrisBlock.h"
 #include <games/Tetris/TetrisVariables.h>
 #include <games/Tetris/TetrisScreens.h>
@@ -17,18 +18,15 @@ MainScreen::MainScreen(TetrisGame& game)
 void MainScreen::enter()
 {
 	srand(now());
-	_score = 0;
-	_scoreBuf = 0;
-	_level = getVariables().startLevel;
-	_destructedRows = 0;
-	_tNextStep = now();
-	getVariables().lastScore = 0;
 
 	_field.clear();
+	_score.init(getVariables().startLevel);
+	_tNextStep = now();
+
+	getVariables().lastScore = 0;
 
 	_state = State::RUNNING;
 	switchToNextBlock();
-	updateLevel();
 }
 
 void MainScreen::update()
@@ -73,9 +71,9 @@ void MainScreen::updateStateGameOver()
 {
 	if (now() > _tGameOverWait)
 	{
-		if (_score > getVariables().highScore)
+		if (_score.getScore() > getVariables().highScore)
 		{
-			getVariables().highScore = _score;
+			getVariables().highScore = _score.getScore();
 			setNextScreen(getScreens().NewHighscore);
 		} else {
 			setNextScreen(getScreens().TryAgain);
@@ -97,7 +95,7 @@ void MainScreen::updateStateRowsBlinking()
 
 		removeFullRows();
 		_state = State::RUNNING;
-		_tNextStep = now() + _stepInterval;
+		_tNextStep = now() + _score.getStepInterval();
 
 	} else {
 		_tBlinkNextToggle = now() + DELETED_ROWS_BLINK_INTERVAL;
@@ -152,16 +150,15 @@ void MainScreen::makeStepIfDue()
 {
 	if (now() < _tNextStep) { return; }
 
-	_scoreBuf += (_level+1) * POINTS_PER_STEP_FACTOR;
+	_score.scoreStep();
 	if (!moveIfAllowed(TetrisBlock::Move::DOWN))
 	{
 		_currentBlock.merge(_field);
-		_score += _scoreBuf;
-		_scoreBuf = 0;
+		_score.scoreMerge();
 		switchToNextBlock();
 	}
 
-	_tNextStep = now() + _stepInterval;
+	_tNextStep = now() + _score.getStepInterval();
 }
 
 void MainScreen::switchToNextBlock()
@@ -178,9 +175,7 @@ void MainScreen::removeFullRows()
 
 	if (deletedRows>0)
 	{
-		_destructedRows += deletedRows;
-		_score += calcPointsForDeletedRows(deletedRows);
-		updateLevel();
+		_score.scoreDeleteRows(deletedRows);
 	}
 }
 
@@ -188,7 +183,7 @@ void MainScreen::checkGameOver()
 {
 	if (_currentBlock.doesCollide(_field))
 	{
-		getVariables().lastScore = _score;
+		getVariables().lastScore = _score.getScore();
 		_state = State::GAME_OVER;
 		_tGameOverWait = now() + WAIT_AFTER_GAME_OVER;
 	}
@@ -198,55 +193,7 @@ void MainScreen::draw()
 {
 	clearScreen();
 
-	drawRect(INFO_AREA_X, INFO_AREA_Y, 12, 40, true);
-
-	drawChar(INFO_AREA_X+LEVEL_X,   INFO_AREA_Y+LEVEL_Y, 'L', Color::WHITE);
-	drawChar(INFO_AREA_X+LEVEL_X+3, INFO_AREA_Y+LEVEL_Y, ':', Color::WHITE);
-	drawChar(INFO_AREA_X+LEVEL_X+7, INFO_AREA_Y+LEVEL_Y, '0'+_level, Color::WHITE);
-
-	if (_score < SCORE_SHOW_K)
-	{
-		drawNumber(INFO_AREA_X+SCORE_X, INFO_AREA_Y+SCORE_Y, _score, Color::WHITE, Orientation::DEG_90);
-	} else {
-		drawNumber(INFO_AREA_X+SCORE_X, INFO_AREA_Y+SCORE_Y-5, _score/1000, Color::WHITE, Orientation::DEG_90);
-		drawChar(INFO_AREA_X+SCORE_X, INFO_AREA_Y+SCORE_Y-4, 'K', Color::WHITE, Orientation::DEG_90);
-	}
-
-	_nextBlock.draw(getFramebuffer(), INFO_AREA_X+NEXT_BLOCK_X, INFO_AREA_Y+NEXT_BLOCK_Y, TetrisField::POINT_WIDTH, TetrisField::POINT_HEIGHT, Color::WHITE);
-
 	drawObject(FIELD_X, FIELD_Y, _field);
+	drawObject(INFO_AREA_X, INFO_AREA_Y, TetrisInfoArea(_score.getLevel(), _score.getScore(), _nextBlock));
 	_currentBlock.draw(getFramebuffer(), FIELD_X, FIELD_Y, 2, 2, Color::BLACK);
-}
-
-int MainScreen::calcPointsForDeletedRows(int deletedRows)
-{
-	int factor = 0;
-	switch (deletedRows)
-	{
-		case 1:
-			factor = POINTS_1_ROW_FACTOR;
-			break;
-		case 2:
-			factor = POINTS_2_ROWS_FACTOR;
-			break;
-		case 3:
-			factor = POINTS_3_ROWS_FACTOR;
-			break;
-		case 4:
-			factor = POINTS_4_ROWS_FACTOR;
-			break;
-	}
-	return (_level+1) * factor;
-}
-
-void MainScreen::updateLevel()
-{
-	_level = (_destructedRows / ROWS_FOR_LEVEL_UP) + getVariables().startLevel;
-
-	if(_level > MAX_LEVEL)
-	{
-	  _level = MAX_LEVEL;
-	}
-
-	_stepInterval = STEP_INTERVAL_LEVEL_0 + (_level * STEP_INTERVAL_LEVEL_DELTA);
 }

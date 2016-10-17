@@ -38,10 +38,10 @@ class TetrisBlock
 		void setX(int newX);
 		int getY();
 		void setY(int newY);
-		bool getPoint(int x, int y);
+		bool getPoint(int x, int y) const;
 
-		bool doesCollide(TetrisField& field);
-		void merge(TetrisField& field);
-		void draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, Color color);
+		bool doesCollide(TetrisField& field) const;
+		void merge(TetrisField& field) const;
+		void draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, Color color) const;
 
 };

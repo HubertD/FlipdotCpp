@@ -69,7 +69,7 @@ void TetrisBlock::setY(int newY)
 	_posY = newY;
 }
 
-void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, Color color)
+void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX, int pointSizeY, Color color) const
 {
 	auto px = offsetX + pointSizeX * _posX;
 	auto py = offsetY + pointSizeY * _posY;
@@ -87,7 +87,7 @@ void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, int pointSizeX
 
 }
 
-void TetrisBlock::merge(TetrisField& field)
+void TetrisBlock::merge(TetrisField& field) const
 {
 	for (int iy=0; iy<4; iy++)
 	{
@@ -101,7 +101,7 @@ void TetrisBlock::merge(TetrisField& field)
 	}
 }
 
-bool TetrisBlock::getPoint(int x, int y)
+bool TetrisBlock::getPoint(int x, int y) const
 {
 	if ((x<0) || (x>3)) { return false; }
 	if ((y<0) || (y>3)) { return false; }
@@ -123,7 +123,7 @@ int TetrisBlock::getY()
 	return _posY;
 }
 
-bool TetrisBlock::doesCollide(TetrisField& field)
+bool TetrisBlock::doesCollide(TetrisField& field) const
 {
 	for (int iy=0; iy<4; iy++)
 	{
