@@ -111,7 +111,7 @@ bool TetrisBlock::wouldCollide(TetrisField& field) const
 			if ((fieldX<0)
 				|| (fieldX>=TetrisField::COLUMNS)
 				|| (fieldY>=TetrisField::ROWS)
-				|| field.getPoint(_posX+ix, _posY+iy))
+				|| field.isPointSet(_posX+ix, _posY+iy))
 			{
 				return true;
 			}

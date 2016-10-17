@@ -17,17 +17,16 @@ class TetrisField : public IDrawable
 		void clear();
 
 		void setPoint(int fieldX, int fieldY, bool value);
-		bool getPoint(int fieldX, int fieldY) const;
-
-		void draw(Framebuffer& fb, int x, int y, bool doInvert=false) const override;
-
-		bool isRowFull(int row) const;
-		void deleteRow(int row);
+		bool isPointSet(int fieldX, int fieldY) const;
 
 		bool hasFullRows() const;
-		int deleteFullRows();
+		bool isRowFull(int row) const;
 
-		void setInvertFullRows(bool doInvert);
+		int deleteFullRows();
+		void deleteRow(int row);
+
+		void draw(Framebuffer& fb, int x, int y, bool doInvert=false) const override;
+		void setDrawFullRowsInverted(bool doInvert);
 
 	private:
 		uint16_t _data[ROWS] = { 0 };

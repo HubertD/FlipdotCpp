@@ -95,7 +95,7 @@ void MainScreen::updateStateRowsBlinking()
 
 	if (--_blinkTogglesRemaining == 0)
 	{
-		_field.setInvertFullRows(false);
+		_field.setDrawFullRowsInverted(false);
 		_tBlinkNextToggle = 0;
 
 		removeFullRows();
@@ -104,7 +104,7 @@ void MainScreen::updateStateRowsBlinking()
 
 	} else {
 		_tBlinkNextToggle = now() + DELETED_ROWS_BLINK_INTERVAL;
-		_field.setInvertFullRows((_blinkTogglesRemaining % 2) == 0);
+		_field.setDrawFullRowsInverted((_blinkTogglesRemaining % 2) == 0);
 	}
 }
 
