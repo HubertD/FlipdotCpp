@@ -19,7 +19,6 @@ class TetrisField : public IDrawable
 		void setPoint(int fieldX, int fieldY, bool value);
 		bool getPoint(int fieldX, int fieldY) const;
 
-		bool getPixel(int x, int y) const override;
 		void draw(Framebuffer& fb, int x, int y, bool doInvert=false) const override;
 
 		bool isRowFull(int row) const;

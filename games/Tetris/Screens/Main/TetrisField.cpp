@@ -31,13 +31,6 @@ bool TetrisField::getPoint(int fieldX, int fieldY) const
 	return (_data[fieldY] & (1<<fieldX)) != 0;
 }
 
-bool TetrisField::getPixel(int x, int y) const
-{
-	int fieldX = x / POINT_WIDTH;
-	int fieldY = y / POINT_HEIGHT;
-	return getPoint(fieldX, fieldY);
-}
-
 void TetrisField::draw(Framebuffer& fb, int x, int y, bool doInvert) const
 {
 	for (int fieldY=0; fieldY<ROWS; fieldY++)
