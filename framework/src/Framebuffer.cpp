@@ -94,21 +94,15 @@ bool Framebuffer::getPixel(int x, int y)
 	return _offScreenBuffer.getPixel(x, y);
 }
 
-
-void Framebuffer::drawRect(int x, int y, int dx, int dy, bool value)
+void Framebuffer::drawRect(Rect rect, bool value)
 {
-	for (int px=x; px<(x+dx); px++)
+	for (int px=rect.x; px<(rect.x+rect.width); px++)
 	{
-		for (int py=y; py<(y+dy); py++)
+		for (int py=rect.y; py<(rect.y+rect.height); py++)
 		{
 			setPixel(px, py, value);
 		}
 	}
-}
-
-void Framebuffer::drawRect(Rect rect, bool value)
-{
-	drawRect(rect.x, rect.y, rect.width, rect.height, value);
 }
 
 void Framebuffer::draw(int x, int y, const IDrawable& drawable, bool doInvert)

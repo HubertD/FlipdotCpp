@@ -82,9 +82,9 @@ void GameScreenBase::setPixel(unsigned x, unsigned y, bool value)
 	_env.framebuffer.setPixel(x, y, value);
 }
 
-void GameScreenBase::drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value)
+void GameScreenBase::drawRect(Rect rect, bool value)
 {
-	_env.framebuffer.drawRect(x, y, dx, dy, value);
+	_env.framebuffer.drawRect(rect, value);
 }
 
 void GameScreenBase::drawChar(unsigned x, unsigned y, char ch, Color color, Orientation orientation)

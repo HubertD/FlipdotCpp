@@ -33,7 +33,7 @@ class GameScreenBase
 
 		void clearScreen();
 		void setPixel(unsigned x, unsigned y, bool value);
-		void drawRect(unsigned x, unsigned y, unsigned dx, unsigned dy, bool value);
+		void drawRect(Rect rect, bool value);
 		void drawChar(unsigned x, unsigned y, char ch, Color color=Color::BLACK, Orientation orientation = Orientation::DEG_0);
 		void drawText(unsigned x, unsigned y, char *text, Color color=Color::BLACK, Orientation orientation = Orientation::DEG_0, int spacing=0);
 		void drawNumber(unsigned x, unsigned y, unsigned number, Color color=Color::BLACK, Orientation orientation = Orientation::DEG_0, int spacing=0);

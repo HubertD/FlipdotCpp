@@ -10,6 +10,7 @@
 struct Rect
 {
 	int x, y, width, height;
+	Rect(int aX, int aY, int aWidth, int aHeight) : x(aX), y(aY), width(aWidth), height(aHeight) {}
 };
 
 class Framebuffer
@@ -27,7 +28,6 @@ class Framebuffer
 		void setPixel(int x, int y, bool value);
 		bool getPixel(int x, int y);
 
-		void drawRect(int x, int y, int dx, int dy, bool value);
 		void drawRect(Rect rect, bool value);
 		void draw(int x, int y, const IDrawable &drawable, bool doInvert=false);
 

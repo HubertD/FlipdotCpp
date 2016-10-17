@@ -49,7 +49,7 @@ void TetrisField::drawPoint(Framebuffer& fb, int x, int y, int fieldX, int field
 {
 	auto px = x + (fieldX*POINT_WIDTH);
 	auto py = y + fieldY*POINT_WIDTH;
-	fb.drawRect(px, py, POINT_WIDTH, POINT_HEIGHT, value);
+	fb.drawRect(Rect(px, py, POINT_WIDTH, POINT_HEIGHT), value);
 }
 
 bool TetrisField::isRowFull(int row) const
