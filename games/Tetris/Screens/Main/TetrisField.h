@@ -32,7 +32,4 @@ class TetrisField : public IDrawable
 	private:
 		uint16_t _data[ROWS] = { 0 };
 		bool _invertFullRows = false;
-
-		void drawPoint(Framebuffer& fb, int x, int y, int fieldX, int fieldY, bool value) const;
-
 };

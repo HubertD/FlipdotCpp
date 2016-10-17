@@ -33,21 +33,19 @@ bool TetrisField::getPoint(int fieldX, int fieldY) const
 
 void TetrisField::draw(Framebuffer& fb, int x, int y, bool doInvert) const
 {
+	Rect r(0, 0, POINT_WIDTH, POINT_HEIGHT);
 	for (int fieldY=0; fieldY<ROWS; fieldY++)
 	{
+		r.x = 0;
+		r.y = fieldY*POINT_HEIGHT;
 		bool invertThisRow = doInvert ^ (_invertFullRows && isRowFull(fieldY));
-
 		for (int fieldX=0; fieldX<COLUMNS; fieldX++)
 		{
 			bool value = getPoint(fieldX, fieldY) ^ invertThisRow;
-			drawPoint(fb, x, y, fieldX, fieldY, value);
+			fb.draw(x, y, r, value);
+			r.x += POINT_WIDTH;
 		}
 	}
-}
-
-void TetrisField::drawPoint(Framebuffer& fb, int x, int y, int fieldX, int fieldY, bool value) const
-{
-	fb.draw(x, y, Rect((fieldX*POINT_WIDTH), (fieldY*POINT_WIDTH), POINT_WIDTH, POINT_HEIGHT), value);
 }
 
 bool TetrisField::isRowFull(int row) const
