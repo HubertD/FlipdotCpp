@@ -7,10 +7,12 @@
 #include "FlipdotPanel.h"
 #include <IDrawable.h>
 
-struct Rect
+struct Rect : public IDrawable
 {
 	int x, y, width, height;
 	Rect(int aX, int aY, int aWidth, int aHeight) : x(aX), y(aY), width(aWidth), height(aHeight) {}
+
+	virtual void draw(Framebuffer &fb, int offsetX, int offsetY, bool doInvert=false) const override;
 };
 
 class Framebuffer
@@ -27,8 +29,6 @@ class Framebuffer
 		void clear();
 		void setPixel(int x, int y, bool value);
 		bool getPixel(int x, int y);
-
-		void drawRect(Rect rect, bool value);
 		void draw(int x, int y, const IDrawable &drawable, bool doInvert=false);
 
 		ScreenBuffer &getOnScreenBuffer();

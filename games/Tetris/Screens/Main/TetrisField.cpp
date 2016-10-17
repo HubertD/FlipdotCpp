@@ -47,9 +47,7 @@ void TetrisField::draw(Framebuffer& fb, int x, int y, bool doInvert) const
 
 void TetrisField::drawPoint(Framebuffer& fb, int x, int y, int fieldX, int fieldY, bool value) const
 {
-	auto px = x + (fieldX*POINT_WIDTH);
-	auto py = y + fieldY*POINT_WIDTH;
-	fb.drawRect(Rect(px, py, POINT_WIDTH, POINT_HEIGHT), value);
+	fb.draw(x, y, Rect((fieldX*POINT_WIDTH), (fieldY*POINT_WIDTH), POINT_WIDTH, POINT_HEIGHT), value);
 }
 
 bool TetrisField::isRowFull(int row) const

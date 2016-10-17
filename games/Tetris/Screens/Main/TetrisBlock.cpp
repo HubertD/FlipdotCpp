@@ -130,9 +130,9 @@ void TetrisBlock::draw(Framebuffer& fb, int offsetX, int offsetY, bool doInvert)
 		{
 			if (!isPointSet(ix, iy)) { continue; }
 
-			rect.x = offsetX + (_posX+ix)*POINT_SIZE_X;
-			rect.y = offsetY + (_posY+iy)*POINT_SIZE_Y;
-			fb.drawRect(rect, !doInvert);
+			rect.x = (_posX+ix)*POINT_SIZE_X;
+			rect.y = (_posY+iy)*POINT_SIZE_Y;
+			fb.draw(offsetX, offsetY, rect, !doInvert);
 		}
 	}
 }

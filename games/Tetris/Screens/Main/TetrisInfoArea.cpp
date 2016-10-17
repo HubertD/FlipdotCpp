@@ -11,7 +11,7 @@ TetrisInfoArea::TetrisInfoArea(int level, int score, const TetrisBlock& nextBloc
 void TetrisInfoArea::draw(Framebuffer& fb, int x, int y, bool doInvert) const
 {
 	(void) doInvert;
-	fb.drawRect(Rect(x, y, WIDTH, HEIGHT), true);
+	fb.draw(x, y, Rect(0, 0, WIDTH, HEIGHT), true);
 
 	Font::drawChar(fb, x+LEVEL_X,   y+LEVEL_Y, 'L', Color::WHITE);
 	Font::drawChar(fb, x+LEVEL_X+3, y+LEVEL_Y, ':', Color::WHITE);

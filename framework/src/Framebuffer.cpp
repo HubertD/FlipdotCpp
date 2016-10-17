@@ -94,17 +94,6 @@ bool Framebuffer::getPixel(int x, int y)
 	return _offScreenBuffer.getPixel(x, y);
 }
 
-void Framebuffer::drawRect(Rect rect, bool value)
-{
-	for (int px=rect.x; px<(rect.x+rect.width); px++)
-	{
-		for (int py=rect.y; py<(rect.y+rect.height); py++)
-		{
-			setPixel(px, py, value);
-		}
-	}
-}
-
 void Framebuffer::draw(int x, int y, const IDrawable& drawable, bool doInvert)
 {
 	drawable.draw(*this, x, y, doInvert);
@@ -153,3 +142,13 @@ bool Framebuffer::columnNeedsUpdate(unsigned column, Color color)
 	return false;
 }
 
+void Rect::draw(Framebuffer& fb, int offsetX, int offsetY, bool doInvert) const
+{
+	for (int px=0; px<width; px++)
+	{
+		for (int py=0; py<height; py++)
+		{
+			fb.setPixel(offsetX+x+px, offsetY+y+py, doInvert);
+		}
+	}
+}

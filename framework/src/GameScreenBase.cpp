@@ -82,11 +82,6 @@ void GameScreenBase::setPixel(unsigned x, unsigned y, bool value)
 	_env.framebuffer.setPixel(x, y, value);
 }
 
-void GameScreenBase::drawRect(Rect rect, bool value)
-{
-	_env.framebuffer.drawRect(rect, value);
-}
-
 void GameScreenBase::drawChar(unsigned x, unsigned y, char ch, Color color, Orientation orientation)
 {
 	Font::drawChar(_env.framebuffer, x, y, ch, color, orientation);
