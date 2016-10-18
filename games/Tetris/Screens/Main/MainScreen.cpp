@@ -74,15 +74,17 @@ void MainScreen::processFullRows()
 
 void MainScreen::updateStateGameOver()
 {
-	if (now() > _tGameOverWait)
+	if (_tGameOverWait >= now())
 	{
-		if (_score.getScore() > getVariables().highScore)
-		{
-			getVariables().highScore = _score.getScore();
-			setNextScreen(getScreens().NewHighscore);
-		} else {
-			setNextScreen(getScreens().TryAgain);
-		}
+		return;
+	}
+
+	if (_score.getScore() > getVariables().highScore)
+	{
+		getVariables().highScore = _score.getScore();
+		setNextScreen(getScreens().NewHighscore);
+	} else {
+		setNextScreen(getScreens().TryAgain);
 	}
 }
 
