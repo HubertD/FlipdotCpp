@@ -1,0 +1,50 @@
+include Makefile.common
+
+# target-specific setup
+# the normal main.cpp does not make much sense for the VCD target
+SRC_CXX = $(SRC_COMMON) main.cpp $(shell find platform/CubeMx -name \*.cpp)
+SRC_C = $(shell find platform/CubeMx -name \*.c)
+SRC_S = $(shell find platform/CubeMx -name \*.S)
+
+AS=$(AS_STM32)
+CC=$(CC_STM32)
+CXX=$(CXX_STM32)
+LD=$(LD_STM32)
+TARGET=cubemx
+
+INCLUDES_CUBEMX = -Iplatform/CubeMx \
+                  -Iplatform/CubeMx/include \
+                  -Iplatform/CubeMx/system/include \
+                  -Iplatform/CubeMx/system/include/cmsis \
+                  -Iplatform/CubeMx/system/include/cmsis/device \
+                  -Iplatform/CubeMx/system/include/stm32f0xx
+
+ASMFLAGS = $(ASMFLAGS_STM32)
+CFLAGS = $(CFLAGS_STM32) $(INCLUDES_CUBEMX)
+CXXFLAGS = $(CXXFLAGS_STM32) $(INCLUDES_CUBEMX)
+LDFLAGS = $(LDFLAGS_STM32) -T mem.ld -T libs.ld -T sections.ld -nostartfiles \
+          -Xlinker --gc-sections -L"platform/CubeMx/ldscripts" \
+          -Wl,-Map,"flipdot-cpp.map" --specs=nano.specs
+
+# variable mapping
+OBJ := $(patsubst %.cpp, obj/$(TARGET)/%.o, $(SRC_CXX))
+OBJ += $(patsubst %.c, obj/$(TARGET)/%.o, $(SRC_C))
+OBJ += $(patsubst %.S, obj/$(TARGET)/%.o, $(SRC_S))
+
+# specific targets
+bin/$(TARGET): $(OBJ)
+	mkdir -p bin
+	$(LD_STM32) $(LDFLAGS) -o $@ $^
+
+# wildcard targets
+obj/$(TARGET)/%.o: %.cpp
+	mkdir -p $(dir $@)
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
+
+obj/$(TARGET)/%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+obj/$(TARGET)/%.o: %.S
+	mkdir -p $(dir $@)
+	$(AS) -c $(ASMFLAGS) -o $@ $<

@@ -1,0 +1,25 @@
+include Makefile.common
+
+# target-specific setup
+# the normal main.cpp does not make much sense for the VCD target
+SRC = $(SRC_COMMON) tests/VCD/main.cpp $(shell find platform/PC/VCD/ platform/PC/Virtual/ -name \*.cpp)
+
+CXX=$(CXX_PC)
+LD=$(LD_PC)
+TARGET=vcd
+
+CXXFLAGS = $(CXXFLAGS_PC) -Iplatform/PC/VCD -Iplatform/PC/Virtual/
+LDFLAGS = $(LDFLAGS_PC)
+
+# variable mapping
+OBJ = $(patsubst %.cpp, obj/$(TARGET)/%.o, $(SRC))
+
+# specific targets
+bin/$(TARGET): $(OBJ)
+	mkdir -p bin
+	$(LD_PC) $(LDFLAGS) -o $@ $^
+
+# wildcard targets
+obj/$(TARGET)/%.o: %.cpp
+	mkdir -p $(dir $@)
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
