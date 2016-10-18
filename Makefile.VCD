@@ -1,14 +1,15 @@
 include Makefile.common
 
 # target-specific setup
-SRC = $(SRC_COMMON) main.cpp $(shell find platform/PC/SDL/ platform/PC/Virtual/ -name \*.cpp)
+# the normal main.cpp does not make much sense for the VCD target
+SRC = $(SRC_COMMON) tests/VCD/main.cpp $(shell find platform/PC/VCD/ platform/PC/Virtual/ -name \*.cpp)
 
 CXX=$(CXX_PC)
 LD=$(LD_PC)
-TARGET=sdl
+TARGET=vcd
 
-CXXFLAGS = $(CXXFLAGS_PC) -Iplatform/PC/SDL -Iplatform/PC/Virtual/ $(shell pkg-config --cflags sdl2)
-LDFLAGS = $(LDFLAGS_PC) $(shell pkg-config --libs sdl2)
+CXXFLAGS = $(CXXFLAGS_PC) -Iplatform/PC/VCD -Iplatform/PC/Virtual/
+LDFLAGS = $(LDFLAGS_PC)
 
 # variable mapping
 OBJ = $(patsubst %.cpp, obj/$(TARGET)/%.o, $(SRC))

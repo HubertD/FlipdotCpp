@@ -1,5 +1,5 @@
 # source files used by all builds
-SRC_COMMON = main.cpp $(shell find framework games assets -name \*.cpp)
+SRC_COMMON = $(shell find framework games assets -name \*.cpp)
 
 # common flags
 CXXFLAGS_COMMON = -std=c++11 -Iframework/include -I.
