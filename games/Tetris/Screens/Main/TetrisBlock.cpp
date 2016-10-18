@@ -98,6 +98,22 @@ int8_t TetrisBlock::getNextRotationLevel()
 	return (_rotation+1) % NUMBER_OF_ROTATION_STATES;
 }
 
+bool TetrisBlock::isAboveTopOfField() const
+{
+	for (int iy=0; iy<4; iy++)
+	{
+		for (int ix=0; ix<4; ix++)
+		{
+			if ( isPointSet(ix, iy) )
+			{
+				auto fieldY = _posY + iy;
+				return fieldY < 0;
+			}
+		}
+	}
+	return false;
+}
+
 bool TetrisBlock::wouldCollide(TetrisField& field) const
 {
 	for (int iy=0; iy<4; iy++)
@@ -161,4 +177,3 @@ bool TetrisBlock::isPointSet(int x, int y) const
 
 	return (row & mask) != 0;
 }
-

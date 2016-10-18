@@ -58,7 +58,6 @@ void MainScreen::updateStateGameRunning()
 	}
 
 	processFullRows();
-	checkGameOver();
 }
 
 void MainScreen::processFullRows()
@@ -135,9 +134,15 @@ void MainScreen::makeIntervalStep()
 		_currentBlock.move(TetrisBlock::Move::DOWN);
 		_score.scoreStep();
 	} else {
-		_currentBlock.merge(_field);
-		_score.scoreMerge();
-		switchToNextBlock();
+
+		if (isMergePossible()) {
+			_currentBlock.merge(_field);
+			_score.scoreMerge();
+			switchToNextBlock();
+		} else {
+			setGameOver();
+		}
+
 	}
 
 	_tNextStep = now() + _score.getStepInterval();
@@ -148,6 +153,11 @@ bool MainScreen::isMovePossible(TetrisBlock::Move move)
 	auto copy = _currentBlock;
 	copy.move(move);
 	return !copy.wouldCollide(_field);
+}
+
+bool MainScreen::isMergePossible()
+{
+	return (!_currentBlock.isAboveTopOfField()) && (!_currentBlock.wouldCollide(_field));
 }
 
 void MainScreen::switchToNextBlock()
@@ -166,14 +176,11 @@ void MainScreen::removeFullRows()
 	}
 }
 
-void MainScreen::checkGameOver()
+void MainScreen::setGameOver()
 {
-	if (_currentBlock.wouldCollide(_field))
-	{
-		getVariables().lastScore = _score.getScore();
-		_state = State::GAME_OVER;
-		_tGameOverWait = now() + WAIT_AFTER_GAME_OVER;
-	}
+	getVariables().lastScore = _score.getScore();
+	_state = State::GAME_OVER;
+	_tGameOverWait = now() + WAIT_AFTER_GAME_OVER;
 }
 
 void MainScreen::draw()
@@ -183,3 +190,4 @@ void MainScreen::draw()
 	drawObject(INFO_AREA_X, INFO_AREA_Y, TetrisInfoArea(_score.getLevel(), _score.getScore(), _nextBlock));
 	drawObject(FIELD_X, FIELD_Y, _currentBlock);
 }
+

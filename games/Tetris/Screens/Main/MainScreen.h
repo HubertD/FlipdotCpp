@@ -50,11 +50,12 @@ class MainScreen: public TetrisScreenBase
 		void checkGamepadEvents();
 		void checkGamepadPressEvent(GamepadKey &key, TetrisBlock::Move move);
 		bool isMovePossible(TetrisBlock::Move move);
+		bool isMergePossible();
 
 		void makeIntervalStep();
 		void processFullRows();
 		void removeFullRows();
-		void checkGameOver();
+		void setGameOver();
 		void switchToNextBlock();
 		void draw();
 

@@ -23,6 +23,7 @@ class TetrisBlock : public IDrawable
 		static TetrisBlock createRandomBlock();
 		void setPosition(int newX, int newY);
 		void move(Move theMove);
+		bool isAboveTopOfField() const;
 		bool wouldCollide(TetrisField& field) const;
 		void merge(TetrisField& field) const;
 		void draw(Framebuffer& fb, int offsetX, int offsetY, bool doInvert) const override;
