@@ -2,6 +2,7 @@
 SRC_COMMON = $(shell find framework games assets -name \*.cpp)
 
 # common flags
+CFLAGS_COMMON = -std=gnu11 -Iframework/include -I.
 CXXFLAGS_COMMON = -std=c++11 -Iframework/include -I.
 
 # the toolchain for PC builds
@@ -11,3 +12,20 @@ LD_PC  = g++
 # flags for PC builds
 CXXFLAGS_PC = $(CXXFLAGS_COMMON) -O2
 LDFLAGS_PC =
+
+# the toolchain for STM32 builds
+AS_STM32 = arm-none-eabi-gcc
+CC_STM32 = arm-none-eabi-gcc
+CXX_STM32 = arm-none-eabi-g++
+LD_STM32 = arm-none-eabi-g++
+
+# flags for STM32 builds
+STM32_COMMON_FLAGS = -DDEBUG -DUSE_FULL_ASSERT -DSTM32F051 \
+                     -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=48000000 -DSTM32F051x8 \
+                     -mcpu=cortex-m0 -mthumb -mfloat-abi=soft
+
+ASMFLAGS_STM32 = $(STM32_COMMON_FLAGS)
+CFLAGS_STM32 = $(CFLAGS_COMMON) $(STM32_COMMON_FLAGS)
+CXXFLAGS_STM32 = $(CXXFLAGS_COMMON) $(STM32_COMMON_FLAGS) \
+                 -fabi-version=0 -fno-exceptions -fno-rtti -fno-use-cxa-atexit \
+                 -fno-threadsafe-statics
