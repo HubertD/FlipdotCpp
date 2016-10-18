@@ -16,7 +16,7 @@ OBJ = $(patsubst %.cpp, obj/$(TARGET)/%.o, $(SRC))
 # specific targets
 bin/$(TARGET): $(OBJ)
 	mkdir -p bin
-	$(LD_PC) $(LDFLAGS) -o $@ $^
+	$(LD_PC) -o $@ $(LDFLAGS) $^
 
 # wildcard targets
 obj/$(TARGET)/%.o: %.cpp
