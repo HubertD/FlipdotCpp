@@ -100,6 +100,8 @@ void MainScreen::updateStateRowsBlinking()
 		_tBlinkNextToggle = 0;
 
 		removeFullRows();
+
+		switchToNextBlock();
 		_state = State::RUNNING;
 		_tNextStep = now() + _score.getStepInterval();
 
@@ -138,7 +140,10 @@ void MainScreen::makeIntervalStep()
 		if (isMergePossible()) {
 			_currentBlock.merge(_field);
 			_score.scoreMerge();
-			switchToNextBlock();
+			if (!_field.hasFullRows())
+			{
+				switchToNextBlock();
+			}
 		} else {
 			setGameOver();
 		}
