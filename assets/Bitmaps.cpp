@@ -27,3 +27,12 @@ const Bitmap StatsQrCode(StatsQrCodeData, 25, 25);
 
 static const uint8_t HeartData[] = { 0x92, 0x00, 0x04, 0x1c, 0x7d, 0xc0 };
 const Bitmap Heart(HeartData, 7, 6);
+
+/*
+	Rotated 'K' character (black on white), which has a size of 4x5
+	instead of the normal font size of 3x5. It gets used to display
+	x1000 multiplier in the	tetris score (TetrisInfoArea.h) for faster
+	recognition.
+*/
+static const uint8_t Krotated4x5Data[] = { 0xf9, 0x15, 0x10 };
+const Bitmap Krotated4x5(Krotated4x5Data, 5, 4);

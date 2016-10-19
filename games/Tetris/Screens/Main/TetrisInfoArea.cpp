@@ -2,6 +2,7 @@
 #include <Font.h>
 #include <Framebuffer.h>
 #include <games/Tetris/Screens/Main/TetrisInfoArea.h>
+#include <assets/Bitmaps.h>
 
 TetrisInfoArea::TetrisInfoArea(int level, int score, const TetrisBlock& nextBlock)
 	: _level(level), _score(score), _nextBlock(nextBlock)
@@ -22,7 +23,9 @@ void TetrisInfoArea::draw(Framebuffer& fb, int x, int y, bool doInvert) const
 		Font::drawNumber(fb, x+SCORE_X, y+SCORE_Y+3, _score, Color::WHITE, Orientation::DEG_90);
 	} else {
 		Font::drawNumber(fb, x+SCORE_X, y+SCORE_Y-2, _score/1000, Color::WHITE, Orientation::DEG_90);
-		Font::drawChar(fb, x+SCORE_X, y+SCORE_Y-1, 'K', Color::WHITE, Orientation::DEG_90);
+		
+		// Draw a slightly bigger K character for faster recognition
+		fb.draw(x+SCORE_X+1, y+SCORE_Y-4, Krotated4x5, !doInvert);
 	}
 
 	_nextBlock.draw(fb, x+NEXT_BLOCK_X, y+NEXT_BLOCK_Y, true);
