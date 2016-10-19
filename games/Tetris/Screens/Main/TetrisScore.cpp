@@ -54,7 +54,7 @@ void TetrisScore::scoreDeleteRows(int deletedRows)
 			factor = POINTS_4_ROWS_FACTOR;
 			break;
 	}
-	_buf += (_level+1) * factor;
+	_score += (_level+1) * factor;
 	_destructedRows += deletedRows;
 	updateLevel();
 }

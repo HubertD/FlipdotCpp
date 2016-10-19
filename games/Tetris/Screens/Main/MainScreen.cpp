@@ -127,6 +127,10 @@ void MainScreen::checkGamepadPressEvent(GamepadKey& key, TetrisBlock::Move move)
 	if (key.hasPressEvent() && isMovePossible(move))
 	{
 		_currentBlock.move(move);
+		if (move == TetrisBlock::Move::DOWN)
+		{
+			_score.scoreStep();
+		}
 	}
 }
 
@@ -134,7 +138,6 @@ void MainScreen::makeIntervalStep()
 {
 	if (isMovePossible(TetrisBlock::Move::DOWN)) {
 		_currentBlock.move(TetrisBlock::Move::DOWN);
-		_score.scoreStep();
 	} else {
 
 		if (isMergePossible()) {
