@@ -6,3 +6,4 @@
 extern const Bitmap BytewerkLogo;
 extern const Bitmap StatsQrCode;
 extern const Bitmap Heart;
+extern const Bitmap Krotated4x5;
