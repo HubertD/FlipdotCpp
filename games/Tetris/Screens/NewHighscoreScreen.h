@@ -12,7 +12,7 @@ class NewHighscoreScreen : public TetrisScreenBase
 	private:
 		static const int NUM_CHARS = 3;
 
-		char _name[NUM_CHARS] = {0};
+		char _name[NUM_CHARS+1] = {0};
 		int _cursorPosition = 0;
 
 		void draw();
