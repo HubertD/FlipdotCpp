@@ -114,29 +114,56 @@ void MainScreen::updateStateRowsBlinking()
 void MainScreen::checkGamepadEvents()
 {
 	auto& gp = getGamepad();
-	checkGamepadPressEvent(gp.West,  TetrisBlock::Move::LEFT);
-	checkGamepadPressEvent(gp.East,  TetrisBlock::Move::RIGHT);
-	checkGamepadPressEvent(gp.A,     TetrisBlock::Move::ROTATE_LEFT);
-	checkGamepadPressEvent(gp.B,     TetrisBlock::Move::ROTATE_RIGHT);
-	checkGamepadPressEvent(gp.North, TetrisBlock::Move::ROTATE_RIGHT);
-	checkGamepadPressEvent(gp.South, TetrisBlock::Move::DOWN);
+	checkGamepadMoveEvent(gp.West,    TetrisBlock::Move::LEFT);
+	checkGamepadMoveEvent(gp.East,    TetrisBlock::Move::RIGHT);
+	checkGamepadMoveEvent(gp.South,   TetrisBlock::Move::DOWN);
+	checkGamepadRotateEvent(gp.A,     TetrisBlock::Move::ROTATE_LEFT);
+	checkGamepadRotateEvent(gp.B,     TetrisBlock::Move::ROTATE_RIGHT);
+	checkGamepadRotateEvent(gp.North, TetrisBlock::Move::ROTATE_RIGHT);
 }
 
-void MainScreen::checkGamepadPressEvent(GamepadKey& key, TetrisBlock::Move move)
+void MainScreen::checkGamepadMoveEvent(GamepadKey& key, TetrisBlock::Move move)
 {
-	if (key.hasPressEvent() && isMovePossible(move))
+	if (!key.hasPressEvent()) { return; }
+	if (!isMovePossible(_currentBlock, move)) { return; }
+
+	_currentBlock.move(move);
+	if (move == TetrisBlock::Move::DOWN)
 	{
-		_currentBlock.move(move);
-		if (move == TetrisBlock::Move::DOWN)
+		_score.scoreStep();
+	}
+}
+
+
+void MainScreen::checkGamepadRotateEvent(GamepadKey& key, TetrisBlock::Move move)
+{
+	if (!key.hasPressEvent()) { return; }
+
+	auto block = _currentBlock;
+
+	if (!isMovePossible(block, move) && (block.getPositionX() == -1))
+	{
+		block.move(TetrisBlock::Move::RIGHT);
+	}
+
+	for (int i=0; i<4; i++)
+	{
+		if (!isMovePossible(block, move) && (block.getPositionX() == (_field.COLUMNS-i)))
 		{
-			_score.scoreStep();
+			block.move(TetrisBlock::Move::LEFT);
 		}
+	}
+
+	if (isMovePossible(block, move))
+	{
+		block.move(move);
+		_currentBlock = block;
 	}
 }
 
 void MainScreen::makeIntervalStep()
 {
-	if (isMovePossible(TetrisBlock::Move::DOWN)) {
+	if (isMovePossible(_currentBlock, TetrisBlock::Move::DOWN)) {
 		_currentBlock.move(TetrisBlock::Move::DOWN);
 	} else {
 
@@ -156,9 +183,9 @@ void MainScreen::makeIntervalStep()
 	_tNextStep = now() + _score.getStepInterval();
 }
 
-bool MainScreen::isMovePossible(TetrisBlock::Move move)
+bool MainScreen::isMovePossible(TetrisBlock &block, TetrisBlock::Move move)
 {
-	auto copy = _currentBlock;
+	auto copy = block;
 	copy.move(move);
 	return !copy.wouldCollide(_field);
 }

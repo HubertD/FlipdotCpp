@@ -48,8 +48,9 @@ class MainScreen: public TetrisScreenBase
 		void updateStateRowsBlinking();
 
 		void checkGamepadEvents();
-		void checkGamepadPressEvent(GamepadKey &key, TetrisBlock::Move move);
-		bool isMovePossible(TetrisBlock::Move move);
+		void checkGamepadMoveEvent(GamepadKey &key, TetrisBlock::Move move);
+		void checkGamepadRotateEvent(GamepadKey &key, TetrisBlock::Move move);
+		bool isMovePossible(TetrisBlock &block, TetrisBlock::Move move);
 		bool isMergePossible();
 
 		void makeIntervalStep();

@@ -177,3 +177,8 @@ bool TetrisBlock::isPointSet(int x, int y) const
 
 	return (row & mask) != 0;
 }
+
+int8_t TetrisBlock::getPositionX()
+{
+	return _posX;
+}
