@@ -10,6 +10,8 @@ void NewHighscoreScreen::enter()
 		_name[i] ='_';
 	}
 	_cursorPosition = 0;
+	_tNextBlinkToggle = now() + BLINK_INTERVAL;
+	_showBlinkingChar = true;
 	draw();
 }
 
@@ -33,14 +35,18 @@ void NewHighscoreScreen::update()
 		}
 	}
 
-	if (gp.North.hasPressEvent() || gp.South.hasPressEvent())
+	if (gp.North.hasPressEvent())
 	{
-		int direction = gp.South.hasPressEvent() ? +1 : -1;
-		char ch = _name[_cursorPosition];
-		ch += direction;
-		if (ch > 'Z') { ch = 'A'; }
-		if (ch < 'A') { ch = 'Z'; }
-		_name[_cursorPosition] = ch;
+		_name[_cursorPosition] = getPreviousChar(_name[_cursorPosition]);
+		_showBlinkingChar = true;
+		_tNextBlinkToggle = now() + BLINK_INTERVAL;
+	}
+
+	if (gp.South.hasPressEvent())
+	{
+		_name[_cursorPosition] = getNextChar(_name[_cursorPosition]);
+		_showBlinkingChar = true;
+		_tNextBlinkToggle = now() + BLINK_INTERVAL;
 	}
 
 	if (gp.A.hasPressEvent())
@@ -49,7 +55,43 @@ void NewHighscoreScreen::update()
 		setNextScreen(getScreens().Logo);
 	}
 
+	if (now() >= _tNextBlinkToggle)
+	{
+		_showBlinkingChar = !_showBlinkingChar;
+		_tNextBlinkToggle = now() + BLINK_INTERVAL;
+	}
+
+
 	draw();
+}
+
+
+char NewHighscoreScreen::getNextChar(char ch)
+{
+	switch (ch)
+	{
+		case 'Z': return '0';
+		case '9': return ':';
+		case ':': return '!';
+		case '!': return '_';
+		case '_': return ' ';
+		case ' ': return 'A';
+		default:  return ch+1;
+	}
+}
+
+char NewHighscoreScreen::getPreviousChar(char ch)
+{
+	switch (ch)
+	{
+		case 'A': return ' ';
+		case ' ': return '_';
+		case '_': return '!';
+		case '!': return ':';
+		case ':': return '9';
+		case '0': return 'Z';
+		default:  return ch-1;
+	}
 }
 
 void NewHighscoreScreen::draw()
@@ -59,5 +101,16 @@ void NewHighscoreScreen::draw()
 	drawText(2, 8, (char*)"SCORE!", Color::BLACK, Orientation::DEG_0, 1);
 	drawNumber(31, 15, getVariables().highScore);
 	drawText(2, 22, (char*)"NAME:");
-	drawText(2, 29, _name);
+
+	char displayName[NUM_CHARS];
+	for (int i=0; i<NUM_CHARS; i++)
+	{
+		if ( (i!=_cursorPosition) || _showBlinkingChar)
+		{
+			displayName[i] = _name[i];
+		} else {
+			displayName[i] = ' ';
+		}
+	}
+	drawText(2, 29, displayName);
 }
