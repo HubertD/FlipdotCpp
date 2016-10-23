@@ -10,5 +10,6 @@ class GetReadyScreen : public TetrisScreenBase
 		void update() override;
 
 	private:
+		static constexpr unsigned T_SHOW_MIN  = 500;
 		static const unsigned TIMEOUT = 2000;
 };

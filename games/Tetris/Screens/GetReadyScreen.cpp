@@ -10,7 +10,12 @@ void GetReadyScreen::enter()
 
 void GetReadyScreen::update()
 {
-	if (timeSinceEntered() > TIMEOUT)
+	if (timeSinceEntered() < T_SHOW_MIN)
+	{
+		return;
+	}
+
+	if (wasAnyKeyPressed() || (timeSinceEntered() > TIMEOUT))
 	{
 		setNextScreen(getScreens().Main);
 	}
