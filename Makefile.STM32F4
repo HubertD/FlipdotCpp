@@ -2,32 +2,33 @@ include Makefile.common
 
 # target-specific setup
 # the normal main.cpp does not make much sense for the VCD target
-SRC_CXX = $(SRC_COMMON) main.cpp $(shell find platform/CubeMx -name \*.cpp)
-SRC_C = $(shell find platform/CubeMx -name \*.c)
-SRC_S = $(shell find platform/CubeMx -name \*.S)
+SRC_CXX = $(SRC_COMMON) main.cpp $(shell find platform/STM32F4 -name \*.cpp)
+SRC_C = $(shell find platform/STM32F4 -name \*.c)
+SRC_S = $(shell find platform/STM32F4 -name \*.S)
 
 AS=$(AS_STM32)
 CC=$(CC_STM32)
 CXX=$(CXX_STM32)
 LD=$(LD_STM32)
-TARGET=cubemx
+TARGET=STM32F4
 
-INCLUDES_CUBEMX = -Iplatform/CubeMx \
-                  -Iplatform/CubeMx/include \
-                  -Iplatform/CubeMx/system/include \
-                  -Iplatform/CubeMx/system/include/cmsis \
-                  -Iplatform/CubeMx/system/include/cmsis/device \
-                  -Iplatform/CubeMx/system/include/stm32f0xx
+INCLUDES_STM32F4 = -Iplatform/STM32F4 \
+                  -Iplatform/STM32F4/include \
+                  -Iplatform/STM32F4/system/include \
+                  -Iplatform/STM32F4/system/include/cmsis \
+                  -Iplatform/STM32F4/system/include/cmsis/device \
+                  -Iplatform/STM32F4/system/include/stm32f4-hal
 
 ASMFLAGS = $(ASMFLAGS_STM32)
-CFLAGS = $(CFLAGS_STM32) $(INCLUDES_CUBEMX)
-CXXFLAGS = $(CXXFLAGS_STM32) $(INCLUDES_CUBEMX)
+FLAGS = -mcpu=cortex-m4 -mthumb -DSTM32F407xx -DUSE_HAL_DRIVER -DHSE_VALUE=8000000
+CFLAGS = $(CFLAGS_STM32) $(INCLUDES_STM32F4) $(FLAGS)
+CXXFLAGS = $(CXXFLAGS_STM32) $(INCLUDES_STM32F4) $(FLAGS)
 LDFLAGS = $(LDFLAGS_STM32) \
-          -mcpu=cortex-m0 -mthumb -Os -fmessage-length=0 \
+          -mcpu=cortex-m4 -mthumb -Os -fmessage-length=0 \
           -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -flto -fno-move-loop-invariants \
           -Wall -Wextra -g3 \
           -T mem.ld -T libs.ld -T sections.ld -nostartfiles \
-          -Xlinker --gc-sections -L"platform/CubeMx/ldscripts" \
+          -Xlinker --gc-sections -L"platform/STM32F4/ldscripts" \
           -Wl,-Map,"flipdot-cpp.map" --specs=nano.specs
 
 # variable mapping

@@ -13,6 +13,9 @@ vcd:
 cubemx:
 	$(MAKE) -f Makefile.CubeMX
 
+stm32f4:
+	$(MAKE) -f Makefile.STM32F4
+
 clean:
 	rm -rf obj/
 	rm -rf bin/

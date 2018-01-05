@@ -20,9 +20,7 @@ CXX_STM32 = arm-none-eabi-g++
 LD_STM32 = arm-none-eabi-g++
 
 # flags for STM32 builds
-STM32_COMMON_FLAGS = -DDEBUG -DUSE_FULL_ASSERT -DSTM32F051 \
-                     -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=48000000 -DSTM32F051x8 \
-                     -mcpu=cortex-m0 -mthumb -mfloat-abi=soft
+STM32_COMMON_FLAGS = -DDEBUG -DUSE_FULL_ASSERT -mfloat-abi=soft
 
 ASMFLAGS_STM32 = $(STM32_COMMON_FLAGS)
 CFLAGS_STM32 = $(CFLAGS_COMMON) $(STM32_COMMON_FLAGS)
